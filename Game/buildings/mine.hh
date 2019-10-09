@@ -1,21 +1,43 @@
 #ifndef MINE_HH
 #define MINE_HH
 
-#include "buildings/buildingbase.h"
+#include "upgradeablebuilding.hh"
 
-const Course::ResourceMap MINE_BUILD_COST = {
-    {Course::BasicResource::MONEY, 100},
-    {Course::BasicResource::FOOD, 100},
-    {Course::BasicResource::WOOD, 100}
+const std::vector<Course::ResourceMap> MINE_BUILD_COST_LIST = {
+    {
+        {Course::BasicResource::MONEY, 100},
+        {Course::BasicResource::FOOD, 100},
+        {Course::BasicResource::WOOD, 100}
+    },
+    {
+        {Course::BasicResource::MONEY, 100},
+        {Course::BasicResource::FOOD, 100},
+        {Course::BasicResource::WOOD, 100}
+    },
+    {
+        {Course::BasicResource::MONEY, 100},
+        {Course::BasicResource::FOOD, 100},
+        {Course::BasicResource::WOOD, 100}
+    }
 };
 
-const Course::ResourceMap MINE_PRODUCTION = {
-    {Course::BasicResource::STONE, 10},
-    {Course::BasicResource::ORE, 5}
+const std::vector<Course::ResourceMap> MINE_PRODUCTION_LIST {
+    {
+        {Course::BasicResource::STONE, 10},
+        {Course::BasicResource::ORE, 5}
+    },
+    {
+        {Course::BasicResource::STONE, 20},
+        {Course::BasicResource::ORE, 10}
+    },
+    {
+        {Course::BasicResource::STONE, 30},
+        {Course::BasicResource::ORE, 15}
+    }
 };
 
 
-class Mine : public Course::BuildingBase
+class Mine : public UpgradeableBuilding
 {
 public:
     Mine() = delete;
@@ -25,8 +47,9 @@ public:
             const std::shared_ptr<Course::iObjectManager>& objectmanager,
             const std::shared_ptr<Course::PlayerBase>& owner,
             const int& tilespaces = 1,
-            const Course::ResourceMap& buildcost = MINE_BUILD_COST,
-            const Course::ResourceMap& production = MINE_PRODUCTION
+            const std::vector<Course::ResourceMap>& buildcost = MINE_BUILD_COST_LIST,
+            const std::vector<Course::ResourceMap>& production = MINE_PRODUCTION_LIST,
+            const unsigned int maxTier = 3
             );
 
     virtual ~Mine() = default;
