@@ -7,10 +7,12 @@ CONFIG += c++14
 
 SOURCES += \
     main.cpp \
-    mapwindow.cc
+    mapwindow.cc \
+    mine.cc
 
 HEADERS += \
-    mapwindow.hh
+    mapwindow.hh \
+    mine.hh
 
 win32:CONFIG(release, debug|release): LIBS += \
     -L$$OUT_PWD/../Course/CourseLib/release/ -lCourseLib
