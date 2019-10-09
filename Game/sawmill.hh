@@ -26,6 +26,10 @@ public:
             const Course::ResourceMap& buildcost = SAWMILL_BUILD_COST,
             const Course::ResourceMap& production = SAWMILL_PRODUCTION
             );
+
+    virtual ~Sawmill() = default;
+
+    virtual std::string getType() const override;
 };
 
 #endif // SAWMILL_HH
