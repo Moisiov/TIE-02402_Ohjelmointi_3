@@ -9,12 +9,14 @@ SOURCES += \
     fishery.cc \
     main.cpp \
     mapwindow.cc \
+    market.cc \
     mine.cc \
     sawmill.cc
 
 HEADERS += \
     fishery.hh \
     mapwindow.hh \
+    market.hh \
     mine.hh \
     sawmill.hh
 
