@@ -6,12 +6,14 @@ QT += core gui widgets
 CONFIG += c++14
 
 SOURCES += \
+    fishery.cc \
     main.cpp \
     mapwindow.cc \
     mine.cc \
     sawmill.cc
 
 HEADERS += \
+    fishery.hh \
     mapwindow.hh \
     mine.hh \
     sawmill.hh
