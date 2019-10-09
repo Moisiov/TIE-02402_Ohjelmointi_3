@@ -6,21 +6,21 @@ QT += core gui widgets
 CONFIG += c++14
 
 SOURCES += \
-    campus.cc \
-    fishery.cc \
     main.cpp \
     mapwindow.cc \
-    market.cc \
-    mine.cc \
-    sawmill.cc
+    buildings/campus.cc \
+    buildings/fishery.cc \
+    buildings/market.cc \
+    buildings/mine.cc \
+    buildings/sawmill.cc
 
 HEADERS += \
-    campus.hh \
-    fishery.hh \
     mapwindow.hh \
-    market.hh \
-    mine.hh \
-    sawmill.hh
+    buildings/campus.hh \
+    buildings/fishery.hh \
+    buildings/market.hh \
+    buildings/mine.hh \
+    buildings/sawmill.hh
 
 win32:CONFIG(release, debug|release): LIBS += \
     -L$$OUT_PWD/../Course/CourseLib/release/ -lCourseLib
