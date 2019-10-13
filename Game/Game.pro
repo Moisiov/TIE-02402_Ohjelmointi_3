@@ -14,7 +14,11 @@ SOURCES += \
     buildings/fishery.cc \
     buildings/market.cc \
     buildings/mine.cc \
-    buildings/sawmill.cc
+    buildings/sawmill.cc \
+    tiles/sand.cpp \
+    tiles/swamp.cpp \
+    tiles/stone.cpp \
+    tiles/water.cpp
 
 HEADERS += \
     buildings/ranch.hh \
@@ -24,7 +28,11 @@ HEADERS += \
     buildings/fishery.hh \
     buildings/market.hh \
     buildings/mine.hh \
-    buildings/sawmill.hh
+    buildings/sawmill.hh \
+    tiles/sand.hh \
+    tiles/swamp.hh \
+    tiles/stone.hh \
+    tiles/water.hh
 
 win32:CONFIG(release, debug|release): LIBS += \
     -L$$OUT_PWD/../Course/CourseLib/release/ -lCourseLib
