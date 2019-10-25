@@ -22,11 +22,9 @@ public:
 
     bool canAfford(Course::ResourceMap cost);
 
-    bool modifyResource(std::shared_ptr<Course::PlayerBase> player,
-                                    Course::BasicResource resource,
-                                    int amount);
-    bool modifyResources(std::shared_ptr<Course::PlayerBase> player,
-                                     Course::ResourceMap resources);
+    bool modifyResource(Course::BasicResource resource, int amount);
+
+    bool modifyResources(Course::ResourceMap resources);
 
 private:
     Course::ResourceMap _resources;

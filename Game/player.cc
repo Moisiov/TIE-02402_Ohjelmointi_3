@@ -25,12 +25,12 @@ bool Player::canAfford(Course::ResourceMap cost)
     return true;
 }
 
-bool Player::modifyResource(std::shared_ptr<Course::PlayerBase> player, Course::BasicResource resource, int amount)
+bool Player::modifyResource(Course::BasicResource resource, int amount)
 {
     return true;
 }
 
-bool Player::modifyResources(std::shared_ptr<Course::PlayerBase> player, Course::ResourceMap resources)
+bool Player::modifyResources(Course::ResourceMap resources)
 {
     return true;
 }
