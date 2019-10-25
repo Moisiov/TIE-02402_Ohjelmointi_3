@@ -16,6 +16,7 @@ SOURCES += \
     buildings/market.cc \
     buildings/mine.cc \
     buildings/sawmill.cc \
+    player.cc \
     tiles/sand.cpp \
     tiles/swamp.cpp \
     tiles/stone.cpp \
@@ -31,6 +32,7 @@ HEADERS += \
     buildings/market.hh \
     buildings/mine.hh \
     buildings/sawmill.hh \
+    player.hh \
     tiles/sand.hh \
     tiles/swamp.hh \
     tiles/stone.hh \
