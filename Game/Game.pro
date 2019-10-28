@@ -8,6 +8,7 @@ CONFIG += c++14
 SOURCES += \
     buildings/ranch.cc \
     buildings/upgradeablebuilding.cc \
+    gameeventhandler.cc \
     main.cpp \
     mapwindow.cc \
     buildings/campus.cc \
@@ -15,6 +16,7 @@ SOURCES += \
     buildings/market.cc \
     buildings/mine.cc \
     buildings/sawmill.cc \
+    player.cc \
     tiles/sand.cpp \
     tiles/swamp.cpp \
     tiles/stone.cpp \
@@ -24,12 +26,14 @@ SOURCES += \
 HEADERS += \
     buildings/ranch.hh \
     buildings/upgradeablebuilding.hh \
+    gameeventhandler.hh \
     mapwindow.hh \
     buildings/campus.hh \
     buildings/fishery.hh \
     buildings/market.hh \
     buildings/mine.hh \
     buildings/sawmill.hh \
+    player.hh \
     tiles/sand.hh \
     tiles/swamp.hh \
     tiles/stone.hh \
