@@ -17,6 +17,7 @@ SOURCES += \
     buildings/mine.cc \
     buildings/sawmill.cc \
     player.cc \
+    startdialog.cc \
     tiles/sand.cpp \
     tiles/swamp.cpp \
     tiles/stone.cpp \
@@ -34,6 +35,7 @@ HEADERS += \
     buildings/mine.hh \
     buildings/sawmill.hh \
     player.hh \
+    startdialog.hh \
     tiles/sand.hh \
     tiles/swamp.hh \
     tiles/stone.hh \
@@ -65,4 +67,5 @@ else:unix: PRE_TARGETDEPS += \
     $$OUT_PWD/../Course/CourseLib/libCourseLib.a
 
 FORMS += \
-    mapwindow.ui
+    mapwindow.ui \
+    startdialog.ui
