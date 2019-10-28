@@ -1,9 +1,14 @@
 #include "gameeventhandler.hh"
 #include "player.hh"
 
-GameEventHandler::GameEventHandler()
+GameEventHandler::GameEventHandler(): _objM(nullptr)
 {
 
+}
+
+void GameEventHandler::setObjectManager(std::shared_ptr<ObjectManager> objM)
+{
+    _objM = objM;
 }
 
 bool GameEventHandler::modifyResource(
