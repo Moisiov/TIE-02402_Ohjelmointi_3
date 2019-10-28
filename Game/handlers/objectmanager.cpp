@@ -2,8 +2,8 @@
 
 ObjectManager::ObjectManager(int map_size,
                              std::shared_ptr<Course::iGameEventHandler> gameEventHandler):
-    _gameEventHandler(gameEventHandler),
-    _map_size(map_size)
+    _map_size(map_size),
+    _gameEventHandler(gameEventHandler)
 {
 
 }
@@ -12,6 +12,11 @@ void ObjectManager::setGEHandler(
         std::shared_ptr<Course::iGameEventHandler> gameEventHandler)
 {
     _gameEventHandler = gameEventHandler;
+}
+
+void ObjectManager::setMapSize(int size)
+{
+    _map_size = size;
 }
 
 
@@ -52,9 +57,16 @@ std::shared_ptr<Course::TileBase> ObjectManager::getTile(const Course::ObjectId 
     return tile;
 }
 
-std::vector<std::shared_ptr<Course::TileBase> > ObjectManager::getTiles(const std::vector<Course::Coordinate> &coordinates)
+std::vector<std::shared_ptr<Course::TileBase>> ObjectManager::getTiles(const std::vector<Course::Coordinate> &coordinates)
 {
+    std::vector<std::shared_ptr<Course::TileBase>> tiles;
 
+    for(unsigned int i = 0; i < coordinates.size(); ++i)
+    {
+        tiles.push_back(getTile(coordinates.at(i)));
+    }
+
+    return tiles;
 }
 
 
