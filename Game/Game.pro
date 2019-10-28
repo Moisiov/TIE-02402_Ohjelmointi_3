@@ -8,7 +8,7 @@ CONFIG += c++14
 SOURCES += \
     buildings/ranch.cc \
     buildings/upgradeablebuilding.cc \
-    gameeventhandler.cc \
+    handlers/gameeventhandler.cc \
     main.cpp \
     mapwindow.cc \
     buildings/campus.cc \
@@ -26,7 +26,7 @@ SOURCES += \
 HEADERS += \
     buildings/ranch.hh \
     buildings/upgradeablebuilding.hh \
-    gameeventhandler.hh \
+    handlers/gameeventhandler.hh \
     mapwindow.hh \
     buildings/campus.hh \
     buildings/fishery.hh \
