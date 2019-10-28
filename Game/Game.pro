@@ -18,7 +18,8 @@ SOURCES += \
     tiles/sand.cpp \
     tiles/swamp.cpp \
     tiles/stone.cpp \
-    tiles/water.cpp
+    tiles/water.cpp \
+    handlers/objectmanager.cpp
 
 HEADERS += \
     buildings/ranch.hh \
@@ -32,7 +33,8 @@ HEADERS += \
     tiles/sand.hh \
     tiles/swamp.hh \
     tiles/stone.hh \
-    tiles/water.hh
+    tiles/water.hh \
+    handlers/objectmanager.hh
 
 win32:CONFIG(release, debug|release): LIBS += \
     -L$$OUT_PWD/../Course/CourseLib/release/ -lCourseLib
