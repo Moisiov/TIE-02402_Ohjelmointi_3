@@ -4,7 +4,7 @@
 #include "interfaces/igameeventhandler.h"
 #include "objectmanager.hh"
 
-class GameEventHandler: public Course::iGameEventHandler
+class GameEventHandler : public Course::iGameEventHandler
 {
 public:
     GameEventHandler();
