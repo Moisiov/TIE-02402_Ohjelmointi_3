@@ -6,6 +6,12 @@
 
 #include <math.h>
 
+// These are for testing purposes
+#include "handlers/objectmanager.hh"
+#include "core/worldgenerator.h"
+#include "tiles/forest.h"
+#include "tiles/grassland.h"
+
 MapWindow::MapWindow(QWidget *parent,
                      std::shared_ptr<Course::iGameEventHandler> handler):
     QMainWindow(parent),
@@ -18,6 +24,14 @@ MapWindow::MapWindow(QWidget *parent,
     Course::SimpleGameScene* sgs_rawptr = m_simplescene.get();
 
     m_ui->graphicsView->setScene(dynamic_cast<QGraphicsScene*>(sgs_rawptr));
+
+    // Testing the world generator
+    std::shared_ptr<ObjectManager> objectManager = std::make_shared<ObjectManager>();
+    Course::WorldGenerator::getInstance().addConstructor<Course::Forest>(1);
+    Course::WorldGenerator::getInstance().addConstructor<Course::Grassland>(1);
+    Course::WorldGenerator::getInstance().generateMap(10, 10, 1, objectManager, m_GEHandler);
+
+    objectManager->drawMap(m_simplescene);
 
     StartDialog dialog(this);
     dialog.exec();

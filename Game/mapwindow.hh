@@ -13,9 +13,6 @@
 #include "interfaces/igameeventhandler.h"
 #include "graphics/simplegamescene.h"
 
-// These are for testing purposes
-#include "core/worldgenerator.h"
-
 namespace Ui {
 class MapWindow;
 }
