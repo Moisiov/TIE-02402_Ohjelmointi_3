@@ -35,9 +35,9 @@ public:
     void setSize(int size);
 
 private:
-    const std::shared_ptr<Course::GameObject> m_gameobject;
-    QPoint m_scenelocation;
-    int m_size;
+    const std::shared_ptr<Course::GameObject> w_gameobject;
+    QPoint w_scenelocation;
+    int w_size;
 
     static std::map<std::string, QColor> c_mapcolors;
     static void addNewColor(std::string type);

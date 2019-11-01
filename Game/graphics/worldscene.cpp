@@ -11,10 +11,13 @@ WorldScene::WorldScene(QWidget* parent,
                                  int height,
                                  int scale):
     QGraphicsScene(parent),
-    m_mapBoundRect(nullptr),
-    m_width(10),
-    m_height(10),
-    m_scale(50)
+    w_mapBoundRect(nullptr),
+    w_width(10),
+    w_height(10),
+    w_scale(50),
+    w_mouse_right_pressed(false),
+    w_x(0),
+    w_y(0)
 {
     setSize(width, height);
     setScale(scale);
@@ -24,11 +27,11 @@ void WorldScene::setSize(int width, int height)
 {
     if ( width >= SCENE_WIDTH_LIMITS.first && width <= SCENE_WIDTH_LIMITS.second )
     {
-        m_width = width;
+        w_width = width;
     }
     if ( height >= SCENE_HEIGHT_LIMITS.first && height <= SCENE_HEIGHT_LIMITS.second )
     {
-        m_height = height;
+        w_height = height;
     }
     resize();
 }
@@ -37,37 +40,40 @@ void WorldScene::setScale(int scale)
 {
     if ( scale >= SCENE_SCALE_LIMITS.first && scale <= SCENE_SCALE_LIMITS.second )
     {
-        m_scale = scale;
+        w_scale = scale;
     }
     resize();
 }
 
 void WorldScene::resize()
 {
-    if ( m_mapBoundRect != nullptr ){
-        QGraphicsScene::removeItem(m_mapBoundRect);
+    if ( w_mapBoundRect != nullptr ){
+        QGraphicsScene::removeItem(w_mapBoundRect);
     }
 
     // Calculates rect with middle at (0,0).
     // Basically left upper corner coords and then width and height
-    QRect rect = QRect( m_width * m_scale / - 2, m_height * m_scale / -2,
-                        m_width * m_scale - 1, m_height * m_scale - 1 );
+    // QRect rect = QRect( m_width * m_scale / - 2, m_height * m_scale / -2,
+    //                    m_width * m_scale - 1, m_height * m_scale - 1 );
+
+    // Set upper left coordinate to (0, 0)
+    QRect rect = QRect( w_x, w_y, w_width * w_scale - 1, w_height * w_scale - 1 );
 
     addRect(rect, QPen(Qt::black));
     setSceneRect(rect);
-    m_mapBoundRect = itemAt(rect.topLeft(), QTransform());
+    w_mapBoundRect = itemAt(rect.topLeft(), QTransform());
     // Draw on the bottom of all items
-    m_mapBoundRect->setZValue(-1);
+    w_mapBoundRect->setZValue(-1);
 }
 
 int WorldScene::getScale() const
 {
-    return m_scale;
+    return w_scale;
 }
 
 std::pair<int, int> WorldScene::getSize() const
 {
-    return {m_width, m_height};
+    return {w_width, w_height};
 }
 
 void WorldScene::updateItem(std::shared_ptr<Course::GameObject> obj)
@@ -92,24 +98,52 @@ bool WorldScene::event(QEvent *event)
         QGraphicsSceneMouseEvent* mouse_event =
                 dynamic_cast<QGraphicsSceneMouseEvent*>(event);
 
-        if ( sceneRect().contains(mouse_event->scenePos())){
+        if (mouse_event->button() == 1) {
+            if ( sceneRect().contains(mouse_event->scenePos())){
 
-            QPointF point = mouse_event->scenePos() / m_scale;
+                QPointF point = mouse_event->scenePos() / w_scale;
 
-            point.rx() = floor(point.rx());
-            point.ry() = floor(point.ry());
+                point.rx() = floor(point.rx());
+                point.ry() = floor(point.ry());
 
-            QGraphicsItem* pressed = itemAt(point * m_scale, QTransform());
+                QGraphicsItem* pressed = itemAt(point * w_scale, QTransform());
 
-            if ( pressed == m_mapBoundRect ){
-                qDebug() << "Click on map area.";
-            }else{
-                qDebug() << "ObjID: " <<
-                            static_cast<WorldItem*>(pressed)
-                            ->getBoundObject()->ID  << " pressed.";
-                return true;
+                if ( pressed == w_mapBoundRect ){
+                    qDebug() << "Click on map area.";
+                }else{
+                    qDebug() << "ObjID: " <<
+                                static_cast<WorldItem*>(pressed)
+                                ->getBoundObject()->ID  << " pressed.";
+                    return true;
+                }
+
             }
+        }
 
+        if (mouse_event->button() == 2) {
+            w_mouse_right_pressed = true;
+        }
+    }
+
+    if(event->type() == QEvent::GraphicsSceneMouseRelease) {
+
+        QGraphicsSceneMouseEvent* mouse_event =
+                dynamic_cast<QGraphicsSceneMouseEvent*>(event);
+
+        if (mouse_event->button() == 2) {
+            w_mouse_right_pressed = false;
+        }
+    }
+
+    if(event->type() == QEvent::GraphicsSceneMouseMove) {
+        QGraphicsSceneMouseEvent* mouse_event =
+                dynamic_cast<QGraphicsSceneMouseEvent*>(event);
+
+        if (w_mouse_right_pressed == true) {
+            QPoint lastPos = mouse_event->lastScreenPos();
+            QPoint currentPos = mouse_event->screenPos();
+
+            moveScene(currentPos.x()-lastPos.x(), currentPos.y()-lastPos.y());
         }
     }
 
@@ -134,6 +168,13 @@ void WorldScene::removeItem(std::shared_ptr<Course::GameObject> obj)
 
 void WorldScene::drawItem( std::shared_ptr<Course::GameObject> obj)
 {
-    WorldItem* nItem = new WorldItem(obj, m_scale);
+    WorldItem* nItem = new WorldItem(obj, w_scale);
     addItem(nItem);
+}
+
+void WorldScene::moveScene(int x, int y)
+{
+    w_x -= x;
+    w_y -= y;
+    resize();
 }
