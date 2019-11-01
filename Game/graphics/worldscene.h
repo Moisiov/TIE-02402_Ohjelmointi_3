@@ -48,6 +48,12 @@ public:
 
     virtual bool event(QEvent* event) override;
 
+    /**
+     * @brief moveScene moves the world scene when mouse is dragged
+     * and mouse 2 (right) pressed.
+     * @param x mouse movement on x-axis
+     * @param y mouse movement on y-axis
+     */
     void moveScene(int x, int y);
 
 private:

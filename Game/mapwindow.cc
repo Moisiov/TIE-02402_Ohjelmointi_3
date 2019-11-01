@@ -31,6 +31,9 @@ MapWindow::MapWindow(QWidget *parent,
 
     WorldScene* sgs_rawptr = m_worldScene.get();
 
+    // m_ui->graphicsView->height();
+    // m_ui->graphicsView->width();
+
     m_ui->graphicsView->setScene(dynamic_cast<QGraphicsScene*>(sgs_rawptr));
 
     StartDialog dialog(this);
