@@ -48,11 +48,17 @@ public:
 
     virtual bool event(QEvent* event) override;
 
+    void moveScene(int x, int y);
+
 private:
-    QGraphicsItem* m_mapBoundRect;
-    int m_width;
-    int m_height;
-    int m_scale;
+    QGraphicsItem* w_mapBoundRect;
+    int w_width;
+    int w_height;
+    int w_scale;
+    bool w_mouse_right_pressed;
+    int w_x;
+    int w_y;
+
 };
 
 #endif // WORLDSCENE_H

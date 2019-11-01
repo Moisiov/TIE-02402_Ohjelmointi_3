@@ -11,21 +11,21 @@ std::map<std::string, QColor> WorldItem::c_mapcolors = {{"Forest", QColor(20, 10
                                                        };
 
 WorldItem::WorldItem(const std::shared_ptr<Course::GameObject> &obj, int size ):
-    m_gameobject(obj), m_scenelocation(m_gameobject->getCoordinatePtr()->asQpoint()), m_size(size)
+    w_gameobject(obj), w_scenelocation(w_gameobject->getCoordinatePtr()->asQpoint()), w_size(size)
 {
-    addNewColor(m_gameobject->getType());
+    addNewColor(w_gameobject->getType());
 }
 
 QRectF WorldItem::boundingRect() const
 {
-    return QRectF(m_scenelocation * m_size, m_scenelocation * m_size + QPoint(m_size, m_size));
+    return QRectF(w_scenelocation * w_size, w_scenelocation * w_size + QPoint(w_size, w_size));
 }
 
 void WorldItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED( option ); Q_UNUSED( widget );
-    painter->setBrush(QBrush(c_mapcolors.at(m_gameobject->getType())));
-    if ( m_gameobject->getType() == "" ){
+    painter->setBrush(QBrush(c_mapcolors.at(w_gameobject->getType())));
+    if ( w_gameobject->getType() == "" ){
         // Draw different types in different shapes
     }
     painter->drawRect(boundingRect());
@@ -33,33 +33,33 @@ void WorldItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
 const std::shared_ptr<Course::GameObject> &WorldItem::getBoundObject()
 {
-    return m_gameobject;
+    return w_gameobject;
 }
 
 void WorldItem::updateLoc()
 {
-    if ( !m_gameobject ){
+    if ( !w_gameobject ){
         delete this;
     } else {
         update(boundingRect()); // Test if necessary
-        m_scenelocation = m_gameobject->getCoordinate().asQpoint();
+        w_scenelocation = w_gameobject->getCoordinate().asQpoint();
     }
 }
 
 bool WorldItem::isSameObj(std::shared_ptr<Course::GameObject> obj)
 {
-    return obj == m_gameobject;
+    return obj == w_gameobject;
 }
 
 int WorldItem::getSize() const
 {
-    return m_size;
+    return w_size;
 }
 
 void WorldItem::setSize(int size)
 {
     if ( size > 0 && size <= 500 ){
-        m_size = size;
+        w_size = size;
     }
 }
 

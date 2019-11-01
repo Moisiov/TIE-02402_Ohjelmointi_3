@@ -70,6 +70,7 @@ void MapWindow::setScale(int scale)
 void MapWindow::resize()
 {
     m_worldScene->resize();
+    // m_ui->graphicsView->fitInView(QRectF(0, 0, width(), height()), Qt::KeepAspectRatio);
 }
 
 void MapWindow::updateItem(std::shared_ptr<Course::GameObject> obj)
