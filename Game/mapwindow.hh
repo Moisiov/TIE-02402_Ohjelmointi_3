@@ -11,7 +11,8 @@
 #include <map>
 
 #include "interfaces/igameeventhandler.h"
-#include "graphics/simplegamescene.h"
+#include "handlers/objectmanager.hh"
+#include "graphics/worldscene.h"
 
 namespace Ui {
 class MapWindow;
@@ -23,7 +24,8 @@ class MapWindow : public QMainWindow
 
 public:
     explicit MapWindow(QWidget *parent = 0,
-                       std::shared_ptr<Course::iGameEventHandler> GEHandler = {}
+                       std::shared_ptr<Course::iGameEventHandler> GEHandler = {},
+                       std::shared_ptr<ObjectManager> objManager = {}
                        );
     ~MapWindow();
 
@@ -41,7 +43,8 @@ public:
 private:
     Ui::MapWindow* m_ui;
     std::shared_ptr<Course::iGameEventHandler> m_GEHandler = nullptr;
-    std::shared_ptr<Course::SimpleGameScene> m_simplescene = nullptr;
+    std::shared_ptr<ObjectManager> m_objM = nullptr;
+    std::shared_ptr<WorldScene> m_worldScene = nullptr;
 
 };
 

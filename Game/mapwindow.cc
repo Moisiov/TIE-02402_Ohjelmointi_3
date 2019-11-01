@@ -1,37 +1,46 @@
 #include "mapwindow.hh"
 #include "ui_mapwindow.h"
 
-#include "graphics/simplemapitem.h"
+#include "graphics/worlditem.h"
 #include "startdialog.hh"
 
 #include <math.h>
 
 // These are for testing purposes
-#include "handlers/objectmanager.hh"
 #include "core/worldgenerator.h"
+
 #include "tiles/forest.h"
 #include "tiles/grassland.h"
+#include "tiles/sand.hh"
+#include "tiles/stone.hh"
+#include "tiles/swamp.hh"
+#include "tiles/water.hh"
 
 MapWindow::MapWindow(QWidget *parent,
-                     std::shared_ptr<Course::iGameEventHandler> handler):
+                     std::shared_ptr<Course::iGameEventHandler> handler,
+                     std::shared_ptr<ObjectManager> objManager):
     QMainWindow(parent),
     m_ui(new Ui::MapWindow),
     m_GEHandler(handler),
-    m_simplescene(new Course::SimpleGameScene(this))
+    m_objM(objManager),
+    m_worldScene(new WorldScene(this))
 {
     m_ui->setupUi(this);
 
-    Course::SimpleGameScene* sgs_rawptr = m_simplescene.get();
+    WorldScene* sgs_rawptr = m_worldScene.get();
 
     m_ui->graphicsView->setScene(dynamic_cast<QGraphicsScene*>(sgs_rawptr));
 
     // Testing the world generator
-    std::shared_ptr<ObjectManager> objectManager = std::make_shared<ObjectManager>();
-    Course::WorldGenerator::getInstance().addConstructor<Course::Forest>(1);
-    Course::WorldGenerator::getInstance().addConstructor<Course::Grassland>(1);
-    Course::WorldGenerator::getInstance().generateMap(10, 10, 1, objectManager, m_GEHandler);
+    Course::WorldGenerator::getInstance().addConstructor<Course::Forest>(2);
+    Course::WorldGenerator::getInstance().addConstructor<Course::Grassland>(4);
+    Course::WorldGenerator::getInstance().addConstructor<Sand>(4);
+    Course::WorldGenerator::getInstance().addConstructor<Stone>(1);
+    Course::WorldGenerator::getInstance().addConstructor<Swamp>(2);
+    Course::WorldGenerator::getInstance().addConstructor<Water>(1);
+    Course::WorldGenerator::getInstance().generateMap(10, 10, 1, m_objM, m_GEHandler);
 
-    objectManager->drawMap(m_simplescene);
+    m_objM->drawMap(m_worldScene);
 
     StartDialog dialog(this);
     dialog.exec();
@@ -50,30 +59,30 @@ void MapWindow::setGEHandler(
 
 void MapWindow::setSize(int width, int height)
 {
-    m_simplescene->setSize(width, height);
+    m_worldScene->setSize(width, height);
 }
 
 void MapWindow::setScale(int scale)
 {
-    m_simplescene->setScale(scale);
+    m_worldScene->setScale(scale);
 }
 
 void MapWindow::resize()
 {
-    m_simplescene->resize();
+    m_worldScene->resize();
 }
 
 void MapWindow::updateItem(std::shared_ptr<Course::GameObject> obj)
 {
-    m_simplescene->updateItem(obj);
+    m_worldScene->updateItem(obj);
 }
 
 void MapWindow::removeItem(std::shared_ptr<Course::GameObject> obj)
 {
-    m_simplescene->removeItem(obj);
+    m_worldScene->removeItem(obj);
 }
 
 void MapWindow::drawItem( std::shared_ptr<Course::GameObject> obj)
 {
-    m_simplescene->drawItem(obj);
+    m_worldScene->drawItem(obj);
 }

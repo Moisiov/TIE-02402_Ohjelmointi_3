@@ -6,7 +6,7 @@
 #include "core/coordinate.h"
 #include "core/gameobject.h"
 #include "tiles/tilebase.h"
-#include "graphics/simplegamescene.h"
+#include "graphics/worldscene.h"
 
 /**
  * @brief The ObjectManager class handles Course-side code
@@ -45,7 +45,7 @@ public:
             const std::vector<Course::Coordinate>& coordinates);
 
     // Not working yet
-    void drawMap(std::shared_ptr<Course::SimpleGameScene> gameScene);
+    void drawMap(std::shared_ptr<WorldScene> gameScene);
 
 
 

@@ -22,7 +22,9 @@ SOURCES += \
     tiles/swamp.cpp \
     tiles/stone.cpp \
     tiles/water.cpp \
-    handlers/objectmanager.cpp
+    handlers/objectmanager.cpp \
+    graphics/worldscene.cpp \
+    graphics/worlditem.cpp
 
 HEADERS += \
     buildings/ranch.hh \
@@ -40,7 +42,9 @@ HEADERS += \
     tiles/swamp.hh \
     tiles/stone.hh \
     tiles/water.hh \
-    handlers/objectmanager.hh
+    handlers/objectmanager.hh \
+    graphics/worldscene.h \
+    graphics/worlditem.h
 
 win32:CONFIG(release, debug|release): LIBS += \
     -L$$OUT_PWD/../Course/CourseLib/release/ -lCourseLib
