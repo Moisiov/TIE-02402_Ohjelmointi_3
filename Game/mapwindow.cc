@@ -1,9 +1,6 @@
 #include "mapwindow.hh"
 #include "ui_mapwindow.h"
 
-#include "graphics/worlditem.h"
-#include "startdialog.hh"
-
 #include <math.h>
 
 // These are for testing purposes
@@ -23,7 +20,12 @@ MapWindow::MapWindow(QWidget *parent,
     m_ui(new Ui::MapWindow),
     m_GEHandler(handler),
     m_objM(objManager),
-    m_worldScene(new WorldScene(this))
+    m_worldScene(new WorldScene(this)),
+    m_readyToLaunch(false),
+    m_playerList({}),
+    m_currentPlayer(0),
+    m_map_x(0),
+    m_map_y(0)
 {
     m_ui->setupUi(this);
 
@@ -31,18 +33,12 @@ MapWindow::MapWindow(QWidget *parent,
 
     m_ui->graphicsView->setScene(dynamic_cast<QGraphicsScene*>(sgs_rawptr));
 
-    // Testing the world generator
-    Course::WorldGenerator::getInstance().addConstructor<Course::Forest>(2);
-    Course::WorldGenerator::getInstance().addConstructor<Course::Grassland>(4);
-    Course::WorldGenerator::getInstance().addConstructor<Sand>(4);
-    Course::WorldGenerator::getInstance().addConstructor<Stone>(1);
-    Course::WorldGenerator::getInstance().addConstructor<Swamp>(2);
-    Course::WorldGenerator::getInstance().addConstructor<Water>(1);
-    Course::WorldGenerator::getInstance().generateMap(10, 10, 1, m_objM, m_GEHandler);
-
-    m_objM->drawMap(m_worldScene);
-
     StartDialog dialog(this);
+    connect(&dialog, &StartDialog::sendParameters,
+                     this, &MapWindow::getParameters);
+    connect(&dialog, &StartDialog::accepted,
+            [=](){ m_readyToLaunch = true; });
+
     dialog.exec();
 }
 
@@ -51,10 +47,9 @@ MapWindow::~MapWindow()
     delete m_ui;
 }
 
-void MapWindow::setGEHandler(
-        std::shared_ptr<Course::iGameEventHandler> nHandler)
+bool MapWindow::isReadyToLaunch()
 {
-    m_GEHandler = nHandler;
+    return m_readyToLaunch;
 }
 
 void MapWindow::setSize(int width, int height)
@@ -75,6 +70,30 @@ void MapWindow::resize()
 void MapWindow::updateItem(std::shared_ptr<Course::GameObject> obj)
 {
     m_worldScene->updateItem(obj);
+}
+
+void MapWindow::getParameters(std::vector<std::string> playerList, std::vector<PlayerColor> colorList, unsigned map_x, unsigned map_y)
+{
+    for (unsigned i = 0; i < playerList.size(); ++i) {
+        std::string name = playerList[i];
+        PlayerColor color = colorList[i];
+        std::shared_ptr<Player> player = std::make_shared<Player>(name, color);
+        m_playerList.push_back(player);
+    }
+
+    m_map_x = map_x;
+    m_map_y = map_y;
+
+    // Testing the world generator
+    Course::WorldGenerator::getInstance().addConstructor<Course::Forest>(2);
+    Course::WorldGenerator::getInstance().addConstructor<Course::Grassland>(4);
+    Course::WorldGenerator::getInstance().addConstructor<Sand>(4);
+    Course::WorldGenerator::getInstance().addConstructor<Stone>(1);
+    Course::WorldGenerator::getInstance().addConstructor<Swamp>(2);
+    Course::WorldGenerator::getInstance().addConstructor<Water>(1);
+    Course::WorldGenerator::getInstance().generateMap(map_x, map_y, 1, m_objM, m_GEHandler);
+
+    m_objM->drawMap(m_worldScene);
 }
 
 void MapWindow::removeItem(std::shared_ptr<Course::GameObject> obj)

@@ -10,16 +10,18 @@ const Course::ResourceMap startResources = {
 };
 
 Player::Player(const std::string &name,
+               PlayerColor color,
                const std::vector<std::shared_ptr<Course::GameObject> > objects):
-    Course::PlayerBase(name, objects), _resources(startResources)
+    Course::PlayerBase(name, objects), _resources(startResources), _color(color)
 {
 
 }
 
 Player::Player(const std::string &name,
+               PlayerColor color,
                const Course::ResourceMap &startingResources,
                const std::vector<std::shared_ptr<Course::GameObject> > objects):
-    Course::PlayerBase(name, objects), _resources(startingResources)
+    Course::PlayerBase(name, objects), _resources(startingResources), _color(color)
 {
 
 }
@@ -27,6 +29,11 @@ Player::Player(const std::string &name,
 Course::ResourceMap Player::getResources()
 {
     return _resources;
+}
+
+PlayerColor Player::getColor()
+{
+    return _color;
 }
 
 bool Player::canAfford(Course::ResourceMap cost)

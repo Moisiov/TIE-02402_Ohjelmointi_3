@@ -152,6 +152,9 @@
         <property name="text">
          <string>Pelaaja 1</string>
         </property>
+        <property name="maxLength">
+         <number>20</number>
+        </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
         </property>
@@ -269,6 +272,9 @@
         </property>
         <property name="text">
          <string>Pelaaja 2</string>
+        </property>
+        <property name="maxLength">
+         <number>20</number>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -388,6 +394,9 @@
         <property name="text">
          <string>Pelaaja 3</string>
         </property>
+        <property name="maxLength">
+         <number>20</number>
+        </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
         </property>
@@ -502,6 +511,9 @@
         </property>
         <property name="text">
          <string>Pelaaja 4</string>
+        </property>
+        <property name="maxLength">
+         <number>20</number>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -618,6 +630,9 @@
         <property name="text">
          <string>Pelaaja 5</string>
         </property>
+        <property name="maxLength">
+         <number>20</number>
+        </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
         </property>
@@ -733,6 +748,9 @@
         <property name="text">
          <string>Pelaaja 6</string>
         </property>
+        <property name="maxLength">
+         <number>20</number>
+        </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
         </property>
@@ -783,9 +801,9 @@
        </widget>
       </item>
       <item>
-       <widget class="QSpinBox" name="spinBox">
+       <widget class="QSpinBox" name="mapSizeX">
         <property name="minimum">
-         <number>40</number>
+         <number>1</number>
         </property>
         <property name="maximum">
          <number>200</number>
@@ -816,9 +834,9 @@
        </widget>
       </item>
       <item>
-       <widget class="QSpinBox" name="spinBox_2">
+       <widget class="QSpinBox" name="mapSizeY">
         <property name="minimum">
-         <number>40</number>
+         <number>1</number>
         </property>
         <property name="maximum">
          <number>200</number>
