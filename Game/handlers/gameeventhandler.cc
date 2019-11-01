@@ -11,6 +11,11 @@ void GameEventHandler::setObjectManager(std::shared_ptr<ObjectManager> objM)
     _objM = objM;
 }
 
+void GameEventHandler::setPlayerList(std::vector<std::shared_ptr<Player> > playerList)
+{
+    _playerList = playerList;
+}
+
 bool GameEventHandler::modifyResource(
         std::shared_ptr<Course::PlayerBase> player,
         Course::BasicResource resource,

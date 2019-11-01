@@ -19,6 +19,12 @@ public:
     virtual ~StartDialog() override;
 
 public slots:
+    /**
+     * @brief accept intercepts Dialog ending and does a sanity check on start-up parameters
+     * before sending parameters back to MapWindow and closing. Input fields have certain built-in
+     * limits to disable too small / large map generation or too long names.
+     * @pre Must have selected at least 2 players, and none of the names can be empty.
+     */
     virtual void accept() override;
 
 signals:

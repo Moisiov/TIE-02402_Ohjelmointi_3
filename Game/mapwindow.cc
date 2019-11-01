@@ -14,7 +14,7 @@
 #include "tiles/water.hh"
 
 MapWindow::MapWindow(QWidget *parent,
-                     std::shared_ptr<Course::iGameEventHandler> handler,
+                     std::shared_ptr<GameEventHandler> handler,
                      std::shared_ptr<ObjectManager> objManager):
     QMainWindow(parent),
     m_ui(new Ui::MapWindow),
@@ -84,6 +84,8 @@ void MapWindow::getParameters(std::vector<std::string> playerList, std::vector<P
         std::shared_ptr<Player> player = std::make_shared<Player>(name, color);
         m_playerList.push_back(player);
     }
+
+    m_GEHandler->setPlayerList(m_playerList);
 
     m_map_x = map_x;
     m_map_y = map_y;
