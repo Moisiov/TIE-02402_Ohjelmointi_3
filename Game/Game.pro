@@ -24,7 +24,8 @@ SOURCES += \
     tiles/water.cpp \
     handlers/objectmanager.cpp \
     graphics/worldscene.cpp \
-    graphics/worlditem.cpp
+    graphics/worlditem.cpp \
+    graphics/gameview.cpp
 
 HEADERS += \
     buildings/ranch.hh \
@@ -44,7 +45,8 @@ HEADERS += \
     tiles/water.hh \
     handlers/objectmanager.hh \
     graphics/worldscene.h \
-    graphics/worlditem.h
+    graphics/worlditem.h \
+    graphics/gameview.h
 
 win32:CONFIG(release, debug|release): LIBS += \
     -L$$OUT_PWD/../Course/CourseLib/release/ -lCourseLib

@@ -35,6 +35,7 @@ MapWindow::MapWindow(QWidget *parent,
     // m_ui->graphicsView->width();
 
     m_ui->graphicsView->setScene(dynamic_cast<QGraphicsScene*>(sgs_rawptr));
+    m_ui->graphicsView->setRenderHint(QPainter::Antialiasing);
 
     StartDialog dialog(this);
     connect(&dialog, &StartDialog::sendParameters,
@@ -68,7 +69,6 @@ void MapWindow::setScale(int scale)
 void MapWindow::resize()
 {
     m_worldScene->resize();
-    // m_ui->graphicsView->fitInView(QRectF(0, 0, width(), height()), Qt::KeepAspectRatio);
 }
 
 void MapWindow::updateItem(std::shared_ptr<Course::GameObject> obj)

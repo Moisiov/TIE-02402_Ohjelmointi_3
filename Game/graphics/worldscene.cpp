@@ -14,10 +14,7 @@ WorldScene::WorldScene(QWidget* parent,
     w_mapBoundRect(nullptr),
     w_width(100),
     w_height(100),
-    w_scale(50),
-    w_mouse_right_pressed(false),
-    w_x(0),
-    w_y(0)
+    w_scale(50)
 {
     setSize(width, height);
     setScale(scale);
@@ -50,21 +47,6 @@ void WorldScene::resize()
     if ( w_mapBoundRect != nullptr ){
         QGraphicsScene::removeItem(w_mapBoundRect);
     }
-
-    // Calculates rect with middle at (0,0).
-    // Basically left upper corner coords and then width and height
-    // QRect rect = QRect( m_width * m_scale / - 2, m_height * m_scale / -2,
-    //                    m_width * m_scale - 1, m_height * m_scale - 1 );
-
-    // Set upper left coordinate to (w_x, w_y)
-    QRect rect = QRect( w_x, w_y, w_width * w_scale - 1, w_height * w_scale - 1 );
-
-    addRect(rect, QPen(Qt::black));
-    setSceneRect(rect);
-    w_mapBoundRect = itemAt(rect.topLeft(), QTransform());
-
-    // Draw on the bottom of all items
-    w_mapBoundRect->setZValue(-1);
 }
 
 int WorldScene::getScale() const
@@ -100,53 +82,20 @@ bool WorldScene::event(QEvent *event)
                 dynamic_cast<QGraphicsSceneMouseEvent*>(event);
 
         if (mouse_event->button() == 1) {
-            if ( sceneRect().contains(mouse_event->scenePos())){
+            QPointF point = mouse_event->scenePos() / w_scale;
 
-                QPointF point = mouse_event->scenePos() / w_scale;
+            point.rx() = floor(point.rx());
+            point.ry() = floor(point.ry());
 
-                point.rx() = floor(point.rx());
-                point.ry() = floor(point.ry());
-                qDebug() << "Click x: " << point.rx();
-                qDebug() << "Click y: " << point.ry();
+            QGraphicsItem* pressed = itemAt(point * w_scale, QTransform());
 
-                QGraphicsItem* pressed = itemAt(point * w_scale, QTransform());
-
-                if ( pressed == w_mapBoundRect ){
-                    qDebug() << "Click on map area.";
-                } else if (pressed != nullptr){
-                    qDebug() << "ObjID: " <<
-                                static_cast<WorldItem*>(pressed)
-                                ->getBoundObject()->ID  << " pressed.";
-                    return true;
-                }
-
+            if (pressed != nullptr && pressed != w_mapBoundRect){
+                qDebug() << "ObjID: " <<
+                            static_cast<WorldItem*>(pressed)
+                            ->getBoundObject()->ID  << " pressed.";
+                return true;
             }
-        }
 
-        if (mouse_event->button() == 2) {
-            w_mouse_right_pressed = true;
-        }
-    }
-
-    if(event->type() == QEvent::GraphicsSceneMouseRelease) {
-
-        QGraphicsSceneMouseEvent* mouse_event =
-                dynamic_cast<QGraphicsSceneMouseEvent*>(event);
-
-        if (mouse_event->button() == 2) {
-            w_mouse_right_pressed = false;
-        }
-    }
-
-    if(event->type() == QEvent::GraphicsSceneMouseMove) {
-        QGraphicsSceneMouseEvent* mouse_event =
-                dynamic_cast<QGraphicsSceneMouseEvent*>(event);
-
-        if (w_mouse_right_pressed == true) {
-            QPoint lastPos = mouse_event->lastScreenPos();
-            QPoint currentPos = mouse_event->screenPos();
-
-            moveScene(currentPos.x()-lastPos.x(), currentPos.y()-lastPos.y());
         }
     }
 
@@ -171,31 +120,7 @@ void WorldScene::removeItem(std::shared_ptr<Course::GameObject> obj)
 
 void WorldScene::drawItem( std::shared_ptr<Course::GameObject> obj)
 {
+    qDebug() << "WorldScene::drawItem() Type: " << obj->getType().c_str();
     WorldItem* nItem = new WorldItem(obj, w_scale);
     addItem(nItem);
-}
-
-void WorldScene::moveScene(int x, int y)
-{
-    w_x -= x;
-    w_y -= y;
-
-    qDebug() << "x: " << w_x;
-    qDebug() << "y: " << w_y;
-
-    /*if (w_x < 0) {
-        w_x = 0;
-    }
-    if (w_y < 0) {
-        w_y = 0;
-    }
-
-    if (w_x > w_width) {
-        w_x = w_width;
-    }
-    if (w_y > w_height) {
-        w_y = w_height;
-    }*/
-
-    resize();
 }

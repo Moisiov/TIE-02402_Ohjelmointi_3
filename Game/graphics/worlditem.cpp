@@ -65,7 +65,6 @@ void WorldItem::setSize(int size)
 
 void WorldItem::addNewColor(std::string type)
 {
-    qDebug() << "WorldItem::addNewColor() Type: " << type.c_str();
     if ( c_mapcolors.find(type) == c_mapcolors.end() ){
         std::size_t hash = std::hash<std::string>{}(type);
         c_mapcolors.insert({type, QColor((hash & 0xFF0000) >> 16, (hash & 0x00FF00 ) >> 8, (hash & 0x0000FF))});

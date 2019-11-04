@@ -12,6 +12,7 @@
 
 #include "handlers/gameeventhandler.hh"
 #include "handlers/objectmanager.hh"
+#include "graphics/gameview.h"
 #include "graphics/worldscene.h"
 #include "graphics/worlditem.h"
 #include "startdialog.hh"
