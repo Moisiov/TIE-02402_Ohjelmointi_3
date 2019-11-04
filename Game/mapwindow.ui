@@ -53,7 +53,7 @@
   <customwidget>
    <class>GameView</class>
    <extends>QGraphicsView</extends>
-   <header>gameview.h</header>
+   <header>graphics/gameview.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

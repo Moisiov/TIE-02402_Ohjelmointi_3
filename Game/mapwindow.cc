@@ -37,6 +37,11 @@ MapWindow::MapWindow(QWidget *parent,
     m_ui->graphicsView->setScene(dynamic_cast<QGraphicsScene*>(sgs_rawptr));
     m_ui->graphicsView->setRenderHint(QPainter::Antialiasing);
 
+    // QTransform transform;
+    // transform.rotate(45, Qt::XAxis);
+    // m_ui->graphicsView->setTransform(transform);
+    // m_ui->graphicsView->setTransformationAnchor(QGraphicsView::AnchorViewCenter);
+
     StartDialog dialog(this);
     connect(&dialog, &StartDialog::sendParameters,
                      this, &MapWindow::getParameters);
