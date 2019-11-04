@@ -28,6 +28,8 @@ MapWindow::MapWindow(QWidget *parent,
     m_map_y(0)
 {
     m_ui->setupUi(this);
+    setupMenuConnections();
+    m_ui->menuBrowser->setCurrentWidget(m_ui->mainMenu);
 
     WorldScene* sgs_rawptr = m_worldScene.get();
 
@@ -36,6 +38,9 @@ MapWindow::MapWindow(QWidget *parent,
 
     m_ui->graphicsView->setScene(dynamic_cast<QGraphicsScene*>(sgs_rawptr));
     m_ui->graphicsView->setRenderHint(QPainter::Antialiasing);
+
+    // TODO: FIX THIS
+    // connect(&m_worldScene, &WorldScene::objectClicked, this, &MapWindow::objectSelected);
 
     // QTransform transform;
     // transform.rotate(45, Qt::XAxis);
@@ -107,6 +112,11 @@ void MapWindow::getParameters(std::vector<std::string> playerList, std::vector<P
     m_objM->drawMap(m_worldScene);
 }
 
+void MapWindow::objectSelected(std::shared_ptr<Course::GameObject> obj)
+{
+    qDebug() << obj->getType().c_str() << " clicked.";
+}
+
 void MapWindow::removeItem(std::shared_ptr<Course::GameObject> obj)
 {
     m_worldScene->removeItem(obj);
@@ -115,4 +125,21 @@ void MapWindow::removeItem(std::shared_ptr<Course::GameObject> obj)
 void MapWindow::drawItem( std::shared_ptr<Course::GameObject> obj)
 {
     m_worldScene->drawItem(obj);
+}
+
+void MapWindow::selectMainMenu()
+{
+    m_ui->menuBrowser->setCurrentWidget(m_ui->mainMenu);
+}
+
+void MapWindow::endTurn()
+{
+    // Call GameEventHandlers end turn function here
+    qDebug() << "MapWindow::endTurn()";
+}
+
+void MapWindow::setupMenuConnections()
+{
+    connect(m_ui->menuBtn, &QPushButton::clicked, this, &MapWindow::selectMainMenu);
+    connect(m_ui->endTurnBtn, &QPushButton::clicked, this, &MapWindow::endTurn);
 }

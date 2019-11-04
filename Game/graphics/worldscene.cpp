@@ -1,5 +1,6 @@
 #include "worldscene.h"
 #include "worlditem.h"
+#include "mapwindow.hh"
 
 #include <QEvent>
 #include <QGraphicsSceneMouseEvent>
@@ -93,6 +94,7 @@ bool WorldScene::event(QEvent *event)
                 qDebug() << "ObjID: " <<
                             static_cast<WorldItem*>(pressed)
                             ->getBoundObject()->ID  << " pressed.";
+                emit objectClicked(static_cast<WorldItem*>(pressed)->getBoundObject());
                 return true;
             }
 
@@ -120,7 +122,6 @@ void WorldScene::removeItem(std::shared_ptr<Course::GameObject> obj)
 
 void WorldScene::drawItem( std::shared_ptr<Course::GameObject> obj)
 {
-    qDebug() << "WorldScene::drawItem() Type: " << obj->getType().c_str();
     WorldItem* nItem = new WorldItem(obj, w_scale);
     addItem(nItem);
 }

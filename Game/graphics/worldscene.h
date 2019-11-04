@@ -48,6 +48,9 @@ public:
 
     virtual bool event(QEvent* event) override;
 
+signals:
+    void objectClicked(std::shared_ptr<Course::GameObject> obj);
+
 private:
     QGraphicsItem* w_mapBoundRect;
     int w_width;

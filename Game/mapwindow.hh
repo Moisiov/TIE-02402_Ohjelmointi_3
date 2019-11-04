@@ -70,6 +70,12 @@ public slots:
                        unsigned map_x,
                        unsigned map_y);
 
+    void objectSelected(std::shared_ptr<Course::GameObject> obj);
+
+private slots:
+    void selectMainMenu();
+    void endTurn();
+
 private:
     Ui::MapWindow* m_ui;
     std::shared_ptr<GameEventHandler> m_GEHandler;
@@ -80,6 +86,8 @@ private:
     unsigned m_currentPlayer; // starts with 0
     unsigned m_map_x; // Filled in by StartDialog parameters
     unsigned m_map_y; // Filled in by StartDialog parameters
+
+    void setupMenuConnections();
 };
 
 #endif // MapWINDOW_HH
