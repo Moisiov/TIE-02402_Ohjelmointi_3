@@ -74,11 +74,11 @@ std::vector<std::shared_ptr<Course::TileBase>> ObjectManager::getTiles(const std
     return tiles;
 }
 
-void ObjectManager::drawMap(std::shared_ptr<WorldScene> gameScene)
+void ObjectManager::drawMap(std::shared_ptr<WorldScene> worldScene)
 {
     for(unsigned i = 0; i < _objects.size(); ++i)
     {
-        gameScene->drawItem(_objects.at(i));
+        worldScene->drawItem(_objects.at(i));
     }
 }
 

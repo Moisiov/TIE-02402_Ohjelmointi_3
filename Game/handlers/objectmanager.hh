@@ -44,7 +44,6 @@ public:
     virtual std::vector<std::shared_ptr<Course::TileBase>> getTiles(
             const std::vector<Course::Coordinate>& coordinates);
 
-    // Not working yet
     void drawMap(std::shared_ptr<WorldScene> gameScene);
 
 

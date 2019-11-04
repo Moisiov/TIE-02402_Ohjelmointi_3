@@ -4,7 +4,7 @@
 GameView::GameView(QWidget* parent):
     QGraphicsView(parent)
 {
-    setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
+    // setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
     this->installEventFilter(this);
 
     // Turn off scroll bars
