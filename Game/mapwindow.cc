@@ -40,7 +40,7 @@ MapWindow::MapWindow(QWidget *parent,
     m_ui->graphicsView->setRenderHint(QPainter::Antialiasing);
 
     // TODO: FIX THIS
-    // connect(&m_worldScene, &WorldScene::objectClicked, this, &MapWindow::objectSelected);
+    connect(m_worldScene.get(), &WorldScene::objectClicked, this, &MapWindow::objectSelected);
 
     // QTransform transform;
     // transform.rotate(45, Qt::XAxis);
@@ -114,7 +114,9 @@ void MapWindow::getParameters(std::vector<std::string> playerList, std::vector<P
 
 void MapWindow::objectSelected(std::shared_ptr<Course::GameObject> obj)
 {
-    qDebug() << obj->getType().c_str() << " clicked.";
+    std::string objType = obj->getType();
+    m_ui->textBrowser_2->setText(objType.c_str());
+    m_ui->menuBrowser->setCurrentWidget(m_ui->tileMenu);
 }
 
 void MapWindow::removeItem(std::shared_ptr<Course::GameObject> obj)

@@ -49,6 +49,10 @@ public:
     virtual bool event(QEvent* event) override;
 
 signals:
+    /**
+     * @brief objectClicked is sent when an object on the world scene is clicked
+     * @param obj is the clicked object
+     */
     void objectClicked(std::shared_ptr<Course::GameObject> obj);
 
 private:

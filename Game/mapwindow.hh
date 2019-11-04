@@ -70,10 +70,23 @@ public slots:
                        unsigned map_x,
                        unsigned map_y);
 
+    /**
+     * @brief objectSelected gets the signal from WorldScene when
+     * an object on the screen is clicked.
+     * @param obj is the clicked object.
+     */
     void objectSelected(std::shared_ptr<Course::GameObject> obj);
 
 private slots:
+    /**
+     * @brief selectMainMenu slot for menuBtn click.
+     * Changes currently shown menu page to main menu.
+     */
     void selectMainMenu();
+
+    /**
+     * @brief endTurn slot for endTurnBtn click.
+     */
     void endTurn();
 
 private:
