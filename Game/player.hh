@@ -2,7 +2,7 @@
 #define PLAYER_HH
 
 #include "core/playerbase.h"
-#include "core/basicresources.h"
+#include "basicinfo.hh"
 #include "tiles/tilebase.h"
 #include "buildings/upgradeablebuilding.hh"
 #include "workers/unitbase.hh"

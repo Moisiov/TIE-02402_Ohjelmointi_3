@@ -29,6 +29,7 @@ SOURCES += \
     workers/unitbase.cpp
 
 HEADERS += \
+    basicinfo.hh \
     buildings/ranch.hh \
     buildings/upgradeablebuilding.hh \
     handlers/gameeventhandler.hh \

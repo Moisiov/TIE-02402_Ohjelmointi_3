@@ -2,20 +2,7 @@
 #define CAMPUS_HH
 
 #include "upgradeablebuilding.hh"
-
-const std::vector<Course::ResourceMap> CAMPUS_BUILD_COST_LIST = {
-    {
-        {Course::BasicResource::MONEY, 1000},
-        {Course::BasicResource::FOOD, 1000},
-        {Course::BasicResource::WOOD, 1000},
-        {Course::BasicResource::STONE, 1000},
-        {Course::BasicResource::ORE, 1000}
-    }
-};
-
-const std::vector<Course::ResourceMap> CAMPUS_PRODUCTION_LIST = {
-  {} // Intentionally empty, no production
-};
+#include "basicinfo.hh"
 
 class Campus : UpgradeableBuilding
 {

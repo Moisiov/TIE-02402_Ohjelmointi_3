@@ -1,19 +1,10 @@
 #include "player.hh"
 
-const Course::ResourceMap startResources = {
-    {Course::BasicResource::NONE, 0},
-    {Course::BasicResource::MONEY, 100},
-    {Course::BasicResource::FOOD, 100},
-    {Course::BasicResource::WOOD, 100},
-    {Course::BasicResource::STONE, 100},
-    {Course::BasicResource::ORE, 100}
-};
-
 Player::Player(const std::string &name,
                PlayerColor color,
                const std::vector<std::shared_ptr<Course::GameObject> > objects):
     Course::PlayerBase(name, objects),
-    _resources(startResources),
+    _resources(PLAYER_STARTING_RESOURCES),
     _color(color),
     _ownedTiles({}),
     _ownedBuildings({}),

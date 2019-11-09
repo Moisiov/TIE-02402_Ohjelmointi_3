@@ -2,35 +2,7 @@
 #define MARKET_HH
 
 #include "upgradeablebuilding.hh"
-
-const std::vector<Course::ResourceMap> MARKET_BUILD_COST_LIST = {
-    {
-        {Course::BasicResource::MONEY, 100},
-        {Course::BasicResource::FOOD, 100},
-        {Course::BasicResource::WOOD, 100}
-    },
-    {
-        {Course::BasicResource::MONEY, 100},
-        {Course::BasicResource::FOOD, 100},
-        {Course::BasicResource::WOOD, 100}
-    },
-    {
-        {Course::BasicResource::MONEY, 100},
-        {Course::BasicResource::FOOD, 100},
-        {Course::BasicResource::WOOD, 100}
-    }
-};
-const std::vector<Course::ResourceMap> MARKET_PRODUCTION_LIST = {
-    {
-        {Course::BasicResource::MONEY, 10}
-    },
-    {
-        {Course::BasicResource::MONEY, 20}
-    },
-    {
-        {Course::BasicResource::MONEY, 30}
-    }
-};
+#include "basicinfo.hh"
 
 class Market : public UpgradeableBuilding
 {

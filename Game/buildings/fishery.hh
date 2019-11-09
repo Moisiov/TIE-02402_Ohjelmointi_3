@@ -2,44 +2,7 @@
 #define FISHERY_HH
 
 #include "upgradeablebuilding.hh"
-
-const std::vector<Course::ResourceMap> FISHERY_BUILD_COST_LIST = {
-    {
-        {Course::BasicResource::MONEY, 100},
-        {Course::BasicResource::FOOD, 100},
-        {Course::BasicResource::WOOD, 100}
-    },
-    {
-        {Course::BasicResource::MONEY, 100},
-        {Course::BasicResource::FOOD, 100},
-        {Course::BasicResource::WOOD, 100}
-    },
-    {
-        {Course::BasicResource::MONEY, 100},
-        {Course::BasicResource::FOOD, 100},
-        {Course::BasicResource::WOOD, 100}
-    }
-};
-
-const Course::ResourceMap FISHERY_PRODUCTION = {
-    {Course::BasicResource::MONEY, 5},
-    {Course::BasicResource::FOOD, 10}
-};
-
-const std::vector<Course::ResourceMap> FISHERY_PRODUCTION_LIST = {
-    {
-        {Course::BasicResource::MONEY, 5},
-        {Course::BasicResource::FOOD, 10}
-    },
-    {
-        {Course::BasicResource::MONEY, 10},
-        {Course::BasicResource::FOOD, 20}
-    },
-    {
-        {Course::BasicResource::MONEY, 15},
-        {Course::BasicResource::FOOD, 30}
-    }
-};
+#include "basicinfo.hh"
 
 class Fishery : public UpgradeableBuilding
 {
