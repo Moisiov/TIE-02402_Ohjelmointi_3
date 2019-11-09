@@ -25,7 +25,8 @@ SOURCES += \
     handlers/objectmanager.cpp \
     graphics/worldscene.cpp \
     graphics/worlditem.cpp \
-    graphics/gameview.cpp
+    graphics/gameview.cpp \
+    workers/unitbase.cpp
 
 HEADERS += \
     buildings/ranch.hh \
@@ -46,7 +47,8 @@ HEADERS += \
     handlers/objectmanager.hh \
     graphics/worldscene.h \
     graphics/worlditem.h \
-    graphics/gameview.h
+    graphics/gameview.h \
+    workers/unitbase.hh
 
 win32:CONFIG(release, debug|release): LIBS += \
     -L$$OUT_PWD/../Course/CourseLib/release/ -lCourseLib

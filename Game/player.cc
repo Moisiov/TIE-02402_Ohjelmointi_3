@@ -12,7 +12,12 @@ const Course::ResourceMap startResources = {
 Player::Player(const std::string &name,
                PlayerColor color,
                const std::vector<std::shared_ptr<Course::GameObject> > objects):
-    Course::PlayerBase(name, objects), _resources(startResources), _color(color)
+    Course::PlayerBase(name, objects),
+    _resources(startResources),
+    _color(color),
+    _ownedTiles({}),
+    _ownedBuildings({}),
+    _ownedUnits({})
 {
 
 }
@@ -24,6 +29,21 @@ Player::Player(const std::string &name,
     Course::PlayerBase(name, objects), _resources(startingResources), _color(color)
 {
 
+}
+
+void Player::addTile(std::shared_ptr<Course::TileBase> tile)
+{
+    _ownedTiles.push_back(tile);
+}
+
+void Player::addBuilding(std::shared_ptr<UpgradeableBuilding> building)
+{
+    _ownedBuildings.push_back(building);
+}
+
+void Player::addUnit(std::shared_ptr<UnitBase> unit)
+{
+    _ownedUnits.push_back(unit);
 }
 
 Course::ResourceMap Player::getResources()

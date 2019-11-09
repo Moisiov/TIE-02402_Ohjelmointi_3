@@ -3,6 +3,9 @@
 
 #include "core/playerbase.h"
 #include "core/basicresources.h"
+#include "tiles/tilebase.h"
+#include "buildings/upgradeablebuilding.hh"
+#include "workers/unitbase.hh"
 
 enum PlayerColor { RED, BLUE, GREEN, ORANGE, PURPLE, CYAN };
 
@@ -31,6 +34,12 @@ public:
            const std::vector<std::shared_ptr<Course::GameObject>> objects = {});
 
     ~Player() = default;
+
+    void addTile(std::shared_ptr<Course::TileBase> tile);
+
+    void addBuilding(std::shared_ptr<UpgradeableBuilding> building);
+
+    void addUnit(std::shared_ptr<UnitBase> unit);
 
     /**
      * @brief getResources returns a full list of the players current materials
@@ -70,6 +79,10 @@ public:
 private:
     Course::ResourceMap _resources;
     PlayerColor _color;
+    std::vector<std::shared_ptr<Course::TileBase>> _ownedTiles;
+    std::vector<std::shared_ptr<UpgradeableBuilding>> _ownedBuildings;
+    std::vector<std::shared_ptr<UnitBase>> _ownedUnits;
+
 };
 
 #endif // PLAYER_HH
