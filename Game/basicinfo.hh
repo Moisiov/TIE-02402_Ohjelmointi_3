@@ -191,4 +191,34 @@ const std::vector<Course::ResourceMap> SAWMILL_PRODUCTION_LIST = {
     }
 };
 
+// WORKERS //
+
+const Course::ResourceMap BASIC_WORKER_BUILD_COST = {
+    {Course::BasicResource::MONEY, 100},
+    {Course::BasicResource::FOOD, 100},
+    {Course::BasicResource::WOOD, 100}
+};
+
+const Course::ResourceMapDouble BASIC_WORKER_EFFICIENCY = {
+    {Course::BasicResource::MONEY, 1.0},
+    {Course::BasicResource::FOOD, 1.0},
+    {Course::BasicResource::WOOD, 1.0},
+    {Course::BasicResource::STONE, 1.0},
+    {Course::BasicResource::ORE, 1.0}
+};
+
+const Course::ResourceMap SCOUT_BUILD_COST = {
+    {Course::BasicResource::MONEY, 100},
+    {Course::BasicResource::FOOD, 100},
+    {Course::BasicResource::WOOD, 100}
+};
+
+const Course::ResourceMapDouble SCOUT_EFFICIENCY = {
+    {Course::BasicResource::MONEY, 0.0},
+    {Course::BasicResource::FOOD, 0.0},
+    {Course::BasicResource::WOOD, 0.0},
+    {Course::BasicResource::STONE, 0.0},
+    {Course::BasicResource::ORE, 0.0}
+};
+
 #endif // BASICINFO_HH

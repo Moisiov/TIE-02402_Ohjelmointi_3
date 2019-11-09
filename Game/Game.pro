@@ -26,7 +26,9 @@ SOURCES += \
     graphics/worldscene.cpp \
     graphics/worlditem.cpp \
     graphics/gameview.cpp \
-    workers/unitbase.cpp
+    workers/scout.cpp \
+    workers/unitbase.cpp \
+    workers/worker.cpp
 
 HEADERS += \
     basicinfo.hh \
@@ -49,7 +51,9 @@ HEADERS += \
     graphics/worldscene.h \
     graphics/worlditem.h \
     graphics/gameview.h \
-    workers/unitbase.hh
+    workers/scout.hh \
+    workers/unitbase.hh \
+    workers/worker.hh
 
 win32:CONFIG(release, debug|release): LIBS += \
     -L$$OUT_PWD/../Course/CourseLib/release/ -lCourseLib
