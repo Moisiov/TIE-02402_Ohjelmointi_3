@@ -76,13 +76,17 @@ public:
      */
     bool modifyResources(Course::ResourceMap resources);
 
+    void setHQCoord(Course::Coordinate coord);
+
+    Course::Coordinate getHQCoord();
+
 private:
     Course::ResourceMap _resources;
     PlayerColor _color;
     std::vector<std::shared_ptr<Course::TileBase>> _ownedTiles;
     std::vector<std::shared_ptr<UpgradeableBuilding>> _ownedBuildings;
     std::vector<std::shared_ptr<UnitBase>> _ownedUnits;
-
+    Course::Coordinate _HQCoord;
 };
 
 #endif // PLAYER_HH

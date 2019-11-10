@@ -95,7 +95,7 @@ void MapWindow::getParameters(std::vector<std::string> playerList, std::vector<P
         m_playerList.push_back(player);
     }
 
-    m_GEHandler->setPlayerList(m_playerList);
+    m_GEHandler->initializeGame(m_playerList, map_x, map_y);
 
     m_map_x = map_x;
     m_map_y = map_y;

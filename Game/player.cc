@@ -8,7 +8,8 @@ Player::Player(const std::string &name,
     _color(color),
     _ownedTiles({}),
     _ownedBuildings({}),
-    _ownedUnits({})
+    _ownedUnits({}),
+    _HQCoord(Course::Coordinate(0,0))
 {
 
 }
@@ -17,7 +18,10 @@ Player::Player(const std::string &name,
                PlayerColor color,
                const Course::ResourceMap &startingResources,
                const std::vector<std::shared_ptr<Course::GameObject> > objects):
-    Course::PlayerBase(name, objects), _resources(startingResources), _color(color)
+    Course::PlayerBase(name, objects),
+    _resources(startingResources),
+    _color(color),
+    _HQCoord(Course::Coordinate(0,0))
 {
 
 }
@@ -86,4 +90,13 @@ bool Player::modifyResources(Course::ResourceMap resources)
     } else {
         return true;
     }
+}
+Course::Coordinate Player::getHQCoord()
+{
+    return _HQCoord;
+}
+
+void Player::setHQCoord(Course::Coordinate coord)
+{
+    _HQCoord = coord;
 }
