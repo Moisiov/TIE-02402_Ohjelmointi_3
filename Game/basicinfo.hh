@@ -17,6 +17,26 @@ const Course::ResourceMap PLAYER_STARTING_RESOURCES = {
 
 // BUILDINGS //
 
+const std::vector<Course::ResourceMap> HQ_BUILD_COST_LIST = {
+    {
+        {Course::BasicResource::MONEY, 1000},
+        {Course::BasicResource::FOOD, 1000},
+        {Course::BasicResource::WOOD, 1000},
+        {Course::BasicResource::STONE, 1000},
+        {Course::BasicResource::ORE, 1000}
+    }
+};
+
+const std::vector<Course::ResourceMap> HQ_PRODUCTION_LIST = {
+    {
+        {Course::BasicResource::MONEY, 100},
+        {Course::BasicResource::FOOD, 100},
+        {Course::BasicResource::WOOD, 100},
+        {Course::BasicResource::STONE, 100},
+        {Course::BasicResource::ORE, 100}
+    }
+};
+
 const std::vector<Course::ResourceMap> CAMPUS_BUILD_COST_LIST = {
     {
         {Course::BasicResource::MONEY, 1000},
