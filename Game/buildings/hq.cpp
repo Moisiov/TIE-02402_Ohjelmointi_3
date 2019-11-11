@@ -1,5 +1,6 @@
 #include "hq.hh"
 #include "tiles/tilebase.h"
+#include <QDebug>
 
 HQ::HQ(const std::shared_ptr<Course::iGameEventHandler> &eventhandler,
        const std::shared_ptr<Course::iObjectManager> &objectmanager,
@@ -24,7 +25,7 @@ void HQ::onBuildAction()
             lockObjectManager()->getTiles(getCoordinatePtr()->neighbours(3));
 
     for(auto it = neighbours.begin(); it != neighbours.end(); ++it)
-    {
+    {   
         // If the Tile doesn't have owner, set it's owner to buildings owner.
         if( not (*it)->getOwner() )
         {

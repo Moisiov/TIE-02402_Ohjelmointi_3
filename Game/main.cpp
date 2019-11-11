@@ -13,6 +13,7 @@ int main(int argc, char* argv[])
     std::shared_ptr<GameEventHandler> GEHandler = std::make_shared<GameEventHandler>();
     std::shared_ptr<ObjectManager> objManager = std::make_shared<ObjectManager>(0,0, GEHandler);
     GEHandler->setObjectManager(objManager);
+    GEHandler->setGEHandler(GEHandler);
 
     MapWindow mapWindow (nullptr, GEHandler, objManager);
 

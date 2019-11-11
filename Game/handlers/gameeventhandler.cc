@@ -1,9 +1,11 @@
 #include "gameeventhandler.hh"
 #include "player.hh"
+#include "buildings/hq.hh"
 #include <math.h>
 
 GameEventHandler::GameEventHandler():
     _objM(nullptr),
+    _GEHandler(nullptr),
     _playerList({}),
     _currentPlayer(0),
     _map_x(0),
@@ -12,12 +14,17 @@ GameEventHandler::GameEventHandler():
 
 }
 
+void GameEventHandler::setGEHandler(std::shared_ptr<GameEventHandler> GEHandler)
+{
+    _GEHandler = GEHandler;
+}
+
 void GameEventHandler::setObjectManager(std::shared_ptr<ObjectManager> objM)
 {
     _objM = objM;
 }
 
-void GameEventHandler::initializeGame(std::vector<std::shared_ptr<Player> > playerList,
+void GameEventHandler::initializeGame(std::vector<std::shared_ptr<Player>> playerList,
                                       unsigned map_x, unsigned map_y)
 {
     _playerList = playerList;
@@ -68,6 +75,11 @@ void GameEventHandler::initializeGame(std::vector<std::shared_ptr<Player> > play
         playerList[i]->setHQCoord(startPosition[i]);
 
         // TODO: Initialize HQ, first worker and scout for each player
+
+        std::shared_ptr<HQ> headquarter = std::make_shared<HQ>(_GEHandler, _objM, playerList[i]);
+        headquarter->setCoordinate(startPosition[i]);
+        headquarter->onBuildAction();
+        qDebug() << "HQ Build success!";
     }
 }
 
