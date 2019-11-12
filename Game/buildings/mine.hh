@@ -2,40 +2,7 @@
 #define MINE_HH
 
 #include "upgradeablebuilding.hh"
-
-const std::vector<Course::ResourceMap> MINE_BUILD_COST_LIST = {
-    {
-        {Course::BasicResource::MONEY, 100},
-        {Course::BasicResource::FOOD, 100},
-        {Course::BasicResource::WOOD, 100}
-    },
-    {
-        {Course::BasicResource::MONEY, 100},
-        {Course::BasicResource::FOOD, 100},
-        {Course::BasicResource::WOOD, 100}
-    },
-    {
-        {Course::BasicResource::MONEY, 100},
-        {Course::BasicResource::FOOD, 100},
-        {Course::BasicResource::WOOD, 100}
-    }
-};
-
-const std::vector<Course::ResourceMap> MINE_PRODUCTION_LIST {
-    {
-        {Course::BasicResource::STONE, 10},
-        {Course::BasicResource::ORE, 5}
-    },
-    {
-        {Course::BasicResource::STONE, 20},
-        {Course::BasicResource::ORE, 10}
-    },
-    {
-        {Course::BasicResource::STONE, 30},
-        {Course::BasicResource::ORE, 15}
-    }
-};
-
+#include "basicinfo.hh"
 
 class Mine : public UpgradeableBuilding
 {

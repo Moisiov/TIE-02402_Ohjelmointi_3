@@ -15,16 +15,25 @@ public:
     ~GameEventHandler() = default;
 
     /**
+     * @brief setGEHandler getting a pointer to itselt to share with new objects
+     * as they're created
+     * @param GEHandler
+     */
+    void setGEHandler(std::shared_ptr<GameEventHandler> GEHandler);
+
+    /**
      * @brief setObjectManager ObjManager built after GameEventHandler, pointer given here
      * @param objM
      */
     void setObjectManager(std::shared_ptr<ObjectManager> objM);
 
     /**
-     * @brief setPlayerList Players initialized in MapWindow, pointers given here
-     * @param playerList
+     * @brief initializeGame initializes the starting locations, buildings and units
+     * @param playerList initial Player classes constructed within mapwindow
+     * @param map_x Map width
+     * @param map_y Map height
      */
-    void setPlayerList(std::vector<std::shared_ptr<Player>> playerList);
+    void initializeGame(std::vector<std::shared_ptr<Player>> playerList, unsigned map_x, unsigned map_y);
 
     /**
      * @brief modifyResource required by iGameEventHandler interface, it simply redirects
@@ -50,8 +59,11 @@ public:
 
 private:
     std::shared_ptr<ObjectManager> _objM; // To be filled in by setObjectManager call
+    std::shared_ptr<GameEventHandler> _GEHandler;
     std::vector<std::shared_ptr<Player>> _playerList; // to be filled in by setPlayerList call
     unsigned _currentPlayer; // starts from zero, loops over _playerList count
+    unsigned _map_x;
+    unsigned _map_y;
 };
 
 #endif // GAMEEVENTHANDLER_HH

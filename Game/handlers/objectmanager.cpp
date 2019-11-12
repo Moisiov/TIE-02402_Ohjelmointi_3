@@ -42,6 +42,9 @@ std::shared_ptr<Course::TileBase> ObjectManager::getTile(const Course::Coordinat
     unsigned x = static_cast<unsigned>(coordinate.x());
     unsigned y = static_cast<unsigned>(coordinate.y());
 
+    qDebug() << "X: " << x << ", Y: " << y;
+    qDebug() << "_tiles.size() == " << _tiles.size();
+
     return _tiles.at(x).at(y);
 }
 

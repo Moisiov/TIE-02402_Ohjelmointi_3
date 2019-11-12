@@ -92,8 +92,6 @@ void MapWindow::getParameters(std::vector<std::string> playerList, std::vector<P
         m_playerList.push_back(player);
     }
 
-    m_GEHandler->setPlayerList(m_playerList);
-
     m_map_x = map_x;
     m_map_y = map_y;
 
@@ -107,6 +105,8 @@ void MapWindow::getParameters(std::vector<std::string> playerList, std::vector<P
     Course::WorldGenerator::getInstance().generateMap(map_x, map_y, 1, m_objM, m_GEHandler);
 
     m_objM->drawMap(m_worldScene);
+
+    m_GEHandler->initializeGame(m_playerList, map_x, map_y);
 }
 
 void MapWindow::objectSelected(std::shared_ptr<Course::GameObject> obj)

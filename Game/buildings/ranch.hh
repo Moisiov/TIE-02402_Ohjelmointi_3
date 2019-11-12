@@ -2,36 +2,7 @@
 #define RANCH_HH
 
 #include "upgradeablebuilding.hh"
-
-const std::vector<Course::ResourceMap> RANCH_BUILD_COST_LIST = {
-    {
-        {Course::BasicResource::MONEY, 100},
-        {Course::BasicResource::FOOD, 100},
-        {Course::BasicResource::WOOD, 100}
-    },
-    {
-        {Course::BasicResource::MONEY, 100},
-        {Course::BasicResource::FOOD, 100},
-        {Course::BasicResource::WOOD, 100}
-    },
-    {
-        {Course::BasicResource::MONEY, 100},
-        {Course::BasicResource::FOOD, 100},
-        {Course::BasicResource::WOOD, 100}
-    }
-};
-
-const std::vector<Course::ResourceMap> RANCH_PRODUCTION_LIST = {
-    {
-        {Course::BasicResource::FOOD, 10}
-    },
-    {
-        {Course::BasicResource::FOOD, 20}
-    },
-    {
-        {Course::BasicResource::FOOD, 30}
-    }
-};
+#include "basicinfo.hh"
 
 class Ranch : public UpgradeableBuilding
 {

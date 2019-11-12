@@ -1,18 +1,15 @@
 #include "player.hh"
 
-const Course::ResourceMap startResources = {
-    {Course::BasicResource::NONE, 0},
-    {Course::BasicResource::MONEY, 100},
-    {Course::BasicResource::FOOD, 100},
-    {Course::BasicResource::WOOD, 100},
-    {Course::BasicResource::STONE, 100},
-    {Course::BasicResource::ORE, 100}
-};
-
 Player::Player(const std::string &name,
                PlayerColor color,
                const std::vector<std::shared_ptr<Course::GameObject> > objects):
-    Course::PlayerBase(name, objects), _resources(startResources), _color(color)
+    Course::PlayerBase(name, objects),
+    _resources(PLAYER_STARTING_RESOURCES),
+    _color(color),
+    _ownedTiles({}),
+    _ownedBuildings({}),
+    _ownedUnits({}),
+    _HQCoord(Course::Coordinate(0,0))
 {
 
 }
@@ -21,9 +18,27 @@ Player::Player(const std::string &name,
                PlayerColor color,
                const Course::ResourceMap &startingResources,
                const std::vector<std::shared_ptr<Course::GameObject> > objects):
-    Course::PlayerBase(name, objects), _resources(startingResources), _color(color)
+    Course::PlayerBase(name, objects),
+    _resources(startingResources),
+    _color(color),
+    _HQCoord(Course::Coordinate(0,0))
 {
 
+}
+
+void Player::addTile(std::shared_ptr<Course::TileBase> tile)
+{
+    _ownedTiles.push_back(tile);
+}
+
+void Player::addBuilding(std::shared_ptr<UpgradeableBuilding> building)
+{
+    _ownedBuildings.push_back(building);
+}
+
+void Player::addUnit(std::shared_ptr<UnitBase> unit)
+{
+    _ownedUnits.push_back(unit);
 }
 
 Course::ResourceMap Player::getResources()
@@ -75,4 +90,13 @@ bool Player::modifyResources(Course::ResourceMap resources)
     } else {
         return true;
     }
+}
+Course::Coordinate Player::getHQCoord()
+{
+    return _HQCoord;
+}
+
+void Player::setHQCoord(Course::Coordinate coord)
+{
+    _HQCoord = coord;
 }

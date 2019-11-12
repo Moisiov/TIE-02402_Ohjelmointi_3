@@ -6,6 +6,7 @@ QT += core gui widgets
 CONFIG += c++14
 
 SOURCES += \
+    buildings/hq.cpp \
     buildings/ranch.cc \
     buildings/upgradeablebuilding.cc \
     handlers/gameeventhandler.cc \
@@ -25,9 +26,14 @@ SOURCES += \
     handlers/objectmanager.cpp \
     graphics/worldscene.cpp \
     graphics/worlditem.cpp \
-    graphics/gameview.cpp
+    graphics/gameview.cpp \
+    workers/scout.cpp \
+    workers/unitbase.cpp \
+    workers/worker.cpp
 
 HEADERS += \
+    basicinfo.hh \
+    buildings/hq.hh \
     buildings/ranch.hh \
     buildings/upgradeablebuilding.hh \
     handlers/gameeventhandler.hh \
@@ -46,7 +52,10 @@ HEADERS += \
     handlers/objectmanager.hh \
     graphics/worldscene.h \
     graphics/worlditem.h \
-    graphics/gameview.h
+    graphics/gameview.h \
+    workers/scout.hh \
+    workers/unitbase.hh \
+    workers/worker.hh
 
 win32:CONFIG(release, debug|release): LIBS += \
     -L$$OUT_PWD/../Course/CourseLib/release/ -lCourseLib
