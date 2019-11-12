@@ -39,9 +39,6 @@ MapWindow::MapWindow(QWidget *parent,
     m_ui->graphicsView->setScene(dynamic_cast<QGraphicsScene*>(sgs_rawptr));
     m_ui->graphicsView->setRenderHint(QPainter::Antialiasing);
 
-    // TODO: FIX THIS
-    connect(m_worldScene.get(), &WorldScene::objectClicked, this, &MapWindow::objectSelected);
-
     // QTransform transform;
     // transform.rotate(45, Qt::XAxis);
     // m_ui->graphicsView->setTransform(transform);
@@ -144,4 +141,5 @@ void MapWindow::setupMenuConnections()
 {
     connect(m_ui->menuBtn, &QPushButton::clicked, this, &MapWindow::selectMainMenu);
     connect(m_ui->endTurnBtn, &QPushButton::clicked, this, &MapWindow::endTurn);
+    connect(m_worldScene.get(), &WorldScene::objectClicked, this, &MapWindow::objectSelected);
 }

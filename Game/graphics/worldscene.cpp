@@ -15,7 +15,8 @@ WorldScene::WorldScene(QWidget* parent,
     w_mapBoundRect(nullptr),
     w_width(100),
     w_height(100),
-    w_scale(50)
+    w_scale(50),
+    w_selectedTile(nullptr)
 {
     setSize(width, height);
     setScale(scale);
@@ -77,33 +78,40 @@ void WorldScene::updateItem(std::shared_ptr<Course::GameObject> obj)
 
 bool WorldScene::event(QEvent *event)
 {
-    if(event->type() == QEvent::GraphicsSceneMousePress)
-    {
-        QGraphicsSceneMouseEvent* mouse_event =
-                dynamic_cast<QGraphicsSceneMouseEvent*>(event);
+    // Check if drag mode is on (right click fakes left click to allow dragging)
+    if(views().at(0)->dragMode() != QGraphicsView::DragMode::ScrollHandDrag) {
+        if(event->type() == QEvent::GraphicsSceneMousePress)
+        {
+            QGraphicsSceneMouseEvent* mouse_event =
+                    dynamic_cast<QGraphicsSceneMouseEvent*>(event);
 
-        if (mouse_event->button() == 1) {
-            QPointF point = mouse_event->scenePos() / w_scale;
+            if (mouse_event->button() == 1) {
+                QPointF point = mouse_event->scenePos() / w_scale;
 
-            point.rx() = floor(point.rx());
-            point.ry() = floor(point.ry());
+                point.rx() = floor(point.rx());
+                point.ry() = floor(point.ry());
 
-            QGraphicsItem* pressed = itemAt(point * w_scale, QTransform());
+                QGraphicsItem* pressed = itemAt(point * w_scale, QTransform());
 
-            if (pressed != nullptr && pressed != w_mapBoundRect){
-                qDebug() << "ObjID: " <<
-                            static_cast<WorldItem*>(pressed)
-                            ->getBoundObject()->ID  << " pressed.";
-                emit objectClicked(static_cast<WorldItem*>(pressed)->getBoundObject());
-                return true;
+                if (pressed != nullptr && pressed->type() != 3){
+                    qDebug() << "ObjID: " <<
+                                static_cast<WorldItem*>(pressed)
+                                ->getBoundObject()->ID  << " pressed.";
+
+                    // Emit selected item to MapWindow
+                    std::shared_ptr<Course::GameObject> obj
+                            = static_cast<WorldItem*>(pressed)->getBoundObject();
+                    emit objectClicked(obj);
+                    highlightSelection(obj->getCoordinate());
+                    return true;
+                }
+
             }
-
         }
     }
 
     return false;
 }
-
 
 void WorldScene::removeItem(std::shared_ptr<Course::GameObject> obj)
 {
@@ -124,4 +132,31 @@ void WorldScene::drawItem( std::shared_ptr<Course::GameObject> obj)
 {
     WorldItem* nItem = new WorldItem(obj, w_scale);
     addItem(nItem);
+}
+
+// Not implemented yet
+void WorldScene::highlightSelection(Course::Coordinate coord)
+{
+    qDebug() << "WorldScene::highlightSelection()";
+
+    /*
+    QPoint location = coord.asQpoint();
+    QRectF highlightRect = QRectF(location * w_scale,
+                                 location * w_scale + QPoint(w_scale, w_scale));
+
+    QGraphicsRectItem* rect = new QGraphicsRectItem();
+    rect->setRect(highlightRect);
+    rect->setPen(QColor(250, 120, 255));
+    rect->setBrush(QColor(250, 120, 255));
+    addItem(rect);
+    rect->setZValue(5);
+    rect->setVisible(true);
+    rect->update();
+
+    QPainter* painter = new QPainter();
+    painter->setPen(QColor(250, 120, 255));
+    painter->setBrush(QColor(250, 120, 255));
+    painter->drawRect(highlightRect);*/
+    //this->update();
+    //views().at(0)->update();
 }

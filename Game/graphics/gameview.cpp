@@ -38,12 +38,13 @@ bool GameView::eventFilter(QObject *object, QEvent *event) {
         {
             // Enable dragging mode
             this->setDragMode(QGraphicsView::DragMode::ScrollHandDrag);
-            // Emit left click
+            // Emit left click to allow drag mode
             QMouseEvent* pressEvent = new QMouseEvent(QEvent::GraphicsSceneMousePress,
                                             mouse_event->pos(), Qt::MouseButton::LeftButton,
                                             Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier);
 
             this->mousePressEvent(pressEvent);
+            return true;
         }
     }
 

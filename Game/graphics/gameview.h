@@ -20,7 +20,9 @@ public:
     void wheelEvent(QWheelEvent* event);
 
     /**
-     * @brief eventFilter is a custom event filter for view click events
+     * @brief eventFilter is a custom event filter for view click events.
+     * Mouse right click changes DragMode to ScrollHandDrag and emits left click
+     * to allow dragging.
      * @param obj target object (not used in this implementation)
      * @param event catched view event
      * @return false to contunue the event chain

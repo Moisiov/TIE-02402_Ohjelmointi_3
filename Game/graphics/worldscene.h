@@ -9,6 +9,7 @@
 #include <memory>
 
 #include "core/gameobject.h"
+#include "tiles/tilebase.h"
 
 const std::pair<int, int> SCENE_WIDTH_LIMITS = {1, 100};
 const std::pair<int, int> SCENE_HEIGHT_LIMITS = {1, 100};
@@ -42,6 +43,8 @@ public:
 
     void drawItem( std::shared_ptr<Course::GameObject> obj);
 
+    void highlightSelection ( Course::Coordinate coord );
+
     void removeItem( std::shared_ptr<Course::GameObject> obj);
 
     void updateItem( std::shared_ptr<Course::GameObject> obj);
@@ -60,6 +63,8 @@ private:
     int w_width;
     int w_height;
     int w_scale;
+
+    std::shared_ptr<Course::TileBase> w_selectedTile;
 };
 
 #endif // WORLDSCENE_H
