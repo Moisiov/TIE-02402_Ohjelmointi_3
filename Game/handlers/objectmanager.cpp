@@ -71,6 +71,7 @@ std::vector<std::shared_ptr<Course::TileBase>> ObjectManager::getTiles(const std
 
     for(unsigned i = 0; i < coordinates.size(); ++i)
     {
+        qDebug() << getTile(coordinates.at(i))->getType().c_str();
         tiles.push_back(getTile(coordinates.at(i)));
     }
 

@@ -95,6 +95,9 @@ void MapWindow::getParameters(std::vector<std::string> playerList, std::vector<P
     m_map_x = map_x;
     m_map_y = map_y;
 
+    // Set map size to object manager according to the given values
+    m_objM->setMapSize(map_x, map_y);
+
     // Testing the world generator
     Course::WorldGenerator::getInstance().addConstructor<Course::Forest>(2);
     Course::WorldGenerator::getInstance().addConstructor<Course::Grassland>(4);
