@@ -8,7 +8,8 @@ std::map<std::string, QColor> WorldItem::c_mapcolors = {{"Forest", QColor(20, 10
                                                         {"Stone", QColor(100, 100, 100)},
                                                         {"Swamp", QColor(90, 90, 30)},
                                                         {"Water", QColor(0, 170, 255)},
-                                                        {"Selection", QColor(250, 120, 255, 20)}
+                                                        {"Selection", QColor(250, 120, 255, 20)},
+                                                        {"HeadQuarters", QColor(255, 0, 0)}
                                                        };
 
 WorldItem::WorldItem(const std::shared_ptr<Course::GameObject> &obj, int size ):
@@ -26,10 +27,12 @@ void WorldItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 {
     Q_UNUSED( option ); Q_UNUSED( widget );
     painter->setBrush(QBrush(c_mapcolors.at(w_gameobject->getType())));
-    if ( w_gameobject->getType() == "" ){
-        // Draw different types in different shapes
+    if ( w_gameobject->getType() == "HeadQuarters" ){
+        painter->drawEllipse(boundingRect());
     }
-    painter->drawRect(boundingRect());
+    else {
+        painter->drawRect(boundingRect());
+    }
 }
 
 const std::shared_ptr<Course::GameObject> &WorldItem::getBoundObject()

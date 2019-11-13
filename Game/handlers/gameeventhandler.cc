@@ -79,6 +79,8 @@ void GameEventHandler::initializeGame(std::vector<std::shared_ptr<Player>> playe
         std::shared_ptr<HQ> headquarter = std::make_shared<HQ>(_GEHandler, _objM, playerList[i]);
         headquarter->setCoordinate(startPosition[i]);
         headquarter->onBuildAction();
+
+        _objM->drawItem(headquarter);
         qDebug() << "HQ Build success!";
     }
 }

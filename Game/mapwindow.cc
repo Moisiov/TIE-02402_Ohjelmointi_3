@@ -31,6 +31,8 @@ MapWindow::MapWindow(QWidget *parent,
     setupMenuConnections();
     m_ui->menuBrowser->setCurrentWidget(m_ui->mainMenu);
 
+    m_objM->setScene(m_worldScene);
+
     WorldScene* sgs_rawptr = m_worldScene.get();
 
     // m_ui->graphicsView->height();
@@ -107,7 +109,7 @@ void MapWindow::getParameters(std::vector<std::string> playerList, std::vector<P
     Course::WorldGenerator::getInstance().addConstructor<Water>(1);
     Course::WorldGenerator::getInstance().generateMap(map_x, map_y, 1, m_objM, m_GEHandler);
 
-    m_objM->drawMap(m_worldScene);
+    m_objM->drawMap();
 
     m_GEHandler->initializeGame(m_playerList, map_x, map_y);
 }

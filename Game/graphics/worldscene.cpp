@@ -20,6 +20,9 @@ WorldScene::WorldScene(QWidget* parent,
 {
     setSize(width, height);
     setScale(scale);
+
+    // set black background
+    setBackgroundBrush(QBrush(Qt::black, Qt::SolidPattern));
 }
 
 void WorldScene::setSize(int width, int height)
@@ -149,7 +152,7 @@ void WorldScene::highlightSelection(Course::Coordinate coord)
     rect->setPen(QColor(250, 120, 255));
     rect->setBrush(QColor(250, 120, 255));
     addItem(rect);
-    rect->setZValue(5);
+    ret->setZValue(5);
     rect->setVisible(true);
     rect->update();
 

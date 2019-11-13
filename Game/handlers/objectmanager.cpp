@@ -2,10 +2,12 @@
 #include <QDebug>
 
 ObjectManager::ObjectManager(unsigned map_x, unsigned map_y,
-                             std::shared_ptr<Course::iGameEventHandler> gameEventHandler):
+                             std::shared_ptr<Course::iGameEventHandler> gameEventHandler,
+                             std::shared_ptr<WorldScene> scene):
     _map_x(map_x),
     _map_y(map_y),
-    _gameEventHandler(gameEventHandler)
+    _gameEventHandler(gameEventHandler),
+    _scene(scene)
 {
 
 }
@@ -20,6 +22,11 @@ void ObjectManager::setMapSize(unsigned map_x, unsigned map_y)
 {
     _map_x = map_x;
     _map_y = map_y;
+}
+
+void ObjectManager::setScene(std::shared_ptr<WorldScene> scene)
+{
+    _scene = scene;
 }
 
 
@@ -41,9 +48,6 @@ std::shared_ptr<Course::TileBase> ObjectManager::getTile(const Course::Coordinat
 {
     unsigned x = static_cast<unsigned>(coordinate.x());
     unsigned y = static_cast<unsigned>(coordinate.y());
-
-    qDebug() << "X: " << x << ", Y: " << y;
-    qDebug() << "_tiles.size() == " << _tiles.size();
 
     return _tiles.at(x).at(y);
 }
@@ -71,18 +75,22 @@ std::vector<std::shared_ptr<Course::TileBase>> ObjectManager::getTiles(const std
 
     for(unsigned i = 0; i < coordinates.size(); ++i)
     {
-        qDebug() << getTile(coordinates.at(i))->getType().c_str();
         tiles.push_back(getTile(coordinates.at(i)));
     }
 
     return tiles;
 }
 
-void ObjectManager::drawMap(std::shared_ptr<WorldScene> worldScene)
+void ObjectManager::drawMap()
 {
     for(unsigned i = 0; i < _objects.size(); ++i)
     {
-        worldScene->drawItem(_objects.at(i));
+        _scene->drawItem(_objects.at(i));
     }
+}
+
+void ObjectManager::drawItem(std::shared_ptr<Course::GameObject> obj)
+{
+    _scene->drawItem(obj);
 }
 

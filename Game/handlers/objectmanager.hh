@@ -15,7 +15,9 @@
 class ObjectManager : public Course::iObjectManager
 {
 public:
-    ObjectManager(unsigned map_x = 0, unsigned map_y = 0, std::shared_ptr<Course::iGameEventHandler> gameEventHandler = {});
+    ObjectManager(unsigned map_x = 0, unsigned map_y = 0,
+                  std::shared_ptr<Course::iGameEventHandler> gameEventHandler = {},
+                  std::shared_ptr<WorldScene> scene = {});
 
     /**
      * @brief Default destructor.
@@ -35,6 +37,12 @@ public:
      */
     void setMapSize(unsigned map_x, unsigned map_y);
 
+    /**
+     * @brief setScene sets the scene
+     * @param scene points to the world scene
+     */
+    void setScene(std::shared_ptr<WorldScene> scene);
+
     virtual void addTiles(const std::vector<std::shared_ptr<Course::TileBase>> &tiles);
 
     virtual std::shared_ptr<Course::TileBase> getTile(const Course::Coordinate& coordinate);
@@ -44,9 +52,9 @@ public:
     virtual std::vector<std::shared_ptr<Course::TileBase>> getTiles(
             const std::vector<Course::Coordinate>& coordinates);
 
-    void drawMap(std::shared_ptr<WorldScene> gameScene);
+    void drawMap();
 
-
+    void drawItem(std::shared_ptr<Course::GameObject> obj);
 
 private:
     unsigned _map_x; // The x length of map
@@ -54,6 +62,7 @@ private:
     std::vector<std::shared_ptr<Course::GameObject>> _objects;
     std::vector<std::vector<std::shared_ptr<Course::TileBase>>> _tiles; // Tile pointers in nested vector according to coordinates
     std::shared_ptr<Course::iGameEventHandler> _gameEventHandler;
+    std::shared_ptr<WorldScene> _scene;
 };
 
 #endif // OBJECTMANAGER_HH
