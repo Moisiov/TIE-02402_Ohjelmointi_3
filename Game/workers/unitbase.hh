@@ -20,6 +20,8 @@ public:
     void wasMoved();
     void rechargeMoves();
 
+    virtual void doSpecialAction() override;
+
 private:
     unsigned _movementMax;
     bool _canMove;

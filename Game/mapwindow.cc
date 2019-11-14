@@ -119,6 +119,9 @@ void MapWindow::objectSelected(std::shared_ptr<Course::GameObject> obj)
     std::string objType = obj->getType();
     std::string infoText = objType;
 
+    Course::Coordinate coord = obj->getCoordinate();
+    infoText += "\n(" + std::to_string(coord.x()) + "," + std::to_string(coord.y()) + ")";
+
     std::shared_ptr<Course::PlayerBase> owner = obj->getOwner();
     if (owner != nullptr) {
         infoText += "\nOwner: " + owner->getName();

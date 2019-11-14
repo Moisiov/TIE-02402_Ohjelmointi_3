@@ -39,7 +39,7 @@ void ObjectManager::addTiles(const std::vector<std::shared_ptr<Course::TileBase>
     for(int i = 0; i < static_cast<int>(_map_x); ++i) {
         std::vector<std::shared_ptr<Course::TileBase>> tilesTemp =
                 std::vector<std::shared_ptr<Course::TileBase>>(tiles.begin() + i*static_cast<int>(_map_x),
-                                                               tiles.begin() + (i+1)*static_cast<int>(_map_x)-1);
+                                                               tiles.begin() + (i+1)*static_cast<int>(_map_x));
         _tiles.push_back(tilesTemp);
     }
 }
@@ -54,7 +54,7 @@ std::shared_ptr<Course::TileBase> ObjectManager::getTile(const Course::Coordinat
 
 std::shared_ptr<Course::TileBase> ObjectManager::getTile(const Course::ObjectId &id)
 {
-    std::shared_ptr<Course::TileBase> tile;
+    std::shared_ptr<Course::TileBase> tile = nullptr;
 
     for(unsigned x = 0; x < _map_x; ++x)
     {
