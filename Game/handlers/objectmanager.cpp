@@ -38,8 +38,8 @@ void ObjectManager::addTiles(const std::vector<std::shared_ptr<Course::TileBase>
 
     for(int i = 0; i < static_cast<int>(_map_x); ++i) {
         std::vector<std::shared_ptr<Course::TileBase>> tilesTemp =
-                std::vector<std::shared_ptr<Course::TileBase>>(tiles.begin() + i*static_cast<int>(_map_x),
-                                                               tiles.begin() + (i+1)*static_cast<int>(_map_x));
+                std::vector<std::shared_ptr<Course::TileBase>>(tiles.begin() + i*static_cast<int>(_map_y),
+                                                               tiles.begin() + (i+1)*static_cast<int>(_map_y));
         _tiles.push_back(tilesTemp);
     }
 }
