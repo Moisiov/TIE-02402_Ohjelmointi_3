@@ -81,7 +81,7 @@ void GameEventHandler::initializeGame(std::vector<std::shared_ptr<Player>> playe
         headquarter->onBuildAction();
 
         _objM->drawItem(headquarter);
-        qDebug() << "HQ Build success!";
+        qDebug() << QString::fromStdString(playerList[i]->getName()) << "HQ Build success!";
     }
 }
 

@@ -117,7 +117,14 @@ void MapWindow::getParameters(std::vector<std::string> playerList, std::vector<P
 void MapWindow::objectSelected(std::shared_ptr<Course::GameObject> obj)
 {
     std::string objType = obj->getType();
-    m_ui->textBrowser_2->setText(objType.c_str());
+    std::string infoText = objType;
+
+    std::shared_ptr<Course::PlayerBase> owner = obj->getOwner();
+    if (owner != nullptr) {
+        infoText += "\nOwner: " + owner->getName();
+    }
+
+    m_ui->textBrowser_2->setText(infoText.c_str());
     m_ui->menuBrowser->setCurrentWidget(m_ui->tileMenu);
 }
 
