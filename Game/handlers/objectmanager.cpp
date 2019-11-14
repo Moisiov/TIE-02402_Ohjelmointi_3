@@ -6,6 +6,9 @@ ObjectManager::ObjectManager(unsigned map_x, unsigned map_y,
                              std::shared_ptr<WorldScene> scene):
     _map_x(map_x),
     _map_y(map_y),
+    _tiles({}),
+    _buildings({}),
+    _units({}),
     _gameEventHandler(gameEventHandler),
     _scene(scene)
 {
@@ -81,11 +84,29 @@ std::vector<std::shared_ptr<Course::TileBase>> ObjectManager::getTiles(const std
     return tiles;
 }
 
+void ObjectManager::addBuilding(const std::shared_ptr<UpgradeableBuilding> &building)
+{
+    _buildings.push_back(building);
+}
+
+void ObjectManager::addUnit(const std::shared_ptr<UnitBase> &unit)
+{
+    _units.push_back(unit);
+}
+
 void ObjectManager::drawMap()
 {
     for(unsigned i = 0; i < _objects.size(); ++i)
     {
         _scene->drawItem(_objects.at(i));
+    }
+
+    for(unsigned i = 0; i < _buildings.size(); ++i) {
+        _scene->drawItem(_buildings.at(i));
+    }
+
+    for(unsigned i = 0; i < _units.size(); ++i) {
+        _scene->drawItem(_units.at(i));
     }
 }
 

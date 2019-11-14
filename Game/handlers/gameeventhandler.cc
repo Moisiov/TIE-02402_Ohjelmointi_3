@@ -75,23 +75,27 @@ void GameEventHandler::initializeGame(std::vector<std::shared_ptr<Player>> playe
 
     for (unsigned i = 0; i < playerList.size(); ++i) {
         playerList[i]->setHQCoord(startPosition[i]);
+        _objM->getTile(startPosition[i])->setOwner(playerList[i]);
 
         std::shared_ptr<HQ> headquarter = std::make_shared<HQ>(_GEHandler, _objM, playerList[i]);
         headquarter->setCoordinate(startPosition[i]);
         headquarter->onBuildAction();
-
-        _objM->drawItem(headquarter);
-        qDebug() << QString::fromStdString(playerList[i]->getName()) << "HQ Build success!";
+        _objM->getTile(startPosition[i])->addBuilding(headquarter);
+        _objM->addBuilding(headquarter);
 
         Course::Coordinate scoutCoord = startPosition[i] + Course::Coordinate(0,1);
         std::shared_ptr<Scout> scout = std::make_shared<Scout>(_GEHandler, _objM, playerList[i]);
         scout->setCoordinate(scoutCoord);
         _objM->getTile(scoutCoord)->addWorker(scout);
+        _objM->addUnit(scout);
 
         Course::Coordinate workerCoord = startPosition[i] + Course::Coordinate(0,-1);
         std::shared_ptr<Worker> worker = std::make_shared<Worker>(_GEHandler, _objM, playerList[i]);
         worker->setCoordinate(workerCoord);
         _objM->getTile(workerCoord)->addWorker(worker);
+        _objM->addUnit(worker);
+
+        qDebug() << QString::fromStdString(playerList[i]->getName()) << "initialization success!";
     }
 }
 

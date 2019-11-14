@@ -109,9 +109,9 @@ void MapWindow::getParameters(std::vector<std::string> playerList, std::vector<P
     Course::WorldGenerator::getInstance().addConstructor<Water>(1);
     Course::WorldGenerator::getInstance().generateMap(map_x, map_y, 1, m_objM, m_GEHandler);
 
-    m_objM->drawMap();
-
     m_GEHandler->initializeGame(m_playerList, map_x, map_y);
+
+    m_objM->drawMap();
 }
 
 void MapWindow::objectSelected(std::shared_ptr<Course::GameObject> obj)
