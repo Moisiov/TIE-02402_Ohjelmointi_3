@@ -26,10 +26,15 @@ void GameEventHandler::setObjectManager(std::shared_ptr<ObjectManager> objM)
     _objM = objM;
 }
 
-void GameEventHandler::initializeGame(std::vector<std::shared_ptr<Player>> playerList,
+void GameEventHandler::initializeGame(std::vector<std::string> playerNames,
+                                      std::vector<PlayerColor> playerColors,
                                       unsigned map_x, unsigned map_y)
 {
-    _playerList = playerList;
+    for (unsigned i = 0; i < playerNames.size(); ++i) {
+        std::shared_ptr<Player> player = std::make_shared<Player>(playerNames[i], playerColors[i]);
+        _playerList.push_back(player);
+    }
+
     _map_x = map_x;
     _map_y = map_y;
 
@@ -73,19 +78,19 @@ void GameEventHandler::initializeGame(std::vector<std::shared_ptr<Player>> playe
     startPosition[5].set_x(static_cast<int>(map_x) - x_offset - 4);
     startPosition[5].set_y(3);
 
-    for (unsigned i = 0; i < playerList.size(); ++i) {
-        playerList[i]->setHQCoord(startPosition[i]);
-        _objM->getTile(startPosition[i])->setOwner(playerList[i]);
+    for (unsigned i = 0; i < _playerList.size(); ++i) {
+        _playerList[i]->setHQCoord(startPosition[i]);
+        _objM->getTile(startPosition[i])->setOwner(_playerList[i]);
 
-        _objM->constructBuilding("HeadQuarters", startPosition[i], playerList[i]);
+        _objM->constructBuilding("HeadQuarters", startPosition[i], _playerList[i]);
 
         Course::Coordinate scoutCoord = startPosition[i] + Course::Coordinate(0,1);
-        _objM->constructUnit("Scout", scoutCoord, playerList[i]);
+        _objM->constructUnit("Scout", scoutCoord, _playerList[i]);
 
         Course::Coordinate workerCoord = startPosition[i] + Course::Coordinate(0,-1);
-        _objM->constructUnit("Worker", workerCoord, playerList[i]);
+        _objM->constructUnit("Worker", workerCoord, _playerList[i]);
 
-        qDebug() << QString::fromStdString(playerList[i]->getName()) << "initialization success!";
+        qDebug() << QString::fromStdString(_playerList[i]->getName()) << "initialization success!";
     }
 }
 

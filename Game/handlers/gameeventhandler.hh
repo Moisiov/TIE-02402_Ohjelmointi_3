@@ -33,7 +33,10 @@ public:
      * @param map_x Map width
      * @param map_y Map height
      */
-    void initializeGame(std::vector<std::shared_ptr<Player>> playerList, unsigned map_x, unsigned map_y);
+    void initializeGame(std::vector<std::string> playerNames,
+                        std::vector<PlayerColor> playerColors,
+                        unsigned map_x,
+                        unsigned map_y);
 
     /**
      * @brief modifyResource required by iGameEventHandler interface, it simply redirects

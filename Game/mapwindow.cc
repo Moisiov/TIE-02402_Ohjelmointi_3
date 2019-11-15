@@ -22,10 +22,9 @@ MapWindow::MapWindow(QWidget *parent,
     m_objM(objManager),
     m_worldScene(new WorldScene(this)),
     m_readyToLaunch(false),
-    m_playerList({}),
-    m_currentPlayer(0),
     m_map_x(0),
-    m_map_y(0)
+    m_map_y(0),
+    m_currentPlayer(nullptr)
 {
     m_ui->setupUi(this);
     setupMenuConnections();
@@ -87,13 +86,6 @@ void MapWindow::updateItem(std::shared_ptr<Course::GameObject> obj)
 
 void MapWindow::getParameters(std::vector<std::string> playerList, std::vector<PlayerColor> colorList, unsigned map_x, unsigned map_y)
 {
-    for (unsigned i = 0; i < playerList.size(); ++i) {
-        std::string name = playerList[i];
-        PlayerColor color = colorList[i];
-        std::shared_ptr<Player> player = std::make_shared<Player>(name, color);
-        m_playerList.push_back(player);
-    }
-
     m_map_x = map_x;
     m_map_y = map_y;
 
@@ -109,7 +101,9 @@ void MapWindow::getParameters(std::vector<std::string> playerList, std::vector<P
     Course::WorldGenerator::getInstance().addConstructor<Water>(1);
     Course::WorldGenerator::getInstance().generateMap(map_x, map_y, 1, m_objM, m_GEHandler);
 
-    m_GEHandler->initializeGame(m_playerList, map_x, map_y);
+    m_GEHandler->initializeGame(playerList, colorList, map_x, map_y);
+    m_currentPlayer = m_GEHandler->currentPlayer();
+    updatePlayerInfo();
 
     m_objM->drawMap();
 }
@@ -131,6 +125,21 @@ void MapWindow::objectSelected(std::shared_ptr<Course::GameObject> obj)
     m_ui->menuBrowser->setCurrentWidget(m_ui->tileMenu);
 }
 
+void MapWindow::updatePlayerInfo()
+{
+    Course::ResourceMap resources = m_currentPlayer->getResources();
+
+    std::string infoText = m_currentPlayer->getName() + "       ";
+
+    infoText += "Money: " + std::to_string(resources.at(Course::BasicResource::MONEY)) + ", ";
+    infoText += "Food: " + std::to_string(resources.at(Course::BasicResource::FOOD)) + ", ";
+    infoText += "Wood: " + std::to_string(resources.at(Course::BasicResource::WOOD)) + ", ";
+    infoText += "Stone: " + std::to_string(resources.at(Course::BasicResource::STONE)) + ", ";
+    infoText += "Ore: " + std::to_string(resources.at(Course::BasicResource::ORE));
+
+    m_ui->infoBar->setText(infoText.c_str());
+}
+
 void MapWindow::removeItem(std::shared_ptr<Course::GameObject> obj)
 {
     m_worldScene->removeItem(obj);
@@ -149,7 +158,9 @@ void MapWindow::selectMainMenu()
 void MapWindow::endTurn()
 {
     m_GEHandler->endTurn();
-    qDebug() << "MapWindow::endTurn()";
+    m_currentPlayer = m_GEHandler->currentPlayer();
+    updatePlayerInfo();
+    m_objM->drawMap();
 }
 
 void MapWindow::setupMenuConnections()

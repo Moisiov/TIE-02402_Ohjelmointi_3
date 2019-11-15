@@ -77,6 +77,12 @@ public slots:
      */
     void objectSelected(std::shared_ptr<Course::GameObject> obj);
 
+    /**
+     * @brief updatePlayerInfo makes sure that players name and resources info
+     * is shown correctly
+     */
+    void updatePlayerInfo();
+
 private slots:
     /**
      * @brief selectMainMenu slot for menuBtn click.
@@ -95,10 +101,9 @@ private:
     std::shared_ptr<ObjectManager> m_objM;
     std::shared_ptr<WorldScene> m_worldScene;
     bool m_readyToLaunch; // default False until StartDialog emits Accepted
-    std::vector<std::shared_ptr<Player>> m_playerList; // constructed with StartDialog parameters
-    unsigned m_currentPlayer; // starts with 0
     unsigned m_map_x; // Filled in by StartDialog parameters
     unsigned m_map_y; // Filled in by StartDialog parameters
+    std::shared_ptr<Player> m_currentPlayer;
 
     void setupMenuConnections();
 };
