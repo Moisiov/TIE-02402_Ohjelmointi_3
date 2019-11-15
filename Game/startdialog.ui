@@ -802,8 +802,14 @@
       </item>
       <item>
        <widget class="QSpinBox" name="mapSizeX">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="minimum">
-         <number>1</number>
+         <number>21</number>
         </property>
         <property name="maximum">
          <number>200</number>
@@ -836,7 +842,7 @@
       <item>
        <widget class="QSpinBox" name="mapSizeY">
         <property name="minimum">
-         <number>1</number>
+         <number>21</number>
         </property>
         <property name="maximum">
          <number>200</number>

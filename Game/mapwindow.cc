@@ -109,15 +109,25 @@ void MapWindow::getParameters(std::vector<std::string> playerList, std::vector<P
     Course::WorldGenerator::getInstance().addConstructor<Water>(1);
     Course::WorldGenerator::getInstance().generateMap(map_x, map_y, 1, m_objM, m_GEHandler);
 
-    m_objM->drawMap();
-
     m_GEHandler->initializeGame(m_playerList, map_x, map_y);
+
+    m_objM->drawMap();
 }
 
 void MapWindow::objectSelected(std::shared_ptr<Course::GameObject> obj)
 {
     std::string objType = obj->getType();
-    m_ui->textBrowser_2->setText(objType.c_str());
+    std::string infoText = objType;
+
+    Course::Coordinate coord = obj->getCoordinate();
+    infoText += "\n(" + std::to_string(coord.x()) + "," + std::to_string(coord.y()) + ")";
+
+    std::shared_ptr<Course::PlayerBase> owner = obj->getOwner();
+    if (owner != nullptr) {
+        infoText += "\nOwner: " + owner->getName();
+    }
+
+    m_ui->textBrowser_2->setText(infoText.c_str());
     m_ui->menuBrowser->setCurrentWidget(m_ui->tileMenu);
 }
 

@@ -18,6 +18,11 @@ void UnitBase::rechargeMoves()
     _canMove = true;
 }
 
+void UnitBase::doSpecialAction()
+{
+    return; // We have no use for this
+}
+
 
 bool UnitBase::canMove() const
 {

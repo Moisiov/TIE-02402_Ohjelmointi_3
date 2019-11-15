@@ -7,6 +7,8 @@
 #include "core/gameobject.h"
 #include "tiles/tilebase.h"
 #include "graphics/worldscene.h"
+#include "buildings/upgradeablebuilding.hh"
+#include "workers/unitbase.hh"
 
 /**
  * @brief The ObjectManager class handles Course-side code
@@ -52,6 +54,10 @@ public:
     virtual std::vector<std::shared_ptr<Course::TileBase>> getTiles(
             const std::vector<Course::Coordinate>& coordinates);
 
+    void addBuilding(const std::shared_ptr<UpgradeableBuilding> &building);
+
+    void addUnit(const std::shared_ptr<UnitBase> &unit);
+
     void drawMap();
 
     void drawItem(std::shared_ptr<Course::GameObject> obj);
@@ -61,6 +67,8 @@ private:
     unsigned _map_y; // The y length of map
     std::vector<std::shared_ptr<Course::GameObject>> _objects;
     std::vector<std::vector<std::shared_ptr<Course::TileBase>>> _tiles; // Tile pointers in nested vector according to coordinates
+    std::vector<std::shared_ptr<UpgradeableBuilding>> _buildings;
+    std::vector<std::shared_ptr<UnitBase>> _units;
     std::shared_ptr<Course::iGameEventHandler> _gameEventHandler;
     std::shared_ptr<WorldScene> _scene;
 };
