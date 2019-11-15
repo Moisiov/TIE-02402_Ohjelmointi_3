@@ -120,5 +120,11 @@ std::shared_ptr<Player> GameEventHandler::currentPlayer()
 
 void GameEventHandler::endTurn()
 {
+    _currentPlayer += 1;
+    if (_currentPlayer >= _playerList.size()) {
+        _currentPlayer = 0;
+    }
 
+    _objM->restoreMoves(_playerList[_currentPlayer]);
+    _objM->generateResources(_playerList[_currentPlayer]);
 }

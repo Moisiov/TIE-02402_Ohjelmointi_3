@@ -91,6 +91,19 @@ public:
 
     void drawItem(std::shared_ptr<Course::GameObject> obj);
 
+    /**
+     * @brief restoreMoves restores moving ability to all units of the player
+     * @param owner the player whose units should be updated
+     */
+    void restoreMoves(std::shared_ptr<Player> owner);
+
+    /**
+     * @brief generateResources calculates how much resources the player gained
+     * in-between turns
+     * @param owner the player whose resources need updating
+     */
+    void generateResources(std::shared_ptr<Player> owner);
+
 private:
     unsigned _map_x; // The x length of map
     unsigned _map_y; // The y length of map

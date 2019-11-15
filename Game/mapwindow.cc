@@ -148,7 +148,7 @@ void MapWindow::selectMainMenu()
 
 void MapWindow::endTurn()
 {
-    // Call GameEventHandlers end turn function here
+    m_GEHandler->endTurn();
     qDebug() << "MapWindow::endTurn()";
 }
 

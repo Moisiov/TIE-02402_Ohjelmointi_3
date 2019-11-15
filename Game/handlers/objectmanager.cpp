@@ -125,6 +125,7 @@ void ObjectManager::constructBuilding(std::string type,
 
     building->setCoordinate(location);
     building->onBuildAction();
+    getTile(location)->addBuilding(building);
     _buildings.push_back(building);
     drawItem(building);
 
@@ -151,6 +152,7 @@ void ObjectManager::constructUnit(std::string type,
     }
 
     unit->setCoordinate(location);
+    getTile(location)->addWorker(unit);
     _units.push_back(unit);
     drawItem(unit);
 
@@ -182,5 +184,32 @@ void ObjectManager::drawMap()
 void ObjectManager::drawItem(std::shared_ptr<Course::GameObject> obj)
 {
     _scene->drawItem(obj);
+}
+
+void ObjectManager::restoreMoves(std::shared_ptr<Player> owner)
+{
+    std::string targetName = owner->getName();
+
+    for (unsigned i = 0; i < _units.size(); ++i) {
+        if (_units[i]->getOwner()->getName() == targetName) {
+            _units[i]->rechargeMoves();
+        }
+    }
+}
+
+void ObjectManager::generateResources(std::shared_ptr<Player> owner)
+{
+    std::string targetName = owner->getName();
+
+    for (unsigned x = 0; x < _tiles.size(); ++x) {
+        for (unsigned y = 0; y < _tiles[x].size(); ++y) {
+            std::shared_ptr<Course::PlayerBase> tileOwner = _tiles[x][y]->getOwner();
+            if (tileOwner == nullptr) {
+                continue;
+            } else if (tileOwner->getName() == targetName) {
+                _tiles[x][y]->generateResources();
+            }
+        }
+    }
 }
 
