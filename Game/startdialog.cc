@@ -29,7 +29,7 @@ void StartDialog::accept()
     std::vector<logicPair> nameSelection = {
         {ui->checkboxP1, ui->nameP1, PlayerColor::RED},
         {ui->checkboxP2, ui->nameP2, PlayerColor::BLUE},
-        {ui->checkboxP3, ui->nameP3,PlayerColor::GREEN},
+        {ui->checkboxP3, ui->nameP3, PlayerColor::GREEN},
         {ui->checkboxP4, ui->nameP4, PlayerColor::ORANGE},
         {ui->checkboxP5, ui->nameP5, PlayerColor::PURPLE},
         {ui->checkboxP6, ui->nameP6, PlayerColor::CYAN}

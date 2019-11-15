@@ -1,4 +1,5 @@
 #include "worlditem.h"
+#include "player.hh"
 
 #include <QDebug>
 
@@ -8,8 +9,7 @@ std::map<std::string, QColor> WorldItem::c_mapcolors = {{"Forest", QColor(20, 10
                                                         {"Stone", QColor(100, 100, 100)},
                                                         {"Swamp", QColor(90, 90, 30)},
                                                         {"Water", QColor(0, 170, 255)},
-                                                        {"Selection", QColor(250, 120, 255, 20)},
-                                                        {"HeadQuarters", QColor(255, 0, 0)}
+                                                        {"Selection", QColor(250, 120, 255, 20)}
                                                        };
 
 WorldItem::WorldItem(const std::shared_ptr<Course::GameObject> &obj, int size ):
@@ -27,7 +27,37 @@ void WorldItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 {
     Q_UNUSED( option ); Q_UNUSED( widget );
     painter->setBrush(QBrush(c_mapcolors.at(w_gameobject->getType())));
+
     if ( w_gameobject->getType() == "HeadQuarters" ){
+        std::shared_ptr<Player> player = std::dynamic_pointer_cast<Player>(w_gameobject->getOwner());
+        PlayerColor playerColor = player->getColor();
+        QColor color;
+
+        // Get player color
+        switch (playerColor) {
+            case 0:
+                color = QColor(Qt::blue);
+                break;
+            case 1:
+                color = QColor(Qt::red);
+                break;
+            case 2:
+                color = QColor(Qt::green);
+                break;
+            case 3:
+                color = QColor(255, 100, 0);
+                break;
+            case 4:
+                color = QColor(100, 0, 255);
+                break;
+            case 5:
+                color = QColor(Qt::cyan);
+                break;
+            default:
+                break;
+        }
+
+        painter->setBrush(QBrush(color));
         painter->drawEllipse(boundingRect());
     }
     else {
