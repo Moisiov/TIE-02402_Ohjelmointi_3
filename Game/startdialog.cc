@@ -60,6 +60,17 @@ void StartDialog::accept()
         return;
     }
 
+    for (unsigned i = 0; i < playerList.size(); ++i) {
+        for (unsigned j = (i + 1); j < playerList.size(); ++j) {
+            if (playerList[i] == playerList[j]) {
+                QMessageBox warning;
+                warning.setText("Player names must not be identical.");
+                warning.exec();
+                return;
+            }
+        }
+    }
+
     emit sendParameters(playerList, colorList, map_x, map_y);
     done(QDialog::Accepted);
 }
