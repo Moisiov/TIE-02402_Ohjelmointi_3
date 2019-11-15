@@ -6,9 +6,6 @@ Player::Player(const std::string &name,
     Course::PlayerBase(name, objects),
     _resources(PLAYER_STARTING_RESOURCES),
     _color(color),
-    _ownedTiles({}),
-    _ownedBuildings({}),
-    _ownedUnits({}),
     _HQCoord(Course::Coordinate(0,0))
 {
 
@@ -24,21 +21,6 @@ Player::Player(const std::string &name,
     _HQCoord(Course::Coordinate(0,0))
 {
 
-}
-
-void Player::addTile(std::shared_ptr<Course::TileBase> tile)
-{
-    _ownedTiles.push_back(tile);
-}
-
-void Player::addBuilding(std::shared_ptr<UpgradeableBuilding> building)
-{
-    _ownedBuildings.push_back(building);
-}
-
-void Player::addUnit(std::shared_ptr<UnitBase> unit)
-{
-    _ownedUnits.push_back(unit);
 }
 
 Course::ResourceMap Player::getResources()

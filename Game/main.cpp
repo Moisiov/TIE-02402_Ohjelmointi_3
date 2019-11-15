@@ -14,6 +14,7 @@ int main(int argc, char* argv[])
     std::shared_ptr<ObjectManager> objManager = std::make_shared<ObjectManager>(0,0, GEHandler);
     GEHandler->setObjectManager(objManager);
     GEHandler->setGEHandler(GEHandler);
+    objManager->setObjManager(objManager);
 
     MapWindow mapWindow (nullptr, GEHandler, objManager);
 

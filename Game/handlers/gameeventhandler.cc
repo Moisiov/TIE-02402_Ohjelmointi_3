@@ -77,23 +77,13 @@ void GameEventHandler::initializeGame(std::vector<std::shared_ptr<Player>> playe
         playerList[i]->setHQCoord(startPosition[i]);
         _objM->getTile(startPosition[i])->setOwner(playerList[i]);
 
-        std::shared_ptr<HQ> headquarter = std::make_shared<HQ>(_GEHandler, _objM, playerList[i]);
-        headquarter->setCoordinate(startPosition[i]);
-        headquarter->onBuildAction();
-        _objM->getTile(startPosition[i])->addBuilding(headquarter);
-        _objM->addBuilding(headquarter);
+        _objM->constructBuilding("HeadQuarters", startPosition[i], playerList[i]);
 
         Course::Coordinate scoutCoord = startPosition[i] + Course::Coordinate(0,1);
-        std::shared_ptr<Scout> scout = std::make_shared<Scout>(_GEHandler, _objM, playerList[i]);
-        scout->setCoordinate(scoutCoord);
-        _objM->getTile(scoutCoord)->addWorker(scout);
-        _objM->addUnit(scout);
+        _objM->constructUnit("Scout", scoutCoord, playerList[i]);
 
         Course::Coordinate workerCoord = startPosition[i] + Course::Coordinate(0,-1);
-        std::shared_ptr<Worker> worker = std::make_shared<Worker>(_GEHandler, _objM, playerList[i]);
-        worker->setCoordinate(workerCoord);
-        _objM->getTile(workerCoord)->addWorker(worker);
-        _objM->addUnit(worker);
+        _objM->constructUnit("Worker", workerCoord, playerList[i]);
 
         qDebug() << QString::fromStdString(playerList[i]->getName()) << "initialization success!";
     }
@@ -116,4 +106,19 @@ bool GameEventHandler::modifyResources(
     std::shared_ptr<Player> player_ptr = std::dynamic_pointer_cast<Player> (player);
 
     return player_ptr->modifyResources(resources);
+}
+
+unsigned GameEventHandler::currentTurn()
+{
+    return _currentPlayer;
+}
+
+std::shared_ptr<Player> GameEventHandler::currentPlayer()
+{
+    return _playerList[_currentPlayer];
+}
+
+void GameEventHandler::endTurn()
+{
+
 }

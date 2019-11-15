@@ -35,12 +35,6 @@ public:
 
     ~Player() = default;
 
-    void addTile(std::shared_ptr<Course::TileBase> tile);
-
-    void addBuilding(std::shared_ptr<UpgradeableBuilding> building);
-
-    void addUnit(std::shared_ptr<UnitBase> unit);
-
     /**
      * @brief getResources returns a full list of the players current materials
      * @return Course::ResourceMap
@@ -83,9 +77,6 @@ public:
 private:
     Course::ResourceMap _resources;
     PlayerColor _color;
-    std::vector<std::shared_ptr<Course::TileBase>> _ownedTiles;
-    std::vector<std::shared_ptr<UpgradeableBuilding>> _ownedBuildings;
-    std::vector<std::shared_ptr<UnitBase>> _ownedUnits;
     Course::Coordinate _HQCoord;
 };
 

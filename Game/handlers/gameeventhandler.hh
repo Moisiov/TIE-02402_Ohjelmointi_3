@@ -57,6 +57,26 @@ public:
     virtual bool modifyResources(std::shared_ptr<Course::PlayerBase> player,
                                  Course::ResourceMap resources);
 
+    /**
+     * @brief currentTurn tells the number corresponding to the player whose turn it is
+     */
+    unsigned currentTurn();
+
+    /**
+     * @brief currentPlayer returns pointer to the player whose turn it currently is
+     * @return shared_ptr
+     */
+    std::shared_ptr<Player> currentPlayer();
+
+    /**
+     * @brief endTurn gets called when player chooses to end their turn. This
+     * function resets pawn moves, generates resources and handles any potential
+     * events.
+     */
+    void endTurn();
+
+
+
 private:
     std::shared_ptr<ObjectManager> _objM; // To be filled in by setObjectManager call
     std::shared_ptr<GameEventHandler> _GEHandler;

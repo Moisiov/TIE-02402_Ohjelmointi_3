@@ -1,6 +1,17 @@
 #include "objectmanager.hh"
 #include <QDebug>
 
+#include "buildings/hq.hh"
+#include "buildings/ranch.hh"
+#include "buildings/fishery.hh"
+#include "buildings/sawmill.hh"
+#include "buildings/mine.hh"
+#include "buildings/market.hh"
+#include "buildings/campus.hh"
+
+#include "workers/scout.hh"
+#include "workers/worker.hh"
+
 ObjectManager::ObjectManager(unsigned map_x, unsigned map_y,
                              std::shared_ptr<Course::iGameEventHandler> gameEventHandler,
                              std::shared_ptr<WorldScene> scene):
@@ -10,6 +21,7 @@ ObjectManager::ObjectManager(unsigned map_x, unsigned map_y,
     _buildings({}),
     _units({}),
     _gameEventHandler(gameEventHandler),
+    _objectManager(nullptr),
     _scene(scene)
 {
 
@@ -19,6 +31,11 @@ void ObjectManager::setGEHandler(
         std::shared_ptr<Course::iGameEventHandler> gameEventHandler)
 {
     _gameEventHandler = gameEventHandler;
+}
+
+void ObjectManager::setObjManager(std::shared_ptr<ObjectManager> objectManager)
+{
+    _objectManager = objectManager;
 }
 
 void ObjectManager::setMapSize(unsigned map_x, unsigned map_y)
@@ -36,8 +53,6 @@ void ObjectManager::setScene(std::shared_ptr<WorldScene> scene)
 void ObjectManager::addTiles(const std::vector<std::shared_ptr<Course::TileBase> > &tiles)
 {
     qDebug() << "In ObjectManager::addTiles()";
-
-    _objects.insert(_objects.end(), tiles.begin(), tiles.end());
 
     for(int i = 0; i < static_cast<int>(_map_x); ++i) {
         std::vector<std::shared_ptr<Course::TileBase>> tilesTemp =
@@ -84,9 +99,62 @@ std::vector<std::shared_ptr<Course::TileBase>> ObjectManager::getTiles(const std
     return tiles;
 }
 
+void ObjectManager::constructBuilding(std::string type,
+                                      Course::Coordinate location,
+                                      std::shared_ptr<Player> owner)
+{
+    std::shared_ptr<UpgradeableBuilding> building = nullptr;
+
+    if (type == "HeadQuarters") {
+        building = std::make_shared<HQ>(_gameEventHandler, _objectManager, owner);
+    } else if (type == "Farm") {
+        building = std::make_shared<Ranch>(_gameEventHandler, _objectManager, owner);
+    } else if (type == "Fishery") {
+        building = std::make_shared<Fishery>(_gameEventHandler, _objectManager, owner);
+    } else if (type == "Sawmill") {
+        building = std::make_shared<Sawmill>(_gameEventHandler, _objectManager, owner);
+    } else if (type == "Mine") {
+        building = std::make_shared<Mine>(_gameEventHandler, _objectManager, owner);
+    } else if (type == "Market") {
+        building = std::make_shared<Market>(_gameEventHandler, _objectManager, owner);
+    } else if (type == "Campus") {
+        building = std::make_shared<Campus>(_gameEventHandler, _objectManager, owner);
+    } else {
+        return;
+    }
+
+    building->setCoordinate(location);
+    building->onBuildAction();
+    _buildings.push_back(building);
+    drawItem(building);
+
+    qDebug() << "Building " << building->ID << " built!";
+}
+
 void ObjectManager::addBuilding(const std::shared_ptr<UpgradeableBuilding> &building)
 {
     _buildings.push_back(building);
+}
+
+void ObjectManager::constructUnit(std::string type,
+                                  Course::Coordinate location,
+                                  std::shared_ptr<Player> owner)
+{
+    std::shared_ptr<UnitBase> unit = nullptr;
+
+    if (type == "Scout") {
+        unit = std::make_shared<Scout>(_gameEventHandler, _objectManager, owner);
+    } else if (type == "Worker") {
+        unit = std::make_shared<Worker>(_gameEventHandler, _objectManager, owner);
+    } else {
+        return;
+    }
+
+    unit->setCoordinate(location);
+    _units.push_back(unit);
+    drawItem(unit);
+
+    qDebug() << "Unit " << unit->ID << " built!";
 }
 
 void ObjectManager::addUnit(const std::shared_ptr<UnitBase> &unit)
@@ -96,9 +164,10 @@ void ObjectManager::addUnit(const std::shared_ptr<UnitBase> &unit)
 
 void ObjectManager::drawMap()
 {
-    for(unsigned i = 0; i < _objects.size(); ++i)
-    {
-        _scene->drawItem(_objects.at(i));
+    for(unsigned x = 0; x < _tiles.size(); ++x) {
+        for(unsigned y = 0; y < _tiles.at(x).size(); ++y) {
+            _scene->drawItem(_tiles.at(x).at(y));
+        }
     }
 
     for(unsigned i = 0; i < _buildings.size(); ++i) {

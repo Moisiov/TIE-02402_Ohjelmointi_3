@@ -16,5 +16,5 @@ Ranch::Ranch(const std::shared_ptr<Course::iGameEventHandler> &eventhandler,
 
 std::string Ranch::getType() const
 {
-    return "Ranch";
+    return "Farm";
 }

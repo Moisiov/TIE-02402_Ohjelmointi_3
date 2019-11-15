@@ -4,7 +4,7 @@
 #include "upgradeablebuilding.hh"
 #include "basicinfo.hh"
 
-class Campus : UpgradeableBuilding
+class Campus : public UpgradeableBuilding
 {
 public:
     Campus() = delete;
