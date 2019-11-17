@@ -8,6 +8,7 @@
 GameEventHandler::GameEventHandler():
     _objM(nullptr),
     _GEHandler(nullptr),
+    _UI(nullptr),
     _playerList({}),
     _currentPlayer(0),
     _map_x(0),
@@ -24,6 +25,11 @@ void GameEventHandler::setGEHandler(std::shared_ptr<GameEventHandler> GEHandler)
 void GameEventHandler::setObjectManager(std::shared_ptr<ObjectManager> objM)
 {
     _objM = objM;
+}
+
+void GameEventHandler::setMapWindow(std::shared_ptr<MapWindow> UI)
+{
+    _UI = UI;
 }
 
 void GameEventHandler::initializeGame(std::vector<std::string> playerNames,
@@ -132,4 +138,34 @@ void GameEventHandler::endTurn()
 
     _objM->restoreMoves(_playerList[_currentPlayer]);
     _objM->generateResources(_playerList[_currentPlayer]);
+}
+
+bool GameEventHandler::constructBuilding(std::string type, Course::Coordinate location)
+{
+    // TODO!!
+    return true;
+}
+
+bool GameEventHandler::upgradeBuilding(std::shared_ptr<Course::BuildingBase> building)
+{
+    // TODO!!
+    return true;
+}
+
+void GameEventHandler::sellBuilding(std::shared_ptr<Course::BuildingBase> building)
+{
+    // TODO!!
+    return;
+}
+
+bool GameEventHandler::constructUnit(std::string type)
+{
+    // TODO!!
+    return true;
+}
+
+bool GameEventHandler::moveUnit(std::shared_ptr<Course::WorkerBase> unit, Course::Coordinate destination)
+{
+    // TODO!!
+    return true;
 }
