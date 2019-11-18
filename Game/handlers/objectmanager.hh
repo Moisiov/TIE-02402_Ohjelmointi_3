@@ -104,6 +104,14 @@ public:
      */
     void generateResources(std::shared_ptr<Player> owner);
 
+    /**
+     * @brief getPlayerScouts returns a list of all scouts that the player owns,
+     * to make it easier to determine which tiles the player can build on
+     * @param player the player whose scouts are listed
+     * @return a list of pointers to scouts
+     */
+    std::vector<std::shared_ptr<UnitBase>> getPlayerScouts(std::shared_ptr<Player> player);
+
 private:
     unsigned _map_x; // The x length of map
     unsigned _map_y; // The y length of map

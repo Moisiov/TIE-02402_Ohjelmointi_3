@@ -213,3 +213,19 @@ void ObjectManager::generateResources(std::shared_ptr<Player> owner)
     }
 }
 
+std::vector<std::shared_ptr<UnitBase> > ObjectManager::getPlayerScouts(std::shared_ptr<Player> player)
+{
+    std::vector<std::shared_ptr<UnitBase>> scoutList = {};
+
+    for (unsigned i = 0; i < _units.size(); ++i) {
+        std::shared_ptr<UnitBase> unit = _units[i];
+        if (unit->getOwner()->getName() == player->getName()) {
+            if (unit->getType() == "Scout") {
+                scoutList.push_back(unit);
+            }
+        }
+    }
+
+    return scoutList;
+}
+
