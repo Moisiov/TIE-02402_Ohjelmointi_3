@@ -38,7 +38,7 @@ MapWindow::MapWindow(QWidget *parent,
     // m_ui->graphicsView->width();
 
     m_ui->graphicsView->setScene(dynamic_cast<QGraphicsScene*>(sgs_rawptr));
-    // m_ui->graphicsView->setRenderHint(QPainter::Antialiasing);
+    m_ui->graphicsView->setRenderHint(QPainter::Antialiasing);
 
     // QTransform transform;
     // transform.rotate(45, Qt::XAxis);
@@ -144,7 +144,7 @@ void MapWindow::updatePlayerInfo()
 void MapWindow::scrollToCoordinate(Course::Coordinate coordinate)
 {
     int scale = m_worldScene->getScale();
-    m_ui->graphicsView->centerOn(coordinate.x()*scale, coordinate.y()*scale);
+    m_ui->graphicsView->centerOn(coordinate.x()*scale+(scale/2), coordinate.y()*scale+(scale/2));
 }
 
 void MapWindow::removeItem(std::shared_ptr<Course::GameObject> obj)
