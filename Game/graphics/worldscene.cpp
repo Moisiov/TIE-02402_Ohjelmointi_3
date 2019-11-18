@@ -94,7 +94,8 @@ bool WorldScene::event(QEvent *event)
                 point.rx() = floor(point.rx());
                 point.ry() = floor(point.ry());
 
-                QGraphicsItem* pressed = itemAt(point * w_scale, QTransform());
+                //QGraphicsItem* pressed = itemAt(point * w_scale, QTransform());
+                QGraphicsItem* pressed = items(point * w_scale).last();
 
                 if (pressed != nullptr && pressed->type() != 3){
                     qDebug() << "ObjID: " <<

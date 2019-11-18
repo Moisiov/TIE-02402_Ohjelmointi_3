@@ -17,9 +17,3 @@ std::string Sand::getType() const
 {
     return "Sand";
 }
-
-void Sand::addBuilding(const std::shared_ptr<Course::BuildingBase> &building)
-{
-    Course::TileBase::addBuilding(building);
-    building->addHoldMarkers(1);
-}

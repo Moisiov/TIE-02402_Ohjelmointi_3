@@ -1,15 +1,16 @@
 #include "gameview.h"
+
 #include <QDebug>
 
 GameView::GameView(QWidget* parent):
     QGraphicsView(parent)
 {
     // setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
-    this->installEventFilter(this);
+    installEventFilter(this);
 
     // Turn off scroll bars
-    this->setHorizontalScrollBarPolicy ( Qt::ScrollBarAlwaysOff );
-    this->setVerticalScrollBarPolicy ( Qt::ScrollBarAlwaysOff );
+    setHorizontalScrollBarPolicy ( Qt::ScrollBarAlwaysOff );
+    setVerticalScrollBarPolicy ( Qt::ScrollBarAlwaysOff );
 }
 
 void GameView::wheelEvent(QWheelEvent *event)
@@ -37,13 +38,13 @@ bool GameView::eventFilter(QObject *object, QEvent *event) {
         if (mouse_event->button() == 2)
         {
             // Enable dragging mode
-            this->setDragMode(QGraphicsView::DragMode::ScrollHandDrag);
+            setDragMode(QGraphicsView::DragMode::ScrollHandDrag);
             // Emit left click to allow drag mode
             QMouseEvent* pressEvent = new QMouseEvent(QEvent::GraphicsSceneMousePress,
                                             mouse_event->pos(), Qt::MouseButton::LeftButton,
                                             Qt::MouseButton::LeftButton, Qt::KeyboardModifier::NoModifier);
 
-            this->mousePressEvent(pressEvent);
+            mousePressEvent(pressEvent);
             return true;
         }
     }
@@ -54,6 +55,11 @@ bool GameView::eventFilter(QObject *object, QEvent *event) {
 
 void GameView::mouseReleaseEvent(QMouseEvent *event) {
     if (event->button() == 2) {
-        this->setDragMode(QGraphicsView::DragMode::NoDrag);
+        setDragMode(QGraphicsView::DragMode::NoDrag);
     }
+}
+
+void GameView::scrollToCoordinate(Course::Coordinate coord)
+{
+    return;
 }

@@ -83,6 +83,12 @@ public slots:
      */
     void updatePlayerInfo();
 
+    /**
+     * @brief scrollToCoordinate scrolls the game view to given coordinate
+     * @param coordinate is the target coordinate
+     */
+    void scrollToCoordinate(Course::Coordinate coordinate);
+
 private slots:
     /**
      * @brief selectMainMenu slot for menuBtn click.

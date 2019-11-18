@@ -29,7 +29,9 @@ SOURCES += \
     graphics/gameview.cpp \
     workers/scout.cpp \
     workers/unitbase.cpp \
-    workers/worker.cpp
+    workers/worker.cpp \
+    tiles/forest.cpp \
+    tiles/grassland.cpp
 
 HEADERS += \
     basicinfo.hh \
@@ -55,7 +57,11 @@ HEADERS += \
     graphics/gameview.h \
     workers/scout.hh \
     workers/unitbase.hh \
-    workers/worker.hh
+    workers/worker.hh \
+    tiles/forest.h \
+    tiles/grassland.h
+
+OTHER_FILES +=
 
 win32:CONFIG(release, debug|release): LIBS += \
     -L$$OUT_PWD/../Course/CourseLib/release/ -lCourseLib

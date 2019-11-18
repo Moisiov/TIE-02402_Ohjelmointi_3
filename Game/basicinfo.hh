@@ -241,4 +241,86 @@ const Course::ResourceMapDouble SCOUT_EFFICIENCY = {
     {Course::BasicResource::ORE, 0.0}
 };
 
+// TILE RESOURCES //
+
+const Course::ResourceMap FOREST_PROD = {
+    {Course::BasicResource::MONEY, 1},
+    {Course::BasicResource::FOOD, 2},
+    {Course::BasicResource::WOOD, 5},
+    {Course::BasicResource::STONE, 1},
+    {Course::BasicResource::ORE, 0},
+};
+
+const Course::ResourceMap GRASSLAND_PROD = {
+    {Course::BasicResource::MONEY, 2},
+    {Course::BasicResource::FOOD, 5},
+    {Course::BasicResource::WOOD, 1},
+    {Course::BasicResource::STONE, 0},
+    {Course::BasicResource::ORE, 0},
+};
+
+const Course::ResourceMap SAND_PROD = {
+    {Course::BasicResource::MONEY, 1},
+    {Course::BasicResource::FOOD, 1},
+    {Course::BasicResource::WOOD, 1},
+    {Course::BasicResource::STONE, 1},
+    {Course::BasicResource::ORE, 0},
+};
+
+const Course::ResourceMap STONE_PROD = {
+    {Course::BasicResource::MONEY, 1},
+    {Course::BasicResource::FOOD, 0},
+    {Course::BasicResource::WOOD, 0},
+    {Course::BasicResource::STONE, 5},
+    {Course::BasicResource::ORE, 0},
+};
+
+const Course::ResourceMap SWAMP_PROD = {
+    {Course::BasicResource::MONEY, 0},
+    {Course::BasicResource::FOOD, 2},
+    {Course::BasicResource::WOOD, 2},
+    {Course::BasicResource::STONE, 1},
+    {Course::BasicResource::ORE, 0},
+};
+
+const Course::ResourceMap WATER_PROD = {
+    {Course::BasicResource::MONEY, 0},
+    {Course::BasicResource::FOOD, 5},
+    {Course::BasicResource::WOOD, 0},
+    {Course::BasicResource::STONE, 0},
+    {Course::BasicResource::ORE, 0},
+};
+
+// TILE BUILDABLE BUILDINGS //
+const std::vector<std::string> FOREST_BUILD {
+    {"HeadQuarters"},
+    {"Sawmill"}
+};
+
+const std::vector<std::string> GRASSLAND_BUILD {
+    {"HeadQuarters"},
+    {"Market"},
+    {"Campus"},
+    {"Farm"}
+};
+
+const std::vector<std::string> SAND_BUILD {
+    {"HeadQuarters"},
+    {"Market"},
+    {"Campus"}
+};
+
+const std::vector<std::string> STONE_BUILD {
+    {"HeadQuarters"},
+    {"Mine"}
+};
+
+const std::vector<std::string> SWAMP_BUILD {
+    {"HeadQuarters"}
+};
+
+const std::vector<std::string> WATER_BUILD {
+    {"Fishery"}
+};
+
 #endif // BASICINFO_HH

@@ -38,7 +38,7 @@ MapWindow::MapWindow(QWidget *parent,
     // m_ui->graphicsView->width();
 
     m_ui->graphicsView->setScene(dynamic_cast<QGraphicsScene*>(sgs_rawptr));
-    m_ui->graphicsView->setRenderHint(QPainter::Antialiasing);
+    // m_ui->graphicsView->setRenderHint(QPainter::Antialiasing);
 
     // QTransform transform;
     // transform.rotate(45, Qt::XAxis);
@@ -93,19 +93,20 @@ void MapWindow::getParameters(std::vector<std::string> playerList, std::vector<P
     m_objM->setMapSize(map_x, map_y);
 
     // Testing the world generator
-    Course::WorldGenerator::getInstance().addConstructor<Course::Forest>(2);
-    Course::WorldGenerator::getInstance().addConstructor<Course::Grassland>(4);
+    Course::WorldGenerator::getInstance().addConstructor<Forest>(2);
+    Course::WorldGenerator::getInstance().addConstructor<Grassland>(4);
     Course::WorldGenerator::getInstance().addConstructor<Sand>(4);
     Course::WorldGenerator::getInstance().addConstructor<Stone>(1);
     Course::WorldGenerator::getInstance().addConstructor<Swamp>(2);
     Course::WorldGenerator::getInstance().addConstructor<Water>(1);
     Course::WorldGenerator::getInstance().generateMap(map_x, map_y, 1, m_objM, m_GEHandler);
 
+    m_objM->drawMap();
+
     m_GEHandler->initializeGame(playerList, colorList, map_x, map_y);
     m_currentPlayer = m_GEHandler->currentPlayer();
     updatePlayerInfo();
-
-    m_objM->drawMap();
+    scrollToCoordinate(m_currentPlayer->getHQCoord());
 }
 
 void MapWindow::objectSelected(std::shared_ptr<Course::GameObject> obj)
@@ -140,6 +141,12 @@ void MapWindow::updatePlayerInfo()
     m_ui->infoBar->setText(infoText.c_str());
 }
 
+void MapWindow::scrollToCoordinate(Course::Coordinate coordinate)
+{
+    int scale = m_worldScene->getScale();
+    m_ui->graphicsView->centerOn(coordinate.x()*scale, coordinate.y()*scale);
+}
+
 void MapWindow::removeItem(std::shared_ptr<Course::GameObject> obj)
 {
     m_worldScene->removeItem(obj);
@@ -160,7 +167,10 @@ void MapWindow::endTurn()
     m_GEHandler->endTurn();
     m_currentPlayer = m_GEHandler->currentPlayer();
     updatePlayerInfo();
-    m_objM->drawMap();
+
+    // Scroll to headquarter pos
+    scrollToCoordinate(m_currentPlayer->getHQCoord());
+
 }
 
 void MapWindow::setupMenuConnections()

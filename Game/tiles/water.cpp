@@ -17,9 +17,3 @@ std::string Water::getType() const
 {
     return "Water";
 }
-
-void Water::addBuilding(const std::shared_ptr<Course::BuildingBase> &building)
-{
-    Course::TileBase::addBuilding(building);
-    building->addHoldMarkers(1);
-}

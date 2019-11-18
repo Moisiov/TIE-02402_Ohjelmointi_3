@@ -2,6 +2,7 @@
 #include "player.hh"
 
 #include <QDebug>
+#include <QtWidgets>
 
 std::map<std::string, QColor> WorldItem::c_mapcolors = {{"Forest", QColor(20, 100, 20)},
                                                         {"Grassland", QColor(20, 230, 30)},
@@ -16,6 +17,9 @@ WorldItem::WorldItem(const std::shared_ptr<Course::GameObject> &obj, int size ):
     w_gameobject(obj), w_scenelocation(w_gameobject->getCoordinatePtr()->asQpoint()), w_size(size)
 {
     addNewColor(w_gameobject->getType());
+
+    // Set cache mode to speed up rendering
+    setCacheMode(WorldItem::DeviceCoordinateCache);
 }
 
 QRectF WorldItem::boundingRect() const
@@ -27,6 +31,9 @@ void WorldItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 {
     Q_UNUSED( option ); Q_UNUSED( widget );
     painter->setBrush(QBrush(c_mapcolors.at(w_gameobject->getType())));
+
+    // get level of detail for zoomed rendering (lod = 1 no zoom, lod < 1 zoom out, lod > 1 zoom in)
+    const qreal lod = option->levelOfDetailFromTransform(painter->worldTransform());
 
     if ( w_gameobject->getType() == "HeadQuarters" ){
         std::shared_ptr<Player> player = std::dynamic_pointer_cast<Player>(w_gameobject->getOwner());
@@ -59,8 +66,7 @@ void WorldItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
         painter->setBrush(QBrush(color));
         painter->drawEllipse(boundingRect());
-    }
-    else {
+    } else {
         painter->drawRect(boundingRect());
     }
 }

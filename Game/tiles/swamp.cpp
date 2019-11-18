@@ -17,9 +17,3 @@ std::string Swamp::getType() const
 {
     return "Swamp";
 }
-
-void Swamp::addBuilding(const std::shared_ptr<Course::BuildingBase> &building)
-{
-    Course::TileBase::addBuilding(building);
-    building->addHoldMarkers(1);
-}

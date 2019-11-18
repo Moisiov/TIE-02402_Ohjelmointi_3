@@ -5,6 +5,8 @@
 #include <QtWidgets>
 #include <QWidget>
 
+#include "core/coordinate.h"
+
 /**
  * @brief The GameView class is a custom QGraphicsView class
  */
@@ -34,6 +36,8 @@ public:
      * @param event catched mouse release
      */
     void mouseReleaseEvent(QMouseEvent *event);
+
+    void scrollToCoordinate(Course::Coordinate coord);
 
 private:
     int _originX;
