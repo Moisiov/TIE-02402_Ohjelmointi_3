@@ -259,7 +259,13 @@ bool GameEventHandler::upgradeBuilding(std::shared_ptr<Course::BuildingBase> bui
 
 void GameEventHandler::sellBuilding(std::shared_ptr<Course::BuildingBase> building)
 {
-    // TODO!!
+    std::shared_ptr<UpgradeableBuilding> upgrBuilding = std::static_pointer_cast<UpgradeableBuilding>(building);
+    Course::ResourceMap sellValue = upgrBuilding->getSellValue();
+
+    _objM->removeBuilding(upgrBuilding->ID);
+
+    _playerList[_currentPlayer]->modifyResources(sellValue);
+
     return;
 }
 

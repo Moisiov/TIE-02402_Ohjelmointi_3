@@ -332,4 +332,13 @@ const Course::ResourceMapDouble NEGATIVE {
     {Course::BasicResource::ORE, -1.0}
 };
 
+const Course::ResourceMapDouble HALF {
+    {Course::BasicResource::NONE, 0.5},
+    {Course::BasicResource::MONEY, 0.5},
+    {Course::BasicResource::FOOD, 0.5},
+    {Course::BasicResource::WOOD, 0.5},
+    {Course::BasicResource::STONE, 0.5},
+    {Course::BasicResource::ORE, 0.5}
+};
+
 #endif // BASICINFO_HH

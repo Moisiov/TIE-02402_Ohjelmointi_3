@@ -32,6 +32,8 @@ public:
 
     void upgradeBuilding();
 
+    Course::ResourceMap getSellValue();
+
 private:
     unsigned int tier_;
     const unsigned int maxTier_;

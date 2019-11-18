@@ -1,4 +1,5 @@
 #include "upgradeablebuilding.hh"
+#include "basicinfo.hh"
 
 
 UpgradeableBuilding::UpgradeableBuilding(const std::shared_ptr<Course::iGameEventHandler> &eventhandler,
@@ -55,6 +56,18 @@ void UpgradeableBuilding::upgradeBuilding()
 
     tier_ += 1;
 
-    // Holding production for 5 turns while under construction
-    addHoldMarkers(5);
+    // Holding production for 1 turn while under construction
+    addHoldMarkers(1);
+}
+
+Course::ResourceMap UpgradeableBuilding::getSellValue()
+{
+    Course::ResourceMap totalBuildCost = Course::ConstResourceMaps::EMPTY;
+
+    for (unsigned i = 0; i < tier_; ++i) {
+        totalBuildCost = Course::mergeResourceMaps(totalBuildCost, buildcost_[i]);
+    }
+
+    Course::ResourceMap sellValue = Course::multiplyResourceMap(totalBuildCost, HALF);
+    return sellValue;
 }

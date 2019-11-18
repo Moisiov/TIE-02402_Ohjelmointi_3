@@ -137,6 +137,21 @@ void ObjectManager::addBuilding(const std::shared_ptr<UpgradeableBuilding> &buil
     _buildings.push_back(building);
 }
 
+bool ObjectManager::removeBuilding(Course::ObjectId ID)
+{
+    bool success = false;
+
+    for (unsigned i = 0; i < _buildings.size(); ++i) {
+        if (_buildings[i]->ID == ID) {
+            _buildings.erase(_buildings.begin() + i);
+            success = true;
+            break;
+        }
+    }
+
+    return success;
+}
+
 void ObjectManager::constructUnit(std::string type,
                                   Course::Coordinate location,
                                   std::shared_ptr<Player> owner)

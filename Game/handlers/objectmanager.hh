@@ -73,6 +73,13 @@ public:
     void addBuilding(const std::shared_ptr<UpgradeableBuilding> &building);
 
     /**
+     * @brief removeBuilding removes the building with given ID from objManager
+     * @param ID identifier for the building to be removed
+     * @return true if successful
+     */
+    bool removeBuilding(Course::ObjectId ID);
+
+    /**
      * @brief constructUnit Makes a new unit with the given parameters
      * @param type string identifier as to what type of unit to make
      * @param location Coordinate to where the unit is created
