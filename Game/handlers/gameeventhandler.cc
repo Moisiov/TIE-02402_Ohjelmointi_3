@@ -253,7 +253,24 @@ bool GameEventHandler::constructBuilding(std::string type, Course::Coordinate lo
 
 bool GameEventHandler::upgradeBuilding(std::shared_ptr<Course::BuildingBase> building)
 {
-    // TODO!!
+    std::shared_ptr<UpgradeableBuilding> upgrBuilding = std::static_pointer_cast<UpgradeableBuilding>(building);
+    Course::ResourceMap cost = upgrBuilding->getUpgradeCost();
+
+    if (not upgrBuilding->isUpgradeable()) {
+        qDebug() << "Building cannot be upgraded any more!";
+        return false;
+    }
+
+    if (not _playerList[_currentPlayer]->canAfford(cost)) {
+        qDebug() << "Player can't afford the upgrade!";
+        return false;
+    }
+
+    Course::ResourceMap costNegative = Course::multiplyResourceMap(cost, NEGATIVE);
+    _playerList[_currentPlayer]->modifyResources(costNegative);
+
+    upgrBuilding->upgradeBuilding();
+
     return true;
 }
 
