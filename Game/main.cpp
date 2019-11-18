@@ -16,10 +16,12 @@ int main(int argc, char* argv[])
     GEHandler->setGEHandler(GEHandler);
     objManager->setObjManager(objManager);
 
-    MapWindow mapWindow (nullptr, GEHandler, objManager);
+    std::shared_ptr<MapWindow> mapWindow = std::make_shared<MapWindow>(nullptr, GEHandler, objManager);
 
-    if (mapWindow.isReadyToLaunch()) {
-         mapWindow.show();
+    GEHandler->setMapWindow(mapWindow);
+
+    if (mapWindow->isReadyToLaunch()) {
+         mapWindow->show();
          return app.exec();
     } else {
         return EXIT_SUCCESS;
