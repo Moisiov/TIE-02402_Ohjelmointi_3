@@ -24,11 +24,14 @@ MapWindow::MapWindow(QWidget *parent,
     m_readyToLaunch(false),
     m_map_x(0),
     m_map_y(0),
-    m_currentPlayer(nullptr)
+    m_currentPlayer(nullptr),
+    m_selectedTile(nullptr),
+    m_selectedBuilding(nullptr),
+    m_selectedWorker(nullptr)
 {
     m_ui->setupUi(this);
     setupMenuConnections();
-    m_ui->menuBrowser->setCurrentWidget(m_ui->mainMenu);
+    m_ui->menuWidget->setCurrentWidget(m_ui->mainMenu);
 
     m_objM->setScene(m_worldScene);
 
@@ -111,6 +114,8 @@ void MapWindow::getParameters(std::vector<std::string> playerList, std::vector<P
 
 void MapWindow::objectSelected(std::shared_ptr<Course::GameObject> obj)
 {
+    m_selectedTile = std::dynamic_pointer_cast<Course::TileBase>(obj);
+
     std::string objType = obj->getType();
     std::string infoText = objType;
 
@@ -122,8 +127,49 @@ void MapWindow::objectSelected(std::shared_ptr<Course::GameObject> obj)
         infoText += "\nOwner: " + owner->getName();
     }
 
-    m_ui->textBrowser_2->setText(infoText.c_str());
-    m_ui->menuBrowser->setCurrentWidget(m_ui->tileMenu);
+    m_ui->tileBrowser->setText(infoText.c_str());
+
+    // Check if tile has buildings or space for buildings
+    // otherwise building button is disabled
+    m_ui->buildingBtn->setText("Build");
+    m_ui->buildingBtn->setDisabled(false);
+    if (m_selectedTile->getBuildingCount() > 0)
+    {
+        std::string buildingType = m_selectedTile->getBuildings().at(0)->getType();
+        m_ui->buildingBtn->setText(buildingType.c_str());
+    }
+    else if (!m_selectedTile->hasSpaceForBuildings(1))
+    {
+        m_ui->buildingBtn->setDisabled(true);
+    }
+
+    // Check if tile has workers and set button text correctly
+    unsigned workerCount = m_selectedTile->getWorkerCount();
+    std::vector<std::shared_ptr<Course::WorkerBase>> workers = m_selectedTile->getWorkers();
+    m_ui->workerBtn1->setDisabled(true);
+    m_ui->workerBtn1->setText("-");
+    m_ui->workerBtn2->setDisabled(true);
+    m_ui->workerBtn2->setText("-");
+    m_ui->workerBtn3->setDisabled(true);
+    m_ui->workerBtn3->setText("-");
+
+    if (workerCount > 0)
+    {
+        m_ui->workerBtn1->setDisabled(false);
+        m_ui->workerBtn1->setText(workers.at(0)->getType().c_str());
+    }
+    if (workerCount > 1)
+    {
+        m_ui->workerBtn2->setDisabled(false);
+        m_ui->workerBtn2->setText(workers.at(1)->getType().c_str());
+    }
+    if (workerCount > 2)
+    {
+        m_ui->workerBtn3->setDisabled(false);
+        m_ui->workerBtn3->setText(workers.at(2)->getType().c_str());
+    }
+
+    m_ui->menuWidget->setCurrentWidget(m_ui->tileMenu);
 }
 
 void MapWindow::updatePlayerInfo()
@@ -159,7 +205,51 @@ void MapWindow::drawItem( std::shared_ptr<Course::GameObject> obj)
 
 void MapWindow::selectMainMenu()
 {
-    m_ui->menuBrowser->setCurrentWidget(m_ui->mainMenu);
+    m_ui->menuWidget->setCurrentWidget(m_ui->mainMenu);
+}
+
+void MapWindow::selectBuildingMenu()
+{
+    if (m_selectedTile->hasSpaceForBuildings(1))
+    {
+        m_ui->menuWidget->setCurrentWidget(m_ui->buildMenu);
+    }
+    else
+    {
+        std::shared_ptr<UpgradeableBuilding> building =
+                std::dynamic_pointer_cast<UpgradeableBuilding>(m_selectedTile->getBuildings().at(0));
+        std::string infoText = building->getType();
+        m_ui->buildingBrowser->setText(infoText.c_str());
+        m_selectedBuilding = building;
+
+        m_ui->menuWidget->setCurrentWidget(m_ui->buildingMenu);
+    }
+}
+
+void MapWindow::selectWorkerMenu(unsigned workerIndex)
+{
+    std::shared_ptr<UnitBase> worker = std::dynamic_pointer_cast<UnitBase>(m_selectedTile->getWorkers().at(workerIndex));
+    std::string infoText = worker->getType();
+    m_ui->workerBrowser->setText(infoText.c_str());
+    m_selectedWorker = worker;
+
+    m_ui->menuWidget->setCurrentWidget(m_ui->workerMenu);
+}
+
+void MapWindow::selectUpgrade()
+{
+    bool upgradeSuccess = m_GEHandler->upgradeBuilding(m_selectedBuilding);
+}
+
+void MapWindow::selectSell()
+{
+    m_GEHandler->sellBuilding(m_selectedBuilding);
+}
+
+void MapWindow::selectMove()
+{
+    // TODO: Implement unit moving here
+    return;
 }
 
 void MapWindow::endTurn()
@@ -171,11 +261,19 @@ void MapWindow::endTurn()
     // Scroll to headquarter pos
     scrollToCoordinate(m_currentPlayer->getHQCoord());
 
+    selectMainMenu();
 }
 
 void MapWindow::setupMenuConnections()
 {
     connect(m_ui->menuBtn, &QPushButton::clicked, this, &MapWindow::selectMainMenu);
+    connect(m_ui->buildingBtn, &QPushButton::clicked, this, &MapWindow::selectBuildingMenu);
+    connect(m_ui->workerBtn1, &QPushButton::clicked, this, [this]{ selectWorkerMenu(0); });
+    connect(m_ui->workerBtn2, &QPushButton::clicked, this, [this]{ selectWorkerMenu(1); });
+    connect(m_ui->workerBtn3, &QPushButton::clicked, this, [this]{ selectWorkerMenu(2); });
     connect(m_ui->endTurnBtn, &QPushButton::clicked, this, &MapWindow::endTurn);
+    connect(m_ui->upgradeBtn, &QPushButton::clicked, this, &MapWindow::selectUpgrade);
+    connect(m_ui->sellBtn, &QPushButton::clicked, this, &MapWindow::selectSell);
+    connect(m_ui->moveBtn, &QPushButton::clicked, this, &MapWindow::selectMove);
     connect(m_worldScene.get(), &WorldScene::objectClicked, this, &MapWindow::objectSelected);
 }

@@ -97,6 +97,31 @@ private slots:
     void selectMainMenu();
 
     /**
+     * @brief selectBuildingMenu changes menu view to building/build menu.
+     */
+    void selectBuildingMenu();
+
+    /**
+     * @brief selectWorkerMenu changes menu view to worker menu.
+     */
+    void selectWorkerMenu(unsigned workerIndex);
+
+    /**
+     * @brief selectUpgrade slot for upgradeBtn click
+     */
+    void selectUpgrade();
+
+    /**
+     * @brief selectSell slot for sellBtn click
+     */
+    void selectSell();
+
+    /**
+     * @brief selectMove for unit moving action
+     */
+    void selectMove();
+
+    /**
      * @brief endTurn slot for endTurnBtn click.
      */
     void endTurn();
@@ -110,6 +135,9 @@ private:
     unsigned m_map_x; // Filled in by StartDialog parameters
     unsigned m_map_y; // Filled in by StartDialog parameters
     std::shared_ptr<Player> m_currentPlayer;
+    std::shared_ptr<Course::TileBase> m_selectedTile;
+    std::shared_ptr<Course::BuildingBase> m_selectedBuilding;
+    std::shared_ptr<Course::WorkerBase> m_selectedWorker;
 
     void setupMenuConnections();
 };
