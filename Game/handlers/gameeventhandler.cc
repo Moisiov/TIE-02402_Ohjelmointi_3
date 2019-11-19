@@ -319,8 +319,56 @@ bool GameEventHandler::constructUnit(std::string type)
     return true;
 }
 
-bool GameEventHandler::moveUnit(std::shared_ptr<Course::WorkerBase> unit, Course::Coordinate destination)
+bool GameEventHandler::moveUnit(std::shared_ptr<UnitBase> unit, Course::Coordinate destination)
 {
-    // TODO!!
+    if (not unit->canMove()) {
+        qDebug() << "Unit done moving for this turn!";
+        return false;
+    }
+
+    bool canWalkOnWater = false;
+    if (unit->getType() == "Scout") {
+        canWalkOnWater = true;
+    }
+
+    int moveRange = static_cast<int>(unit->moveRange());
+    Course::Coordinate distance = destination - unit->getCoordinate();
+
+    int x_distance = (distance.x() >= 0 ? distance.x() : (distance.x() * -1));
+    int y_distance = (distance.y() >= 0 ? distance.y() : (distance.y() * -1));
+
+    if (x_distance > moveRange || y_distance > moveRange) {
+        qDebug() << "Distance too long!";
+        return false;
+    }
+
+    std::shared_ptr<Course::TileBase> originTile = _objM->getTile(unit->getCoordinate());
+    std::shared_ptr<Course::TileBase> destinationTile = _objM->getTile(destination);
+
+    if (destinationTile->getType() == "Water") {
+        if (not canWalkOnWater) {
+            qDebug() << "Unit cannot move on water!";
+            return false;
+        }
+    }
+
+    if (not destinationTile->hasSpaceForWorkers(1)) {
+        qDebug() << "Destination has no space for unit!";
+        return false;
+    }
+
+    if (destinationTile->getOwner() != nullptr) {
+        if (destinationTile->getOwner()->getName() != unit->getOwner()->getName()) {
+            qDebug() << "Moving into other players territory is forbidden!";
+            return false;
+        }
+    }
+
+    // All good, do the move
+    unit->setCoordinate(destination);
+    destinationTile->addWorker(unit);
+    originTile->removeWorker(unit);
+    unit->wasMoved();
+
     return true;
 }
