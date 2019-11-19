@@ -288,7 +288,34 @@ void GameEventHandler::sellBuilding(std::shared_ptr<Course::BuildingBase> buildi
 
 bool GameEventHandler::constructUnit(std::string type)
 {
-    // TODO!!
+    Course::ResourceMap recruitCost = {};
+
+    if (type == "Scout") {
+        recruitCost = SCOUT_BUILD_COST;
+    } else if (type == "Worker") {
+        recruitCost = BASIC_WORKER_BUILD_COST;
+    } else {
+        qDebug() << "Unit type not recognized!";
+        return false;
+    }
+
+    if (not _playerList[_currentPlayer]->canAfford(recruitCost)) {
+        qDebug() << "Player cannot afford the unit!";
+        return false;
+    }
+
+    Course::Coordinate buildLocation = _playerList[_currentPlayer]->getHQCoord();
+    std::shared_ptr<Course::TileBase> buildTile = _objM->getTile(buildLocation);
+    if (not buildTile->hasSpaceForWorkers(1)) {
+        qDebug() << "Tile has no more space for units!";
+        return false;
+    }
+
+    Course::ResourceMap costNegative = Course::multiplyResourceMap(recruitCost, NEGATIVE);
+    _playerList[_currentPlayer]->modifyResources(costNegative);
+
+    _objM->constructUnit(type, buildLocation, _playerList[_currentPlayer]);
+
     return true;
 }
 
