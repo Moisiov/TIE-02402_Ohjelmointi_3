@@ -170,6 +170,7 @@ void MapWindow::objectSelected(std::shared_ptr<Course::GameObject> obj)
     }
 
     m_ui->menuWidget->setCurrentWidget(m_ui->tileMenu);
+    m_ui->graphicsView->update();
 }
 
 void MapWindow::updatePlayerInfo()
@@ -228,10 +229,13 @@ void MapWindow::selectBuildingMenu()
 
 void MapWindow::selectWorkerMenu(unsigned workerIndex)
 {
-    std::shared_ptr<UnitBase> worker = std::dynamic_pointer_cast<UnitBase>(m_selectedTile->getWorkers().at(workerIndex));
-    std::string infoText = worker->getType();
+    m_selectedWorker = std::dynamic_pointer_cast<UnitBase>
+            (m_selectedTile->getWorkers().at(workerIndex));
+    std::string infoText = m_selectedWorker->getType();
     m_ui->workerBrowser->setText(infoText.c_str());
-    m_selectedWorker = worker;
+
+    // Disable move button if unit cannot move
+    m_ui->moveBtn->setDisabled(!m_selectedWorker->canMove());
 
     m_ui->menuWidget->setCurrentWidget(m_ui->workerMenu);
 }
@@ -248,8 +252,7 @@ void MapWindow::selectSell()
 
 void MapWindow::selectMove()
 {
-    // TODO: Implement unit moving here
-    return;
+
 }
 
 void MapWindow::endTurn()

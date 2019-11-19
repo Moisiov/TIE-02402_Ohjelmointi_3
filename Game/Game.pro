@@ -31,7 +31,8 @@ SOURCES += \
     workers/unitbase.cpp \
     workers/worker.cpp \
     tiles/forest.cpp \
-    tiles/grassland.cpp
+    tiles/grassland.cpp \
+    graphics/highlightitem.cpp
 
 HEADERS += \
     basicinfo.hh \
@@ -59,7 +60,8 @@ HEADERS += \
     workers/unitbase.hh \
     workers/worker.hh \
     tiles/forest.h \
-    tiles/grassland.h
+    tiles/grassland.h \
+    graphics/highlightitem.h
 
 OTHER_FILES +=
 

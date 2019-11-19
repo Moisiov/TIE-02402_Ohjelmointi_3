@@ -137,7 +137,7 @@ private:
     std::shared_ptr<Player> m_currentPlayer;
     std::shared_ptr<Course::TileBase> m_selectedTile;
     std::shared_ptr<Course::BuildingBase> m_selectedBuilding;
-    std::shared_ptr<Course::WorkerBase> m_selectedWorker;
+    std::shared_ptr<UnitBase> m_selectedWorker;
 
     void setupMenuConnections();
 };

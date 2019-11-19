@@ -1,6 +1,7 @@
 #include "worldscene.h"
 #include "worlditem.h"
 #include "mapwindow.hh"
+#include "highlightitem.h"
 
 #include <QEvent>
 #include <QGraphicsSceneMouseEvent>
@@ -143,24 +144,6 @@ void WorldScene::highlightSelection(Course::Coordinate coord)
 {
     qDebug() << "WorldScene::highlightSelection()";
 
-    /*
-    QPoint location = coord.asQpoint();
-    QRectF highlightRect = QRectF(location * w_scale,
-                                 location * w_scale + QPoint(w_scale, w_scale));
-
-    QGraphicsRectItem* rect = new QGraphicsRectItem();
-    rect->setRect(highlightRect);
-    rect->setPen(QColor(250, 120, 255));
-    rect->setBrush(QColor(250, 120, 255));
-    addItem(rect);
-    ret->setZValue(5);
-    rect->setVisible(true);
-    rect->update();
-
-    QPainter* painter = new QPainter();
-    painter->setPen(QColor(250, 120, 255));
-    painter->setBrush(QColor(250, 120, 255));
-    painter->drawRect(highlightRect);*/
-    //this->update();
-    //views().at(0)->update();
+    HighlightItem* item = new HighlightItem(coord, w_scale, QColor(255, 255, 255));
+    addItem(item);
 }
