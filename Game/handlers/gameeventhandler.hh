@@ -126,7 +126,7 @@ public:
      * @param destination coordinates to where player wants to move it
      * @return true if successful
      */
-    bool moveUnit(std::shared_ptr<Course::WorkerBase> unit, Course::Coordinate destination);
+    bool moveUnit(std::shared_ptr<UnitBase> unit, Course::Coordinate destination);
 
 private:
     std::shared_ptr<ObjectManager> _objM; // To be filled in by setObjectManager call
