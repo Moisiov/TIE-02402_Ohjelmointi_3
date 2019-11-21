@@ -95,6 +95,8 @@ void MapWindow::getParameters(std::vector<std::string> playerList, std::vector<P
     // Set map size to object manager according to the given values
     m_objM->setMapSize(map_x, map_y);
 
+    m_worldScene->setSize(static_cast<int>(map_x),static_cast<int>(map_y));
+
     // Testing the world generator
     Course::WorldGenerator::getInstance().addConstructor<Forest>(2);
     Course::WorldGenerator::getInstance().addConstructor<Grassland>(4);
@@ -114,6 +116,9 @@ void MapWindow::getParameters(std::vector<std::string> playerList, std::vector<P
 
 void MapWindow::objectSelected(std::shared_ptr<Course::GameObject> obj)
 {
+    // Tile highlights
+    m_worldScene->highlightTile(obj->getCoordinate());
+
     m_selectedTile = std::dynamic_pointer_cast<Course::TileBase>(obj);
 
     std::string objType = obj->getType();
@@ -214,6 +219,13 @@ void MapWindow::selectBuildingMenu()
     if (m_selectedTile->hasSpaceForBuildings(1))
     {
         m_ui->menuWidget->setCurrentWidget(m_ui->buildMenu);
+
+        std::string tileType = m_selectedTile->getType();
+        /*switch (tileType)
+        {
+            case "Forest":
+
+        }*/
     }
     else
     {
@@ -252,7 +264,13 @@ void MapWindow::selectSell()
 
 void MapWindow::selectMove()
 {
+    if (m_selectedWorker->canMove())
+    {
+        std::vector<Course::Coordinate> coords = m_selectedWorker->getCoordinate()
+                .neighbours(static_cast<int>(m_selectedWorker->moveRange()));
 
+        m_worldScene->highlightSelection(coords);
+    }
 }
 
 void MapWindow::endTurn()

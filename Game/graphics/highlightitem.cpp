@@ -1,9 +1,11 @@
 #include "highlightitem.h"
 
-HighlightItem::HighlightItem(Course::Coordinate coordinate, int size, QColor color):
+HighlightItem::HighlightItem(Course::Coordinate coordinate, int size, QColor color,
+                             QColor borderColor):
     h_sceneLocation(coordinate.asQpoint()),
     h_size(size),
-    h_color(color)
+    h_color(color),
+    h_borderColor(borderColor)
 {
 }
 
@@ -15,9 +17,9 @@ QRectF HighlightItem::boundingRect() const
 void HighlightItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED( option ); Q_UNUSED( widget );
+    painter->setPen(h_borderColor);
     painter->setBrush(h_color);
     painter->drawRect(boundingRect());
-    update();
 }
 
 void HighlightItem::setColor(QColor color)
@@ -28,4 +30,9 @@ void HighlightItem::setColor(QColor color)
 void HighlightItem::updateLocation(Course::Coordinate coordinate)
 {
     h_sceneLocation = coordinate.asQpoint();
+}
+
+QPoint HighlightItem::getLocation()
+{
+    return h_sceneLocation;
 }

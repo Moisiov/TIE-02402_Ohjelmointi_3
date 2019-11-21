@@ -32,7 +32,8 @@ SOURCES += \
     workers/worker.cpp \
     tiles/forest.cpp \
     tiles/grassland.cpp \
-    graphics/highlightitem.cpp
+    graphics/highlightitem.cpp \
+    tiles/extendedtilebase.cpp
 
 HEADERS += \
     basicinfo.hh \
@@ -61,7 +62,8 @@ HEADERS += \
     workers/worker.hh \
     tiles/forest.h \
     tiles/grassland.h \
-    graphics/highlightitem.h
+    graphics/highlightitem.h \
+    tiles/extendedtilebase.h
 
 OTHER_FILES +=
 

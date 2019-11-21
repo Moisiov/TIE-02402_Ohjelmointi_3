@@ -14,7 +14,9 @@
 class HighlightItem : public QGraphicsItem
 {
 public:
-    HighlightItem(Course::Coordinate coordinate, int size, QColor color = QColor(250, 120, 255, 50));
+    HighlightItem(Course::Coordinate coordinate, int size,
+                  QColor color = QColor(150, 255, 150, 150),
+                  QColor borderColor = QColor(Qt::green));
 
     QRectF boundingRect() const override;
 
@@ -26,10 +28,13 @@ public:
 
     void updateLocation(Course::Coordinate coordinate);
 
+    QPoint getLocation();
+
 private:
     QPoint h_sceneLocation;
     int h_size;
     QColor h_color;
+    QColor h_borderColor;
 };
 
 #endif // HIGHLIGHTITEM_H

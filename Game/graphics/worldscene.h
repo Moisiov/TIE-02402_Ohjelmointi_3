@@ -10,6 +10,7 @@
 
 #include "core/gameobject.h"
 #include "tiles/tilebase.h"
+#include "highlightitem.h"
 
 const std::pair<int, int> SCENE_WIDTH_LIMITS = {1, 100};
 const std::pair<int, int> SCENE_HEIGHT_LIMITS = {1, 100};
@@ -43,13 +44,30 @@ public:
 
     void drawItem( std::shared_ptr<Course::GameObject> obj);
 
-    void highlightSelection ( Course::Coordinate coord );
-
     void removeItem( std::shared_ptr<Course::GameObject> obj);
 
     void updateItem( std::shared_ptr<Course::GameObject> obj);
 
     virtual bool event(QEvent* event) override;
+
+    /**
+     * @brief highlightTile highlights selected tile on scene
+     * @param coord coordinate to be highlighted
+     * @param clear is a boolean value that tells the function
+     * if highlight area should be cleared before new highlight
+     */
+    void highlightTile(Course::Coordinate coord, bool clear = true);
+
+    /**
+     * @brief highlightSelection highlights selected tiles on scene
+     * @param coords is a vector containing given coordinates
+     */
+    void highlightSelection (std::vector<Course::Coordinate> coords );
+
+    /**
+     * @brief clearHighLight removes highlighted area
+     */
+    void clearHighlight();
 
 signals:
     /**
@@ -64,7 +82,8 @@ private:
     int w_height;
     int w_scale;
 
-    std::shared_ptr<Course::TileBase> w_selectedTile;
+    // std::vector<std::shared_ptr<HighlightItem>> w_highlightedTiles;
+    std::vector<HighlightItem*> w_highlightedTiles;
 };
 
 #endif // WORLDSCENE_H

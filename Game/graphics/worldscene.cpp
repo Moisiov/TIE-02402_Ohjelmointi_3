@@ -17,7 +17,7 @@ WorldScene::WorldScene(QWidget* parent,
     w_width(100),
     w_height(100),
     w_scale(50),
-    w_selectedTile(nullptr)
+    w_highlightedTiles({})
 {
     setSize(width, height);
     setScale(scale);
@@ -95,27 +95,27 @@ bool WorldScene::event(QEvent *event)
                 point.rx() = floor(point.rx());
                 point.ry() = floor(point.ry());
 
-                //QGraphicsItem* pressed = itemAt(point * w_scale, QTransform());
-                QGraphicsItem* pressed = items(point * w_scale).last();
+                if (point.rx() >= 0 && point.ry() >= 0
+                        && point.rx() < w_width && point.ry() < w_height) {
+                    QGraphicsItem* pressed = items(point * w_scale).last();
 
-                if (pressed != nullptr && pressed->type() != 3){
-                    qDebug() << "ObjID: " <<
-                                static_cast<WorldItem*>(pressed)
-                                ->getBoundObject()->ID  << " pressed.";
+                    if (pressed != nullptr && pressed->type() != 3){
+                        qDebug() << "ObjID: " <<
+                                    static_cast<WorldItem*>(pressed)
+                                    ->getBoundObject()->ID  << " pressed.";
 
-                    // Emit selected item to MapWindow
-                    std::shared_ptr<Course::GameObject> obj
-                            = static_cast<WorldItem*>(pressed)->getBoundObject();
-                    emit objectClicked(obj);
-                    highlightSelection(obj->getCoordinate());
-                    return true;
+                        // Emit selected item to MapWindow
+                        std::shared_ptr<Course::GameObject> obj
+                                = static_cast<WorldItem*>(pressed)->getBoundObject();
+                        emit objectClicked(obj);
+                        return true;
+                    }
                 }
-
             }
         }
     }
 
-    return false;
+    return QGraphicsScene::event(event);
 }
 
 void WorldScene::removeItem(std::shared_ptr<Course::GameObject> obj)
@@ -139,11 +139,35 @@ void WorldScene::drawItem( std::shared_ptr<Course::GameObject> obj)
     addItem(nItem);
 }
 
-// Not implemented yet
-void WorldScene::highlightSelection(Course::Coordinate coord)
+void WorldScene::highlightTile(Course::Coordinate coord, bool clear)
 {
-    qDebug() << "WorldScene::highlightSelection()";
+    if (clear) {clearHighlight();}
 
-    HighlightItem* item = new HighlightItem(coord, w_scale, QColor(255, 255, 255));
-    addItem(item);
+    if (coord.x() >= 0 && coord.y() >= 0 && coord.x() < w_width && coord.y() < w_height)
+    {
+        HighlightItem* item = new HighlightItem(coord, w_scale);
+        addItem(item);
+
+        w_highlightedTiles.push_back(item);
+    }
+}
+
+void WorldScene::highlightSelection(std::vector<Course::Coordinate> coords)
+{
+    clearHighlight();
+
+    for (auto coord : coords)
+    {
+        highlightTile(coord, false);
+    }
+}
+
+void WorldScene::clearHighlight()
+{
+    for (auto hItem : w_highlightedTiles)
+    {
+        delete hItem;
+    }
+    w_highlightedTiles.clear();
+    update();
 }

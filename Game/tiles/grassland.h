@@ -34,7 +34,6 @@ public:
      * @copydoc GameObject::getType()
      */
     virtual std::string getType() const override;
-
 };
 
 #endif // GRASSLAND_H
