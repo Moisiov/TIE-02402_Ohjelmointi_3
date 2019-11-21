@@ -1,10 +1,10 @@
 #ifndef FOREST_H
 #define FOREST_H
 
-#include "tiles/tilebase.h"
+#include "extendedtilebase.h"
 #include "basicinfo.hh"
 
-class Forest : public Course::TileBase
+class Forest : public ExtendedTileBase
 {
 public:
     /**
@@ -23,7 +23,8 @@ public:
            const std::shared_ptr<Course::iObjectManager>& objectmanager,
            const unsigned int& max_build = 1,
            const unsigned int& max_work = 3,
-           const Course::ResourceMap& production = FOREST_PROD);
+           const Course::ResourceMap& production = FOREST_PROD,
+           const std::vector<std::string>& buildableBuildings = FOREST_BUILD);
 
     /**
      * @brief Default destructor.

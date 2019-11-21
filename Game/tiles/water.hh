@@ -2,13 +2,13 @@
 #define WATER_HH
 
 
-#include "tiles/tilebase.h"
+#include "extendedtilebase.h"
 #include "basicinfo.hh"
 
 /**
  * @brief The Water class represents water in the gameworld.
  */
-class Water : public Course::TileBase
+class Water : public ExtendedTileBase
 {
 public:
     /**
@@ -27,7 +27,8 @@ public:
          const std::shared_ptr<Course::iObjectManager>& objectmanager,
          const unsigned int& max_build = 1,
          const unsigned int& max_work = 3,
-         const Course::ResourceMap& production = WATER_PROD);
+         const Course::ResourceMap& production = WATER_PROD,
+         const std::vector<std::string>& buildableBuildings = WATER_BUILD);
 
     /**
      * @brief Default destructor.

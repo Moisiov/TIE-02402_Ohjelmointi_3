@@ -1,13 +1,13 @@
 #ifndef STONE_HH
 #define STONE_HH
 
-#include "tiles/tilebase.h"
+#include "extendedtilebase.h"
 #include "basicinfo.hh"
 
 /**
  * @brief The Stone class represents stone in the gameworld.
  */
-class Stone : public Course::TileBase
+class Stone : public ExtendedTileBase
 {
 public:
     /**
@@ -26,7 +26,8 @@ public:
          const std::shared_ptr<Course::iObjectManager>& objectmanager,
          const unsigned int& max_build = 1,
          const unsigned int& max_work = 3,
-         const Course::ResourceMap& production = STONE_PROD);
+         const Course::ResourceMap& production = STONE_PROD,
+         const std::vector<std::string>& buildableBuildings = STONE_BUILD);
 
     /**
      * @brief Default destructor.

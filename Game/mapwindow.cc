@@ -119,7 +119,7 @@ void MapWindow::objectSelected(std::shared_ptr<Course::GameObject> obj)
     // Tile highlights
     m_worldScene->highlightTile(obj->getCoordinate());
 
-    m_selectedTile = std::dynamic_pointer_cast<Course::TileBase>(obj);
+    m_selectedTile = std::dynamic_pointer_cast<ExtendedTileBase>(obj);
 
     std::string objType = obj->getType();
     std::string infoText = objType;
@@ -220,12 +220,25 @@ void MapWindow::selectBuildingMenu()
     {
         m_ui->menuWidget->setCurrentWidget(m_ui->buildMenu);
 
-        std::string tileType = m_selectedTile->getType();
-        /*switch (tileType)
-        {
-            case "Forest":
+        // Add correct buttons to the build menu
+        QWidget* buildButtons = new QWidget();
+        QVBoxLayout* layout = new QVBoxLayout();
+        layout->setMargin(0);
+        layout->setAlignment(Qt::AlignTop);
 
-        }*/
+        std::vector<std::string> buildables = m_selectedTile->getBuildableBuildings();
+        for (unsigned i = 0; i < buildables.size(); ++i)
+        {
+            QPushButton* button = new QPushButton(this);
+            connect(button, &QPushButton::clicked, this, [this, buildables, i] { buildAction(buildables.at(i)); });
+            button->setText(buildables.at(i).c_str());
+            button->setFixedSize(QSize(201, 61));
+            layout->addWidget(button);
+            button->show();
+        }
+
+        buildButtons->setLayout(layout);
+        m_ui->scrollArea->setWidget(buildButtons);
     }
     else
     {
@@ -237,6 +250,12 @@ void MapWindow::selectBuildingMenu()
 
         m_ui->menuWidget->setCurrentWidget(m_ui->buildingMenu);
     }
+}
+
+void MapWindow::buildAction(std::string buildingType)
+{
+    bool buildSuccess = m_GEHandler->constructBuilding(buildingType, m_selectedTile->getCoordinate());
+    if (buildSuccess) { selectBuildingMenu(); }
 }
 
 void MapWindow::selectWorkerMenu(unsigned workerIndex)

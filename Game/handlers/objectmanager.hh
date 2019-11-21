@@ -6,6 +6,7 @@
 #include "core/coordinate.h"
 #include "core/gameobject.h"
 #include "tiles/tilebase.h"
+#include "tiles/extendedtilebase.h"
 #include "graphics/worldscene.h"
 #include "buildings/upgradeablebuilding.hh"
 #include "workers/unitbase.hh"

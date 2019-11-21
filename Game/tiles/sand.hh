@@ -1,13 +1,13 @@
 #ifndef SAND_HH
 #define SAND_HH
 
-#include "tiles/tilebase.h"
+#include "extendedtilebase.h"
 #include "basicinfo.hh"
 
 /**
  * @brief The Sand class represents Sand in the gameworld.
  */
-class Sand : public Course::TileBase
+class Sand : public ExtendedTileBase
 {
 public:
     /**
@@ -26,7 +26,8 @@ public:
          const std::shared_ptr<Course::iObjectManager>& objectmanager,
          const unsigned int& max_build = 1,
          const unsigned int& max_work = 3,
-         const Course::ResourceMap& production = SAND_PROD);
+         const Course::ResourceMap& production = SAND_PROD,
+         const std::vector<std::string>& buildableBuildings = SAND_BUILD);
 
     /**
      * @brief Default destructor.

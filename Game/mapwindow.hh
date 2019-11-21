@@ -102,6 +102,12 @@ private slots:
     void selectBuildingMenu();
 
     /**
+     * @brief buildAction is called when an building is selected in build menu
+     * @param buildingType is the type of the building
+     */
+    void buildAction(std::string buildingType);
+
+    /**
      * @brief selectWorkerMenu changes menu view to worker menu.
      */
     void selectWorkerMenu(unsigned workerIndex);
@@ -135,8 +141,8 @@ private:
     unsigned m_map_x; // Filled in by StartDialog parameters
     unsigned m_map_y; // Filled in by StartDialog parameters
     std::shared_ptr<Player> m_currentPlayer;
-    std::shared_ptr<Course::TileBase> m_selectedTile;
-    std::shared_ptr<Course::BuildingBase> m_selectedBuilding;
+    std::shared_ptr<ExtendedTileBase> m_selectedTile;
+    std::shared_ptr<UpgradeableBuilding> m_selectedBuilding;
     std::shared_ptr<UnitBase> m_selectedWorker;
 
     void setupMenuConnections();

@@ -1,10 +1,10 @@
 #ifndef GRASSLAND_H
 #define GRASSLAND_H
 
-#include "tiles/tilebase.h"
+#include "extendedtilebase.h"
 #include "basicinfo.hh"
 
-class Grassland : public Course::TileBase
+class Grassland : public ExtendedTileBase
 {
 public:
     /**
@@ -23,7 +23,8 @@ public:
               const std::shared_ptr<Course::iObjectManager>& objectmanager,
               const unsigned int& max_build = 1,
               const unsigned int& max_work = 3,
-              const Course::ResourceMap& production = GRASSLAND_PROD);
+              const Course::ResourceMap& production = GRASSLAND_PROD,
+              const std::vector<std::string>& buildableBuildings = GRASSLAND_BUILD);
 
     /**
      * @brief Default destructor.

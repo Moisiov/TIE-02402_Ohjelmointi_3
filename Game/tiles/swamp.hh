@@ -1,13 +1,13 @@
 #ifndef SWAMP_HH
 #define SWAMP_HH
 
-#include "tiles/tilebase.h"
+#include "extendedtilebase.h"
 #include "basicinfo.hh"
 
 /**
  * @brief The Swamp class represents swamp in the gameworld.
  */
-class Swamp : public Course::TileBase
+class Swamp : public ExtendedTileBase
 {
 public:
     /**
@@ -26,7 +26,8 @@ public:
          const std::shared_ptr<Course::iObjectManager>& objectmanager,
          const unsigned int& max_build = 1,
          const unsigned int& max_work = 3,
-         const Course::ResourceMap& production = SWAMP_PROD);
+         const Course::ResourceMap& production = SWAMP_PROD,
+         const std::vector<std::string>& buildableBuildings = SWAMP_BUILD);
 
     /**
      * @brief Default destructor.

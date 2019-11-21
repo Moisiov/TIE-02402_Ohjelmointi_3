@@ -4,7 +4,7 @@
 #include "tiles/tilebase.h"
 #include "basicinfo.hh"
 
-class ExtendedTileBase : Course::TileBase
+class ExtendedTileBase : public Course::TileBase
 {
 public:
     /**

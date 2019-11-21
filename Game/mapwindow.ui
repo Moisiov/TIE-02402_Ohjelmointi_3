@@ -236,55 +236,6 @@ p, li { white-space: pre-wrap; }
        </widget>
       </widget>
       <widget class="QWidget" name="buildMenu">
-       <widget class="QScrollArea" name="scrollArea">
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>50</y>
-          <width>201</width>
-          <height>441</height>
-         </rect>
-        </property>
-        <property name="widgetResizable">
-         <bool>true</bool>
-        </property>
-        <widget class="QWidget" name="scrollAreaWidgetContents">
-         <property name="geometry">
-          <rect>
-           <x>0</x>
-           <y>0</y>
-           <width>199</width>
-           <height>439</height>
-          </rect>
-         </property>
-         <widget class="QPushButton" name="buildHQButton">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>201</width>
-            <height>51</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>HeadQuarters</string>
-          </property>
-         </widget>
-         <widget class="QPushButton" name="buildFarmButton">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>60</y>
-            <width>201</width>
-            <height>51</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>Farm</string>
-          </property>
-         </widget>
-        </widget>
-       </widget>
        <widget class="QLabel" name="buildMenuHeader">
         <property name="geometry">
          <rect>
@@ -297,6 +248,50 @@ p, li { white-space: pre-wrap; }
         <property name="text">
          <string>Build</string>
         </property>
+       </widget>
+       <widget class="QScrollArea" name="scrollArea">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>40</y>
+          <width>201</width>
+          <height>451</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Plain</enum>
+        </property>
+        <property name="lineWidth">
+         <number>0</number>
+        </property>
+        <property name="horizontalScrollBarPolicy">
+         <enum>Qt::ScrollBarAlwaysOff</enum>
+        </property>
+        <property name="widgetResizable">
+         <bool>true</bool>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+        </property>
+        <widget class="QWidget" name="scrollAreaWidgetContents">
+         <property name="geometry">
+          <rect>
+           <x>0</x>
+           <y>0</y>
+           <width>201</width>
+           <height>451</height>
+          </rect>
+         </property>
+        </widget>
        </widget>
       </widget>
      </widget>
