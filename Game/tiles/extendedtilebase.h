@@ -33,6 +33,8 @@ public:
 
     std::string description();
 
+    virtual bool generateResources() override;
+
 private:
     std::vector<std::string> _buildableBuildings;
 };

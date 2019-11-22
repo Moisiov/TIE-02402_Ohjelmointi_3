@@ -83,7 +83,7 @@ Course::ResourceMap UpgradeableBuilding::getSellValue()
         totalBuildCost = Course::mergeResourceMaps(totalBuildCost, buildcost_[i]);
     }
 
-    Course::ResourceMap sellValue = Course::multiplyResourceMap(totalBuildCost, HALF);
+    Course::ResourceMap sellValue = fixedResourceMultiplier(totalBuildCost, HALF);
     return sellValue;
 }
 

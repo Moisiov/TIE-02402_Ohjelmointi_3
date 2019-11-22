@@ -6,6 +6,7 @@ QT += core gui widgets
 CONFIG += c++14
 
 SOURCES += \
+    basicinfo.cpp \
     buildings/hq.cpp \
     buildings/outpost.cpp \
     buildings/ranch.cc \

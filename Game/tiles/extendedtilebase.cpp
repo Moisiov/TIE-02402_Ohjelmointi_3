@@ -1,5 +1,8 @@
 #include "extendedtilebase.h"
 #include "player.hh"
+#include <QDebug>
+
+
 
 ExtendedTileBase::ExtendedTileBase(const Course::Coordinate& location,
                    const std::shared_ptr<Course::iGameEventHandler> &eventhandler,
@@ -30,4 +33,29 @@ std::string ExtendedTileBase::description()
     description += getType() + " tile";
 
     return description;
+}
+
+bool ExtendedTileBase::generateResources()
+{
+    std::vector<std::shared_ptr<Course::BuildingBase>> buildings = getBuildings();
+    std::vector<std::shared_ptr<Course::WorkerBase>> workers = getWorkers();
+
+    Course::ResourceMap base = BASE_PRODUCTION;
+
+    for (unsigned i = 0; i < buildings.size(); ++i)
+    {
+       Course::ResourceMap buildingProduction = buildings[i]->getProduction();
+
+        base = mergeResourceMaps(base, buildingProduction);
+    }
+
+    Course::ResourceMapDouble totalEfficiency = ZERO;
+    for (unsigned i = 0; i < workers.size(); ++i) {
+        Course::ResourceMapDouble workerEfficiency = workers[i]->WORKER_EFFICIENCY;
+        totalEfficiency = Course::mergeResourceMapDoubles(totalEfficiency, workerEfficiency);
+    }
+
+    Course::ResourceMap totalProduction = fixedResourceMultiplier(base, totalEfficiency);
+
+    return lockEventHandler()->modifyResources(getOwner(), totalProduction);
 }
