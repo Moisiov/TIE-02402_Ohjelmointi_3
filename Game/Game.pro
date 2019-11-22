@@ -7,6 +7,7 @@ CONFIG += c++14
 
 SOURCES += \
     buildings/hq.cpp \
+    buildings/outpost.cpp \
     buildings/ranch.cc \
     buildings/upgradeablebuilding.cc \
     handlers/gameeventhandler.cc \
@@ -38,6 +39,7 @@ SOURCES += \
 HEADERS += \
     basicinfo.hh \
     buildings/hq.hh \
+    buildings/outpost.hh \
     buildings/ranch.hh \
     buildings/upgradeablebuilding.hh \
     handlers/gameeventhandler.hh \

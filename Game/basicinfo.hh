@@ -37,6 +37,34 @@ const std::vector<Course::ResourceMap> HQ_PRODUCTION_LIST = {
     }
 };
 
+const std::vector<Course::ResourceMap> OUTPOST_BUILD_COST_LIST = {
+    {
+        {Course::BasicResource::MONEY, 100},
+        {Course::BasicResource::FOOD, 100},
+        {Course::BasicResource::WOOD, 100}
+    },
+    {
+        {Course::BasicResource::MONEY, 100},
+        {Course::BasicResource::FOOD, 100},
+        {Course::BasicResource::WOOD, 100}
+    },
+    {
+        {Course::BasicResource::MONEY, 100},
+        {Course::BasicResource::FOOD, 100},
+        {Course::BasicResource::WOOD, 100}
+    }
+};
+
+
+const std::vector<Course::ResourceMap> OUTPOST_PRODUCTION_LIST = {
+    {
+    },
+    {
+    },
+    {
+    }
+};
+
 const std::vector<Course::ResourceMap> CAMPUS_BUILD_COST_LIST = {
     {
         {Course::BasicResource::MONEY, 1000},
@@ -294,11 +322,13 @@ const Course::ResourceMap WATER_PROD = {
 // TILE BUILDABLE BUILDINGS //
 const std::vector<std::string> FOREST_BUILD {
     {"HeadQuarters"},
+    {"Outpost"},
     {"Sawmill"}
 };
 
 const std::vector<std::string> GRASSLAND_BUILD {
     {"HeadQuarters"},
+    {"Outpost"},
     {"Market"},
     {"Campus"},
     {"Farm"}
@@ -306,17 +336,20 @@ const std::vector<std::string> GRASSLAND_BUILD {
 
 const std::vector<std::string> SAND_BUILD {
     {"HeadQuarters"},
+    {"Outpost"},
     {"Market"},
     {"Campus"}
 };
 
 const std::vector<std::string> STONE_BUILD {
     {"HeadQuarters"},
+    {"Outpost"},
     {"Mine"}
 };
 
 const std::vector<std::string> SWAMP_BUILD {
-    {"HeadQuarters"}
+    {"HeadQuarters"},
+    {"Outpost"}
 };
 
 const std::vector<std::string> WATER_BUILD {

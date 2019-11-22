@@ -198,6 +198,8 @@ bool GameEventHandler::constructBuilding(std::string type, Course::Coordinate lo
     Course::ResourceMap cost;
     if (type == "HeadQuarters") {
         cost = HQ_BUILD_COST_LIST[0];
+    } else if (type == "Outpost") {
+        cost = OUTPOST_BUILD_COST_LIST[0];
     } else if (type == "Campus") {
         cost = CAMPUS_BUILD_COST_LIST[0];
     } else if (type == "Fishery") {
