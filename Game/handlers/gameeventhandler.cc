@@ -11,6 +11,7 @@ GameEventHandler::GameEventHandler():
     _UI(nullptr),
     _playerList({}),
     _currentPlayer(0),
+    _turn(1),
     _map_x(0),
     _map_y(0)
 {
@@ -134,10 +135,14 @@ void GameEventHandler::endTurn()
     _currentPlayer += 1;
     if (_currentPlayer >= _playerList.size()) {
         _currentPlayer = 0;
+        _turn += 1;
     }
 
     _objM->restoreMoves(_playerList[_currentPlayer]);
-    _objM->generateResources(_playerList[_currentPlayer]);
+
+    if (_turn > 1) {
+        _objM->generateResources(_playerList[_currentPlayer]);
+    }
 }
 
 bool GameEventHandler::constructBuilding(std::string type, Course::Coordinate location)
@@ -208,7 +213,7 @@ bool GameEventHandler::constructBuilding(std::string type, Course::Coordinate lo
         cost = FISHERY_BUILD_COST_LIST[0];
     } else if (type == "Mine") {
         cost = MINE_BUILD_COST_LIST[0];
-    } else if (type == "Ranch") {
+    } else if (type == "Farm") {
         cost = RANCH_BUILD_COST_LIST[0];
     } else if (type == "Sawmill") {
         cost = SAWMILL_BUILD_COST_LIST[0];
@@ -244,8 +249,7 @@ bool GameEventHandler::constructBuilding(std::string type, Course::Coordinate lo
 
     if (canBuild) {
         _objM->constructBuilding(type, location, _playerList[_currentPlayer]);
-        Course::ResourceMap costNegative = Course::multiplyResourceMap(cost, NEGATIVE);
-        _playerList[_currentPlayer]->modifyResources(costNegative);
+        _playerList[_currentPlayer]->payResourceCost(cost);
         return true;
     } else {
         qDebug() << "The player cannot build on unowned land without a scout!";
@@ -268,8 +272,7 @@ bool GameEventHandler::upgradeBuilding(std::shared_ptr<Course::BuildingBase> bui
         return false;
     }
 
-    Course::ResourceMap costNegative = Course::multiplyResourceMap(cost, NEGATIVE);
-    _playerList[_currentPlayer]->modifyResources(costNegative);
+    _playerList[_currentPlayer]->payResourceCost(cost);
 
     upgrBuilding->upgradeBuilding();
 
@@ -313,8 +316,7 @@ bool GameEventHandler::constructUnit(std::string type)
         return false;
     }
 
-    Course::ResourceMap costNegative = Course::multiplyResourceMap(recruitCost, NEGATIVE);
-    _playerList[_currentPlayer]->modifyResources(costNegative);
+    _playerList[_currentPlayer]->payResourceCost(recruitCost);
 
     _objM->constructUnit(type, buildLocation, _playerList[_currentPlayer]);
 

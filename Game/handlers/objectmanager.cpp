@@ -8,6 +8,7 @@
 #include "buildings/mine.hh"
 #include "buildings/market.hh"
 #include "buildings/campus.hh"
+#include "buildings/outpost.hh"
 
 #include "workers/scout.hh"
 #include "workers/worker.hh"
@@ -107,6 +108,8 @@ void ObjectManager::constructBuilding(std::string type,
 
     if (type == "HeadQuarters") {
         building = std::make_shared<HQ>(_gameEventHandler, _objectManager, owner);
+    } else if (type == "Outpost") {
+        building= std::make_shared<Outpost>(_gameEventHandler, _objectManager, owner);
     } else if (type == "Farm") {
         building = std::make_shared<Ranch>(_gameEventHandler, _objectManager, owner);
     } else if (type == "Fishery") {
@@ -120,6 +123,7 @@ void ObjectManager::constructBuilding(std::string type,
     } else if (type == "Campus") {
         building = std::make_shared<Campus>(_gameEventHandler, _objectManager, owner);
     } else {
+        qDebug() << "ObjectManager doesn't recoqnize building!";
         return;
     }
 

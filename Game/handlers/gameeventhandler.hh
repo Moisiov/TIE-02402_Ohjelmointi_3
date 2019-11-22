@@ -134,6 +134,7 @@ private:
     std::shared_ptr<MapWindow> _UI;
     std::vector<std::shared_ptr<Player>> _playerList; // to be filled in by setPlayerList call
     unsigned _currentPlayer; // starts from zero, loops over _playerList count
+    unsigned _turn;
     unsigned _map_x;
     unsigned _map_y;
 };

@@ -255,7 +255,10 @@ void MapWindow::selectBuildingMenu()
 void MapWindow::buildAction(std::string buildingType)
 {
     bool buildSuccess = m_GEHandler->constructBuilding(buildingType, m_selectedTile->getCoordinate());
-    if (buildSuccess) { selectBuildingMenu(); }
+    if (buildSuccess) {
+        selectBuildingMenu();
+        updatePlayerInfo();
+    }
 }
 
 void MapWindow::selectWorkerMenu(unsigned workerIndex)
@@ -274,6 +277,9 @@ void MapWindow::selectWorkerMenu(unsigned workerIndex)
 void MapWindow::selectUpgrade()
 {
     bool upgradeSuccess = m_GEHandler->upgradeBuilding(m_selectedBuilding);
+    if (upgradeSuccess) {
+        updatePlayerInfo();
+    }
 }
 
 void MapWindow::selectSell()

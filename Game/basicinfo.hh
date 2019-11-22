@@ -357,12 +357,12 @@ const std::vector<std::string> WATER_BUILD {
 };
 
 const Course::ResourceMapDouble NEGATIVE {
-    {Course::BasicResource::NONE, -1.0},
-    {Course::BasicResource::MONEY, -1.0},
-    {Course::BasicResource::FOOD, -1.0},
-    {Course::BasicResource::WOOD, -1.0},
-    {Course::BasicResource::STONE, -1.0},
-    {Course::BasicResource::ORE, -1.0}
+    {Course::BasicResource::NONE, -1},
+    {Course::BasicResource::MONEY, -1},
+    {Course::BasicResource::FOOD, -1},
+    {Course::BasicResource::WOOD, -1},
+    {Course::BasicResource::STONE, -1},
+    {Course::BasicResource::ORE, -1}
 };
 
 const Course::ResourceMapDouble HALF {
