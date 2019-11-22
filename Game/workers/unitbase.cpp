@@ -1,4 +1,5 @@
 #include "unitbase.hh"
+#include "player.hh"
 
 
 UnitBase::UnitBase(const std::shared_ptr<Course::iGameEventHandler> &eventhandler,
@@ -21,6 +22,15 @@ void UnitBase::rechargeMoves()
 void UnitBase::doSpecialAction()
 {
     return; // We have no use for this
+}
+
+std::string UnitBase::description()
+{
+    std::string description = "";
+    description += getOwner()->getName() + "'s ";
+    description += getType();
+
+    return description;
 }
 
 

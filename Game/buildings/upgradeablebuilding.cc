@@ -1,6 +1,6 @@
 #include "upgradeablebuilding.hh"
 #include "basicinfo.hh"
-
+#include "player.hh"
 
 UpgradeableBuilding::UpgradeableBuilding(const std::shared_ptr<Course::iGameEventHandler> &eventhandler,
                                          const std::shared_ptr<Course::iObjectManager> &objectmanager,
@@ -70,4 +70,15 @@ Course::ResourceMap UpgradeableBuilding::getSellValue()
 
     Course::ResourceMap sellValue = Course::multiplyResourceMap(totalBuildCost, HALF);
     return sellValue;
+}
+
+std::string UpgradeableBuilding::description()
+{
+    std::string description = "";
+    description += getOwner()->getName() + "'s " + getType();
+    if (maxTier_ > 1) {
+        description += ", tier: " + std::to_string(tier_);
+    }
+
+    return description;
 }

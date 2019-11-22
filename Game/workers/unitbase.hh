@@ -22,6 +22,8 @@ public:
 
     virtual void doSpecialAction() override;
 
+    std::string description();
+
 private:
     unsigned _movementMax;
     bool _canMove;

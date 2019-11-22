@@ -34,6 +34,8 @@ public:
 
     Course::ResourceMap getSellValue();
 
+    std::string description();
+
 private:
     unsigned int tier_;
     const unsigned int maxTier_;

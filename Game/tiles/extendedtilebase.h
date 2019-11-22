@@ -31,6 +31,8 @@ public:
      */
     std::vector<std::string> getBuildableBuildings();
 
+    std::string description();
+
 private:
     std::vector<std::string> _buildableBuildings;
 };
