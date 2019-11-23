@@ -251,6 +251,11 @@ bool GameEventHandler::constructBuilding(std::string type, Course::Coordinate lo
         }
     }
 
+    if (!targetTile->hasSpaceForBuildings(1)) {
+        qDebug() << "Target tile has no space for buildings!";
+        return false;
+    }
+
     if (canBuild) {
         _objM->constructBuilding(type, location, _playerList[_currentPlayer]);
         _playerList[_currentPlayer]->payResourceCost(cost);

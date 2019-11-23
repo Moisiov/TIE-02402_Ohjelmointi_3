@@ -285,6 +285,7 @@ void MapWindow::selectUpgrade()
 void MapWindow::selectSell()
 {
     m_GEHandler->sellBuilding(m_selectedBuilding);
+    updatePlayerInfo();
 }
 
 void MapWindow::selectMove()
