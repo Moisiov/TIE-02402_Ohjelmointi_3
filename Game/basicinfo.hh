@@ -236,6 +236,81 @@ const Course::ResourceMapDouble SCOUT_EFFICIENCY = {
     {Course::BasicResource::ORE, 0.0}
 };
 
+const std::vector<std::string> SPECIALIZATIONS = {
+    "Farmer",
+    "Lumberjack",
+    "Miner",
+    "Merchant",
+    "Teekkari"
+};
+
+const std::map<std::string, Course::ResourceMap> SPECIALIZATION_COST = {
+    {"Farmer", {
+        {Course::BasicResource::MONEY, 200},
+        {Course::BasicResource::FOOD, 100},
+    }},
+    {"Lumberjack", {
+         {Course::BasicResource::MONEY, 200},
+         {Course::BasicResource::FOOD, 100},
+    }},
+    {"Miner", {
+         {Course::BasicResource::MONEY, 200},
+         {Course::BasicResource::FOOD, 100},
+    }},
+    {"Merchant", {
+         {Course::BasicResource::MONEY, 200},
+         {Course::BasicResource::FOOD, 100},
+    }},
+    {"Teekkari", {
+         {Course::BasicResource::MONEY, 1000},
+         {Course::BasicResource::FOOD, 100},
+    }},
+};
+
+const std::map<std::string, Course::ResourceMapDouble> SPECIALIZATION_EFFICIENCY = {
+    {"Farmer", {
+         {Course::BasicResource::NONE, 0.5},
+         {Course::BasicResource::MONEY, 0.5},
+         {Course::BasicResource::FOOD, 2},
+         {Course::BasicResource::WOOD, 0.5},
+         {Course::BasicResource::STONE, 0.5},
+         {Course::BasicResource::ORE, 0.5}
+    }},
+    {"Lumberjack", {
+         {Course::BasicResource::NONE, 0.5},
+         {Course::BasicResource::MONEY, 0.5},
+         {Course::BasicResource::FOOD, 0.5},
+         {Course::BasicResource::WOOD, 2},
+         {Course::BasicResource::STONE, 0.5},
+         {Course::BasicResource::ORE, 0.5}
+    }},
+    {"Miner", {
+         {Course::BasicResource::NONE, 0.5},
+         {Course::BasicResource::MONEY, 0.5},
+         {Course::BasicResource::FOOD, 0.5},
+         {Course::BasicResource::WOOD, 0.5},
+         {Course::BasicResource::STONE, 2},
+         {Course::BasicResource::ORE, 2}
+    }},
+    {"Merchant", {
+         {Course::BasicResource::NONE, 0.5},
+         {Course::BasicResource::MONEY, 2},
+         {Course::BasicResource::FOOD, 0.5},
+         {Course::BasicResource::WOOD, 0.5},
+         {Course::BasicResource::STONE, 0.5},
+         {Course::BasicResource::ORE, 0.5}
+    }},
+    {"Teekkari", {
+         {Course::BasicResource::NONE, 2},
+         {Course::BasicResource::MONEY, 2},
+         {Course::BasicResource::FOOD, 2},
+         {Course::BasicResource::WOOD, 2},
+         {Course::BasicResource::STONE, 2},
+         {Course::BasicResource::ORE, 2}
+    }},
+};
+
+
 // TILE RESOURCES //
 
 const Course::ResourceMap FOREST_PROD = {

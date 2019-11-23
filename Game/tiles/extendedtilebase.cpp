@@ -51,7 +51,8 @@ bool ExtendedTileBase::generateResources()
 
     Course::ResourceMapDouble totalEfficiency = ZERO;
     for (unsigned i = 0; i < workers.size(); ++i) {
-        Course::ResourceMapDouble workerEfficiency = workers[i]->WORKER_EFFICIENCY;
+        std::shared_ptr<UnitBase> unit = std::dynamic_pointer_cast<UnitBase>(workers[i]);
+        Course::ResourceMapDouble workerEfficiency = unit->getEfficiency();
         totalEfficiency = Course::mergeResourceMapDoubles(totalEfficiency, workerEfficiency);
     }
 

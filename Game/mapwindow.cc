@@ -310,6 +310,14 @@ void MapWindow::endTurn()
     selectMainMenu();
 }
 
+void MapWindow::sendWarning(std::string message)
+{
+    QMessageBox warning;
+    warning.setText(QString::fromStdString(message));
+    warning.exec();
+    return;
+}
+
 void MapWindow::setupMenuConnections()
 {
     connect(m_ui->menuBtn, &QPushButton::clicked, this, &MapWindow::selectMainMenu);

@@ -16,6 +16,11 @@ public:
            unsigned movementMax = 2);
 
     virtual std::string getType() const override;
+
+    bool specializeInto(std::string type);
+
+private:
+    std::string _type;
 };
 
 #endif // WORKER_HH
