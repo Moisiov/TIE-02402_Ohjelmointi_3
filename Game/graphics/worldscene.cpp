@@ -83,7 +83,8 @@ void WorldScene::updateItem(std::shared_ptr<Course::GameObject> obj)
 bool WorldScene::event(QEvent *event)
 {
     // Check if drag mode is on (right click fakes left click to allow dragging)
-    if(views().at(0)->dragMode() != QGraphicsView::DragMode::ScrollHandDrag) {
+    if(views().at(0)->dragMode() != QGraphicsView::DragMode::ScrollHandDrag)
+    {
         if(event->type() == QEvent::GraphicsSceneMousePress)
         {
             QGraphicsSceneMouseEvent* mouse_event =
@@ -113,6 +114,24 @@ bool WorldScene::event(QEvent *event)
                 }
             }
         }
+    }
+
+    // Hover events not working yet
+    if (event->type() == QEvent::GraphicsSceneHoverEnter)
+    {
+        QGraphicsSceneMouseEvent* mouse_event =
+                dynamic_cast<QGraphicsSceneMouseEvent*>(event);
+        QPointF point = mouse_event->scenePos() / w_scale;
+
+        point.rx() = floor(point.rx());
+        point.ry() = floor(point.ry());
+
+        highlightTile(Course::Coordinate(static_cast<int>(point.rx()), static_cast<int>(point.ry())));
+    }
+
+    if (event->type() == QEvent::GraphicsSceneHoverLeave)
+    {
+        // clearHighlight();
     }
 
     return QGraphicsScene::event(event);

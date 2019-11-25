@@ -49,8 +49,8 @@ bool GameView::eventFilter(QObject *object, QEvent *event) {
         }
     }
 
-    Q_UNUSED(object)
-    return false;
+    // Q_UNUSED(object)
+    return QGraphicsView::eventFilter(object, event);
 }
 
 void GameView::mouseReleaseEvent(QMouseEvent *event) {

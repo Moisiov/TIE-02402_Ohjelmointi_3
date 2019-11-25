@@ -1,4 +1,5 @@
 #include "highlightitem.h"
+#include <QDebug>
 
 HighlightItem::HighlightItem(Course::Coordinate coordinate, int size, QColor color,
                              QColor borderColor):
@@ -17,8 +18,16 @@ QRectF HighlightItem::boundingRect() const
 void HighlightItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED( option ); Q_UNUSED( widget );
+    QPoint radialCenter = h_sceneLocation*h_size + QPoint(h_size/2, h_size/2);
+    QRadialGradient gradient(radialCenter, h_size);
+    QColor opaqueColor = h_color;
+    opaqueColor.setAlpha(0);
+    gradient.setColorAt(0, opaqueColor);
+    gradient.setColorAt(1, h_color);
+
+    QBrush brush(gradient);
+    painter->setBrush(brush);
     painter->setPen(h_borderColor);
-    painter->setBrush(h_color);
     painter->drawRect(boundingRect());
 }
 

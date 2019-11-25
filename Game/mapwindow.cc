@@ -212,6 +212,7 @@ void MapWindow::drawItem( std::shared_ptr<Course::GameObject> obj)
 void MapWindow::selectMainMenu()
 {
     m_ui->menuWidget->setCurrentWidget(m_ui->mainMenu);
+    m_worldScene->clearHighlight();
 }
 
 void MapWindow::selectBuildingMenu()
