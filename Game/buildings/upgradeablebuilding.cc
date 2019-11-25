@@ -1,6 +1,6 @@
 #include "upgradeablebuilding.hh"
 #include "basicinfo.hh"
-
+#include "player.hh"
 
 UpgradeableBuilding::UpgradeableBuilding(const std::shared_ptr<Course::iGameEventHandler> &eventhandler,
                                          const std::shared_ptr<Course::iObjectManager> &objectmanager,
@@ -56,6 +56,21 @@ void UpgradeableBuilding::upgradeBuilding()
 
     tier_ += 1;
 
+    // Outposts conquer new tiles on tier upgrade
+    if (getType() == "Outpost") {
+        std::vector< std::shared_ptr<Course::TileBase> > neighbours =
+                lockObjectManager()->getTiles(getCoordinatePtr()->neighbours(static_cast<int>(tier_)));
+
+        for(auto it = neighbours.begin(); it != neighbours.end(); ++it)
+        {
+            // If the Tile doesn't have owner, set it's owner to buildings owner.
+            if( not (*it)->getOwner() )
+            {
+                (*it)->setOwner(getOwner());
+            }
+        }
+    }
+
     // Holding production for 1 turn while under construction
     addHoldMarkers(1);
 }
@@ -68,6 +83,17 @@ Course::ResourceMap UpgradeableBuilding::getSellValue()
         totalBuildCost = Course::mergeResourceMaps(totalBuildCost, buildcost_[i]);
     }
 
-    Course::ResourceMap sellValue = Course::multiplyResourceMap(totalBuildCost, HALF);
+    Course::ResourceMap sellValue = fixedResourceMultiplier(totalBuildCost, HALF);
     return sellValue;
+}
+
+std::string UpgradeableBuilding::description()
+{
+    std::string description = "";
+    description += getOwner()->getName() + "'s " + getType();
+    if (maxTier_ > 1) {
+        description += ", tier: " + std::to_string(tier_);
+    }
+
+    return description;
 }

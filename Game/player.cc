@@ -73,6 +73,25 @@ bool Player::modifyResources(Course::ResourceMap resources)
         return true;
     }
 }
+
+bool Player::payResourceCost(Course::ResourceMap cost)
+{
+    bool negativeResources = false;
+
+    for (std::pair<Course::BasicResource, int> material : cost) {
+        _resources.at(material.first) -= material.second;
+        if (_resources.at(material.first) < 0)
+        {
+            negativeResources = true;
+        }
+    }
+
+    if (negativeResources) {
+        return false;
+    } else {
+        return true;
+    }
+}
 Course::Coordinate Player::getHQCoord()
 {
     return _HQCoord;

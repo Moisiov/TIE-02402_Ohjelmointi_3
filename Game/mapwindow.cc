@@ -97,14 +97,16 @@ void MapWindow::getParameters(std::vector<std::string> playerList, std::vector<P
 
     m_worldScene->setSize(static_cast<int>(map_x),static_cast<int>(map_y));
 
+    unsigned seed = static_cast<unsigned>(std::time(nullptr));
+
     // Testing the world generator
     Course::WorldGenerator::getInstance().addConstructor<Forest>(2);
-    Course::WorldGenerator::getInstance().addConstructor<Grassland>(4);
-    Course::WorldGenerator::getInstance().addConstructor<Sand>(4);
+    Course::WorldGenerator::getInstance().addConstructor<Grassland>(3);
+    Course::WorldGenerator::getInstance().addConstructor<Sand>(1);
     Course::WorldGenerator::getInstance().addConstructor<Stone>(1);
-    Course::WorldGenerator::getInstance().addConstructor<Swamp>(2);
+    Course::WorldGenerator::getInstance().addConstructor<Swamp>(1);
     Course::WorldGenerator::getInstance().addConstructor<Water>(1);
-    Course::WorldGenerator::getInstance().generateMap(map_x, map_y, 1, m_objM, m_GEHandler);
+    Course::WorldGenerator::getInstance().generateMap(map_x, map_y, seed, m_objM, m_GEHandler);
 
     m_objM->drawMap();
 
@@ -256,7 +258,10 @@ void MapWindow::selectBuildingMenu()
 void MapWindow::buildAction(std::string buildingType)
 {
     bool buildSuccess = m_GEHandler->constructBuilding(buildingType, m_selectedTile->getCoordinate());
-    if (buildSuccess) { selectBuildingMenu(); }
+    if (buildSuccess) {
+        selectBuildingMenu();
+        updatePlayerInfo();
+    }
 }
 
 void MapWindow::selectWorkerMenu(unsigned workerIndex)
@@ -275,11 +280,16 @@ void MapWindow::selectWorkerMenu(unsigned workerIndex)
 void MapWindow::selectUpgrade()
 {
     bool upgradeSuccess = m_GEHandler->upgradeBuilding(m_selectedBuilding);
+    if (upgradeSuccess) {
+        updatePlayerInfo();
+    }
 }
 
 void MapWindow::selectSell()
 {
     m_GEHandler->sellBuilding(m_selectedBuilding);
+    removeItem(m_selectedBuilding);
+    updatePlayerInfo();
 }
 
 void MapWindow::selectMove()
@@ -303,6 +313,19 @@ void MapWindow::endTurn()
     scrollToCoordinate(m_currentPlayer->getHQCoord());
 
     selectMainMenu();
+}
+
+void MapWindow::sendWarning(std::string message)
+{
+    QMessageBox warning;
+    warning.setText(QString::fromStdString(message));
+    warning.exec();
+    return;
+}
+
+void MapWindow::closeGame()
+{
+    close();
 }
 
 void MapWindow::setupMenuConnections()

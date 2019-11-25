@@ -113,12 +113,28 @@ public:
     void generateResources(std::shared_ptr<Player> owner);
 
     /**
+     * @brief progressResearch updates Research values done in Campus, and checks
+     * if player has won the game by completing research.
+     * @param owner the player whose turn it is
+     * @return true if research complete
+     */
+    bool progressResearch(std::shared_ptr<Player> owner);
+
+    /**
      * @brief getPlayerScouts returns a list of all scouts that the player owns,
      * to make it easier to determine which tiles the player can build on
      * @param player the player whose scouts are listed
      * @return a list of pointers to scouts
      */
     std::vector<std::shared_ptr<UnitBase>> getPlayerScouts(std::shared_ptr<Player> player);
+
+    /**
+     * @brief getUnitsOnCoord needed by Campus to calculate progress speed, returns
+     * a list of workers that are at the given coordinates
+     * @param loc
+     * @return a list of workers
+     */
+    std::vector<std::shared_ptr<Course::WorkerBase>> getUnitsOnCoord(Course::Coordinate loc);
 
 private:
     unsigned _map_x; // The x length of map

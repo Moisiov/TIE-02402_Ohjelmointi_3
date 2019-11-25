@@ -5,12 +5,15 @@
 #include "workers/worker.hh"
 #include <math.h>
 
+#include "mapwindow.hh"
+
 GameEventHandler::GameEventHandler():
     _objM(nullptr),
     _GEHandler(nullptr),
     _UI(nullptr),
     _playerList({}),
     _currentPlayer(0),
+    _turn(1),
     _map_x(0),
     _map_y(0)
 {
@@ -134,10 +137,24 @@ void GameEventHandler::endTurn()
     _currentPlayer += 1;
     if (_currentPlayer >= _playerList.size()) {
         _currentPlayer = 0;
+        _turn += 1;
     }
 
     _objM->restoreMoves(_playerList[_currentPlayer]);
-    _objM->generateResources(_playerList[_currentPlayer]);
+
+    if (_turn > 1) {
+        _objM->generateResources(_playerList[_currentPlayer]);
+    }
+
+    bool winner = _objM->progressResearch(_playerList[_currentPlayer]);
+
+    if (winner) {
+        std::string name = _playerList[_currentPlayer]->getName();
+        std::string message = name + " is the first to finish OHJ3 project!\n";
+        message += name + " wins the game!";
+        _UI->sendWarning(message);
+        _UI->closeGame();
+    }
 }
 
 bool GameEventHandler::constructBuilding(std::string type, Course::Coordinate location)
@@ -189,6 +206,8 @@ bool GameEventHandler::constructBuilding(std::string type, Course::Coordinate lo
         return false;
     }
 
+
+
     if (tileSupportsBuildingType == false) {
         qDebug() << "Tile doesn't support building type!";
         return false;
@@ -198,6 +217,8 @@ bool GameEventHandler::constructBuilding(std::string type, Course::Coordinate lo
     Course::ResourceMap cost;
     if (type == "HeadQuarters") {
         cost = HQ_BUILD_COST_LIST[0];
+    } else if (type == "Outpost") {
+        cost = OUTPOST_BUILD_COST_LIST[0];
     } else if (type == "Campus") {
         cost = CAMPUS_BUILD_COST_LIST[0];
     } else if (type == "Fishery") {
@@ -206,7 +227,7 @@ bool GameEventHandler::constructBuilding(std::string type, Course::Coordinate lo
         cost = FISHERY_BUILD_COST_LIST[0];
     } else if (type == "Mine") {
         cost = MINE_BUILD_COST_LIST[0];
-    } else if (type == "Ranch") {
+    } else if (type == "Farm") {
         cost = RANCH_BUILD_COST_LIST[0];
     } else if (type == "Sawmill") {
         cost = SAWMILL_BUILD_COST_LIST[0];
@@ -216,7 +237,7 @@ bool GameEventHandler::constructBuilding(std::string type, Course::Coordinate lo
     }
 
     if (not _playerList[_currentPlayer]->canAfford(cost)) {
-        qDebug() << "Player cannot afford the building!";
+        _UI->sendWarning("Not enough resources to build " + type + "!");
         return false;
     }
 
@@ -240,13 +261,18 @@ bool GameEventHandler::constructBuilding(std::string type, Course::Coordinate lo
         }
     }
 
+    if (!targetTile->hasSpaceForBuildings(1)) {
+        qDebug() << "Target tile has no space for buildings!";
+        return false;
+    }
+
     if (canBuild) {
         _objM->constructBuilding(type, location, _playerList[_currentPlayer]);
-        Course::ResourceMap costNegative = Course::multiplyResourceMap(cost, NEGATIVE);
-        _playerList[_currentPlayer]->modifyResources(costNegative);
+        _playerList[_currentPlayer]->payResourceCost(cost);
         return true;
     } else {
-        qDebug() << "The player cannot build on unowned land without a scout!";
+
+        _UI->sendWarning("Can only build on player-owned land or on scout location!");
         return false;
     }
 }
@@ -262,12 +288,11 @@ bool GameEventHandler::upgradeBuilding(std::shared_ptr<Course::BuildingBase> bui
     }
 
     if (not _playerList[_currentPlayer]->canAfford(cost)) {
-        qDebug() << "Player can't afford the upgrade!";
+        _UI->sendWarning("Not enough resources to upgrade " + building->getType() + "!");
         return false;
     }
 
-    Course::ResourceMap costNegative = Course::multiplyResourceMap(cost, NEGATIVE);
-    _playerList[_currentPlayer]->modifyResources(costNegative);
+    _playerList[_currentPlayer]->payResourceCost(cost);
 
     upgrBuilding->upgradeBuilding();
 
@@ -300,19 +325,18 @@ bool GameEventHandler::constructUnit(std::string type)
     }
 
     if (not _playerList[_currentPlayer]->canAfford(recruitCost)) {
-        qDebug() << "Player cannot afford the unit!";
+        _UI->sendWarning("Not enough resources to recruit a " + type + "!");
         return false;
     }
 
     Course::Coordinate buildLocation = _playerList[_currentPlayer]->getHQCoord();
     std::shared_ptr<Course::TileBase> buildTile = _objM->getTile(buildLocation);
     if (not buildTile->hasSpaceForWorkers(1)) {
-        qDebug() << "Tile has no more space for units!";
+        _UI->sendWarning("Not enough space in HQ to build more units!");
         return false;
     }
 
-    Course::ResourceMap costNegative = Course::multiplyResourceMap(recruitCost, NEGATIVE);
-    _playerList[_currentPlayer]->modifyResources(costNegative);
+    _playerList[_currentPlayer]->payResourceCost(recruitCost);
 
     _objM->constructUnit(type, buildLocation, _playerList[_currentPlayer]);
 
@@ -322,7 +346,7 @@ bool GameEventHandler::constructUnit(std::string type)
 bool GameEventHandler::moveUnit(std::shared_ptr<UnitBase> unit, Course::Coordinate destination)
 {
     if (not unit->canMove()) {
-        qDebug() << "Unit done moving for this turn!";
+        _UI->sendWarning("Unit cannot move anymore this turn!");
         return false;
     }
 
@@ -338,7 +362,7 @@ bool GameEventHandler::moveUnit(std::shared_ptr<UnitBase> unit, Course::Coordina
     int y_distance = (distance.y() >= 0 ? distance.y() : (distance.y() * -1));
 
     if (x_distance > moveRange || y_distance > moveRange) {
-        qDebug() << "Distance too long!";
+        _UI->sendWarning("Unit cannot move that far!");
         return false;
     }
 
@@ -347,19 +371,19 @@ bool GameEventHandler::moveUnit(std::shared_ptr<UnitBase> unit, Course::Coordina
 
     if (destinationTile->getType() == "Water") {
         if (not canWalkOnWater) {
-            qDebug() << "Unit cannot move on water!";
+            _UI->sendWarning("Worker cannot move on water!");
             return false;
         }
     }
 
     if (not destinationTile->hasSpaceForWorkers(1)) {
-        qDebug() << "Destination has no space for unit!";
+        _UI->sendWarning("Destination already full of units!");
         return false;
     }
 
     if (destinationTile->getOwner() != nullptr) {
         if (destinationTile->getOwner()->getName() != unit->getOwner()->getName()) {
-            qDebug() << "Moving into other players territory is forbidden!";
+            _UI->sendWarning("Units cannot move into enemy territory!");
             return false;
         }
     }
@@ -369,6 +393,32 @@ bool GameEventHandler::moveUnit(std::shared_ptr<UnitBase> unit, Course::Coordina
     destinationTile->addWorker(unit);
     originTile->removeWorker(unit);
     unit->wasMoved();
+
+    return true;
+}
+
+bool GameEventHandler::specializeUnit(std::shared_ptr<Worker> unit, std::string specialization)
+{
+    if (unit->getType() != "Worker") {
+        qDebug() << "Worker already specialized!";
+        return false;
+    }
+
+    if (SPECIALIZATION_COST.find(specialization) == SPECIALIZATION_COST.end()) {
+        qDebug() << "Specialization not recognized!";
+        return false;
+    }
+
+    Course::ResourceMap cost = SPECIALIZATION_COST.find(specialization)->second;
+
+    if (!_playerList[_currentPlayer]->canAfford(cost)) {
+        _UI->sendWarning("Cannot afford to upgrade worker!");
+        return false;
+    }
+
+    // All good, do upgrade
+    _playerList[_currentPlayer]->payResourceCost(cost);
+    unit->specializeInto(specialization);
 
     return true;
 }

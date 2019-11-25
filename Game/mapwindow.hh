@@ -57,6 +57,17 @@ public:
     void removeItem( std::shared_ptr<Course::GameObject> obj);
     void updateItem( std::shared_ptr<Course::GameObject> obj);
 
+    /**
+     * @brief sendWarning displays information to player from failed commands
+     * @param message
+     */
+    void sendWarning(std::string message);
+
+    /**
+     * @brief closeGame quits the game after the game is won
+     */
+    void closeGame();
+
 public slots:
     /**
      * @brief getParameters is connected to StartDialogs signal to pass on start parameters

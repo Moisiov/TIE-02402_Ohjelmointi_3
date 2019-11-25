@@ -4,6 +4,7 @@
 #include "interfaces/igameeventhandler.h"
 #include "objectmanager.hh"
 #include "player.hh"
+#include "workers/worker.hh"
 
 class MapWindow;
 
@@ -128,12 +129,21 @@ public:
      */
     bool moveUnit(std::shared_ptr<UnitBase> unit, Course::Coordinate destination);
 
+    /**
+     * @brief specializeUnit attempts to upgrade a Worker to a specialist
+     * @param unit worker to be upgraded
+     * @param specialization what type to specialize into
+     * @return true if successful
+     */
+    bool specializeUnit(std::shared_ptr<Worker> unit, std::string specialization);
+
 private:
     std::shared_ptr<ObjectManager> _objM; // To be filled in by setObjectManager call
     std::shared_ptr<GameEventHandler> _GEHandler;
     std::shared_ptr<MapWindow> _UI;
     std::vector<std::shared_ptr<Player>> _playerList; // to be filled in by setPlayerList call
     unsigned _currentPlayer; // starts from zero, loops over _playerList count
+    unsigned _turn;
     unsigned _map_x;
     unsigned _map_y;
 };

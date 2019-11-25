@@ -20,9 +20,17 @@ public:
     void wasMoved();
     void rechargeMoves();
 
+    void setEfficiency(Course::ResourceMapDouble efficiency);
+    Course::ResourceMapDouble getEfficiency();
+
     virtual void doSpecialAction() override;
 
+    std::string description();
+
+    bool canUpgrade();
+
 private:
+    Course::ResourceMapDouble _efficiency;
     unsigned _movementMax;
     bool _canMove;
 };

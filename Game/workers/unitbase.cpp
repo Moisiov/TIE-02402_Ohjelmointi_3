@@ -1,4 +1,5 @@
 #include "unitbase.hh"
+#include "player.hh"
 
 
 UnitBase::UnitBase(const std::shared_ptr<Course::iGameEventHandler> &eventhandler,
@@ -8,7 +9,9 @@ UnitBase::UnitBase(const std::shared_ptr<Course::iGameEventHandler> &eventhandle
                    const Course::ResourceMapDouble &efficiency,
                    unsigned movementMax):
     Course::WorkerBase(eventhandler, objectmanager, owner, tilespaces, cost, efficiency),
-    _movementMax(movementMax)
+    _efficiency(efficiency),
+    _movementMax(movementMax),
+    _canMove(true)
 {
 
 }
@@ -18,9 +21,37 @@ void UnitBase::rechargeMoves()
     _canMove = true;
 }
 
+void UnitBase::setEfficiency(Course::ResourceMapDouble efficiency)
+{
+    _efficiency = efficiency;
+}
+
+Course::ResourceMapDouble UnitBase::getEfficiency()
+{
+    return _efficiency;
+}
+
 void UnitBase::doSpecialAction()
 {
     return; // We have no use for this
+}
+
+std::string UnitBase::description()
+{
+    std::string description = "";
+    description += getOwner()->getName() + "'s ";
+    description += getType();
+
+    return description;
+}
+
+bool UnitBase::canUpgrade()
+{
+    if (getType() == "Worker") {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 

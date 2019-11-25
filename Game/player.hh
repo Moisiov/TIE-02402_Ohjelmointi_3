@@ -70,6 +70,14 @@ public:
      */
     bool modifyResources(Course::ResourceMap resources);
 
+    /**
+     * @brief payResourceCost is specifically made for removing player resources, due
+     * to a bug while trying to multiply by -1 with ResourceMaps before modifyResources
+     * @param cost amount of resources to be removed from player
+     * @return true if all resources still on positive
+     */
+    bool payResourceCost(Course::ResourceMap cost);
+
     void setHQCoord(Course::Coordinate coord);
 
     Course::Coordinate getHQCoord();

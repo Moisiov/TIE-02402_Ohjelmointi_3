@@ -8,6 +8,7 @@
 #include "buildings/mine.hh"
 #include "buildings/market.hh"
 #include "buildings/campus.hh"
+#include "buildings/outpost.hh"
 
 #include "workers/scout.hh"
 #include "workers/worker.hh"
@@ -107,6 +108,8 @@ void ObjectManager::constructBuilding(std::string type,
 
     if (type == "HeadQuarters") {
         building = std::make_shared<HQ>(_gameEventHandler, _objectManager, owner);
+    } else if (type == "Outpost") {
+        building= std::make_shared<Outpost>(_gameEventHandler, _objectManager, owner);
     } else if (type == "Farm") {
         building = std::make_shared<Ranch>(_gameEventHandler, _objectManager, owner);
     } else if (type == "Fishery") {
@@ -120,6 +123,7 @@ void ObjectManager::constructBuilding(std::string type,
     } else if (type == "Campus") {
         building = std::make_shared<Campus>(_gameEventHandler, _objectManager, owner);
     } else {
+        qDebug() << "ObjectManager doesn't recoqnize building!";
         return;
     }
 
@@ -139,6 +143,7 @@ void ObjectManager::addBuilding(const std::shared_ptr<UpgradeableBuilding> &buil
 
 bool ObjectManager::removeBuilding(Course::ObjectId ID)
 {
+    qDebug() << "Buildings: " << _buildings.size();
     bool success = false;
 
     for (unsigned i = 0; i < _buildings.size(); ++i) {
@@ -148,6 +153,8 @@ bool ObjectManager::removeBuilding(Course::ObjectId ID)
             break;
         }
     }
+
+    qDebug() << "After: " << _buildings.size();
 
     return success;
 }
@@ -228,6 +235,29 @@ void ObjectManager::generateResources(std::shared_ptr<Player> owner)
     }
 }
 
+bool ObjectManager::progressResearch(std::shared_ptr<Player> owner)
+{
+    std::string ownerName = owner->getName();
+
+    bool won = false;
+
+    for (unsigned i = 0; i < _buildings.size(); ++i) {
+        if (_buildings[i]->getType() == "Campus") {
+            if (_buildings[i]->getOwner()->getName() == ownerName) {
+                std::shared_ptr<Campus> campus = std::dynamic_pointer_cast<Campus>(_buildings[i]);
+
+                campus->increaseProgress();
+                qDebug() << "Research progress: " << campus->getProgress();
+                if (campus->checkWinCondition()) {
+                    won = true;
+                }
+            }
+        }
+    }
+
+    return won;
+}
+
 std::vector<std::shared_ptr<UnitBase> > ObjectManager::getPlayerScouts(std::shared_ptr<Player> player)
 {
     std::vector<std::shared_ptr<UnitBase>> scoutList = {};
@@ -242,5 +272,10 @@ std::vector<std::shared_ptr<UnitBase> > ObjectManager::getPlayerScouts(std::shar
     }
 
     return scoutList;
+}
+
+std::vector<std::shared_ptr<Course::WorkerBase> > ObjectManager::getUnitsOnCoord(Course::Coordinate loc)
+{
+    return getTile(loc)->getWorkers();
 }
 
