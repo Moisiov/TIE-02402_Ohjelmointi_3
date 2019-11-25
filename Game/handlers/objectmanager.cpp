@@ -143,6 +143,7 @@ void ObjectManager::addBuilding(const std::shared_ptr<UpgradeableBuilding> &buil
 
 bool ObjectManager::removeBuilding(Course::ObjectId ID)
 {
+    qDebug() << "Buildings: " << _buildings.size();
     bool success = false;
 
     for (unsigned i = 0; i < _buildings.size(); ++i) {
@@ -152,6 +153,8 @@ bool ObjectManager::removeBuilding(Course::ObjectId ID)
             break;
         }
     }
+
+    qDebug() << "After: " << _buildings.size();
 
     return success;
 }

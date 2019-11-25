@@ -10,7 +10,8 @@ UnitBase::UnitBase(const std::shared_ptr<Course::iGameEventHandler> &eventhandle
                    unsigned movementMax):
     Course::WorkerBase(eventhandler, objectmanager, owner, tilespaces, cost, efficiency),
     _efficiency(efficiency),
-    _movementMax(movementMax)
+    _movementMax(movementMax),
+    _canMove(true)
 {
 
 }
