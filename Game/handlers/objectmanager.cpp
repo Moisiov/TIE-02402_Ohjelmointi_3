@@ -148,6 +148,7 @@ bool ObjectManager::removeBuilding(Course::ObjectId ID)
 
     for (unsigned i = 0; i < _buildings.size(); ++i) {
         if (_buildings[i]->ID == ID) {
+            getTile(_buildings[i]->getCoordinate())->removeBuilding(_buildings[i]);
             _buildings.erase(_buildings.begin() + i);
             success = true;
             break;
