@@ -248,7 +248,9 @@ bool ObjectManager::progressResearch(std::shared_ptr<Player> owner)
 
                 campus->increaseProgress();
                 qDebug() << "Research progress: " << campus->getProgress();
-                won = campus->checkWinCondition();
+                if (campus->checkWinCondition()) {
+                    won = true;
+                }
             }
         }
     }

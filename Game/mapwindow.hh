@@ -63,6 +63,11 @@ public:
      */
     void sendWarning(std::string message);
 
+    /**
+     * @brief closeGame quits the game after the game is won
+     */
+    void closeGame();
+
 public slots:
     /**
      * @brief getParameters is connected to StartDialogs signal to pass on start parameters

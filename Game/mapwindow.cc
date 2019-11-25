@@ -97,14 +97,16 @@ void MapWindow::getParameters(std::vector<std::string> playerList, std::vector<P
 
     m_worldScene->setSize(static_cast<int>(map_x),static_cast<int>(map_y));
 
+    unsigned seed = static_cast<unsigned>(std::time(nullptr));
+
     // Testing the world generator
     Course::WorldGenerator::getInstance().addConstructor<Forest>(2);
-    Course::WorldGenerator::getInstance().addConstructor<Grassland>(4);
-    Course::WorldGenerator::getInstance().addConstructor<Sand>(4);
+    Course::WorldGenerator::getInstance().addConstructor<Grassland>(3);
+    Course::WorldGenerator::getInstance().addConstructor<Sand>(1);
     Course::WorldGenerator::getInstance().addConstructor<Stone>(1);
-    Course::WorldGenerator::getInstance().addConstructor<Swamp>(2);
+    Course::WorldGenerator::getInstance().addConstructor<Swamp>(1);
     Course::WorldGenerator::getInstance().addConstructor<Water>(1);
-    Course::WorldGenerator::getInstance().generateMap(map_x, map_y, 1, m_objM, m_GEHandler);
+    Course::WorldGenerator::getInstance().generateMap(map_x, map_y, seed, m_objM, m_GEHandler);
 
     m_objM->drawMap();
 
@@ -318,6 +320,11 @@ void MapWindow::sendWarning(std::string message)
     warning.setText(QString::fromStdString(message));
     warning.exec();
     return;
+}
+
+void MapWindow::closeGame()
+{
+    close();
 }
 
 void MapWindow::setupMenuConnections()

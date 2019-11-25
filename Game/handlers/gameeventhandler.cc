@@ -149,7 +149,11 @@ void GameEventHandler::endTurn()
     bool winner = _objM->progressResearch(_playerList[_currentPlayer]);
 
     if (winner) {
-        _UI->sendWarning(_playerList[_currentPlayer]->getName() + " wins the game!");
+        std::string name = _playerList[_currentPlayer]->getName();
+        std::string message = name + " is the first to finish OHJ3 project!\n";
+        message += name + " wins the game!";
+        _UI->sendWarning(message);
+        _UI->closeGame();
     }
 }
 
