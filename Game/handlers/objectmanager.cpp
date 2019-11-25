@@ -235,6 +235,27 @@ void ObjectManager::generateResources(std::shared_ptr<Player> owner)
     }
 }
 
+bool ObjectManager::progressResearch(std::shared_ptr<Player> owner)
+{
+    std::string ownerName = owner->getName();
+
+    bool won = false;
+
+    for (unsigned i = 0; i < _buildings.size(); ++i) {
+        if (_buildings[i]->getType() == "Campus") {
+            if (_buildings[i]->getOwner()->getName() == ownerName) {
+                std::shared_ptr<Campus> campus = std::dynamic_pointer_cast<Campus>(_buildings[i]);
+
+                campus->increaseProgress();
+                qDebug() << "Research progress: " << campus->getProgress();
+                won = campus->checkWinCondition();
+            }
+        }
+    }
+
+    return won;
+}
+
 std::vector<std::shared_ptr<UnitBase> > ObjectManager::getPlayerScouts(std::shared_ptr<Player> player)
 {
     std::vector<std::shared_ptr<UnitBase>> scoutList = {};
@@ -249,5 +270,10 @@ std::vector<std::shared_ptr<UnitBase> > ObjectManager::getPlayerScouts(std::shar
     }
 
     return scoutList;
+}
+
+std::vector<std::shared_ptr<Course::WorkerBase> > ObjectManager::getUnitsOnCoord(Course::Coordinate loc)
+{
+    return getTile(loc)->getWorkers();
 }
 

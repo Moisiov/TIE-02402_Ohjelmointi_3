@@ -22,6 +22,16 @@ public:
     virtual ~Campus() = default;
 
     virtual std::string getType() const override;
+
+    void increaseProgress();
+
+    unsigned getProgress();
+
+    bool checkWinCondition();
+
+private:
+    std::shared_ptr<Course::iObjectManager> _objM;
+    unsigned _progress;
 };
 
 #endif // CAMPUS_HH

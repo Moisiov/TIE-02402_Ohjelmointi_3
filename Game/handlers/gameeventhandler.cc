@@ -145,6 +145,12 @@ void GameEventHandler::endTurn()
     if (_turn > 1) {
         _objM->generateResources(_playerList[_currentPlayer]);
     }
+
+    bool winner = _objM->progressResearch(_playerList[_currentPlayer]);
+
+    if (winner) {
+        _UI->sendWarning(_playerList[_currentPlayer]->getName() + " wins the game!");
+    }
 }
 
 bool GameEventHandler::constructBuilding(std::string type, Course::Coordinate location)
