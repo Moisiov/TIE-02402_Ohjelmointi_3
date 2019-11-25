@@ -140,7 +140,7 @@ bool WorldScene::event(QEvent *event)
 void WorldScene::removeItem(std::shared_ptr<Course::GameObject> obj)
 {
     qDebug() << obj->getCoordinate().x() << obj->getCoordinate().y();
-    QList<QGraphicsItem*> items_list = items(obj->getCoordinate().asQpoint());
+    QList<QGraphicsItem*> items_list = items(obj->getCoordinate().asQpoint() * w_scale);
     if ( items_list.size() == 1 ){
         qDebug() << "Nothing to be removed at the location pointed by given obj.";
     } else {
