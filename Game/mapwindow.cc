@@ -27,7 +27,8 @@ MapWindow::MapWindow(QWidget *parent,
     m_currentPlayer(nullptr),
     m_selectedTile(nullptr),
     m_selectedBuilding(nullptr),
-    m_selectedWorker(nullptr)
+    m_selectedWorker(nullptr),
+    m_movingUnit(false)
 {
     m_ui->setupUi(this);
     setupMenuConnections();
@@ -118,66 +119,78 @@ void MapWindow::getParameters(std::vector<std::string> playerList, std::vector<P
 
 void MapWindow::objectSelected(std::shared_ptr<Course::GameObject> obj)
 {
-    // Tile highlights
-    m_worldScene->highlightTile(obj->getCoordinate());
-
-    m_selectedTile = std::dynamic_pointer_cast<ExtendedTileBase>(obj);
-
-    std::string objType = obj->getType();
-    std::string infoText = objType;
-
-    Course::Coordinate coord = obj->getCoordinate();
-    infoText += "\n(" + std::to_string(coord.x()) + "," + std::to_string(coord.y()) + ")";
-
-    std::shared_ptr<Course::PlayerBase> owner = obj->getOwner();
-    if (owner != nullptr) {
-        infoText += "\nOwner: " + owner->getName();
-    }
-
-    m_ui->tileBrowser->setText(infoText.c_str());
-
-    // Check if tile has buildings or space for buildings
-    // otherwise building button is disabled
-    m_ui->buildingBtn->setText("Build");
-    m_ui->buildingBtn->setDisabled(false);
-    if (m_selectedTile->getBuildingCount() > 0)
+    if (m_movingUnit)
     {
-        std::string buildingType = m_selectedTile->getBuildings().at(0)->getType();
-        m_ui->buildingBtn->setText(buildingType.c_str());
-    }
-    else if (!m_selectedTile->hasSpaceForBuildings(1))
-    {
-        m_ui->buildingBtn->setDisabled(true);
-    }
-
-    // Check if tile has workers and set button text correctly
-    unsigned workerCount = m_selectedTile->getWorkerCount();
-    std::vector<std::shared_ptr<Course::WorkerBase>> workers = m_selectedTile->getWorkers();
-    m_ui->workerBtn1->setDisabled(true);
-    m_ui->workerBtn1->setText("-");
-    m_ui->workerBtn2->setDisabled(true);
-    m_ui->workerBtn2->setText("-");
-    m_ui->workerBtn3->setDisabled(true);
-    m_ui->workerBtn3->setText("-");
-
-    if (workerCount > 0)
-    {
-        m_ui->workerBtn1->setDisabled(false);
-        m_ui->workerBtn1->setText(workers.at(0)->getType().c_str());
-    }
-    if (workerCount > 1)
-    {
-        m_ui->workerBtn2->setDisabled(false);
-        m_ui->workerBtn2->setText(workers.at(1)->getType().c_str());
-    }
-    if (workerCount > 2)
-    {
-        m_ui->workerBtn3->setDisabled(false);
-        m_ui->workerBtn3->setText(workers.at(2)->getType().c_str());
+        bool moveSuccess = m_GEHandler->moveUnit(m_selectedWorker, obj->getCoordinate());
+        if (moveSuccess)
+        {
+            m_movingUnit = false;
+        }
     }
 
-    m_ui->menuWidget->setCurrentWidget(m_ui->tileMenu);
-    m_ui->graphicsView->update();
+    if(!m_movingUnit)
+    {
+        // Tile highlights
+        m_worldScene->highlightTile(obj->getCoordinate());
+
+        m_selectedTile = std::dynamic_pointer_cast<ExtendedTileBase>(obj);
+
+        std::string objType = obj->getType();
+        std::string infoText = objType;
+
+        Course::Coordinate coord = obj->getCoordinate();
+        infoText += "\n(" + std::to_string(coord.x()) + "," + std::to_string(coord.y()) + ")";
+
+        std::shared_ptr<Course::PlayerBase> owner = obj->getOwner();
+        if (owner != nullptr) {
+            infoText += "\nOwner: " + owner->getName();
+        }
+
+        m_ui->tileBrowser->setText(infoText.c_str());
+
+        // Check if tile has buildings or space for buildings
+        // otherwise building button is disabled
+        m_ui->buildingBtn->setText("Build");
+        m_ui->buildingBtn->setDisabled(false);
+        if (m_selectedTile->getBuildingCount() > 0)
+        {
+            std::string buildingType = m_selectedTile->getBuildings().at(0)->getType();
+            m_ui->buildingBtn->setText(buildingType.c_str());
+        }
+        else if (!m_selectedTile->hasSpaceForBuildings(1))
+        {
+            m_ui->buildingBtn->setDisabled(true);
+        }
+
+        // Check if tile has workers and set button text correctly
+        unsigned workerCount = m_selectedTile->getWorkerCount();
+        std::vector<std::shared_ptr<Course::WorkerBase>> workers = m_selectedTile->getWorkers();
+        m_ui->workerBtn1->setDisabled(true);
+        m_ui->workerBtn1->setText("-");
+        m_ui->workerBtn2->setDisabled(true);
+        m_ui->workerBtn2->setText("-");
+        m_ui->workerBtn3->setDisabled(true);
+        m_ui->workerBtn3->setText("-");
+
+        if (workerCount > 0)
+        {
+            m_ui->workerBtn1->setDisabled(false);
+            m_ui->workerBtn1->setText(workers.at(0)->getType().c_str());
+        }
+        if (workerCount > 1)
+        {
+            m_ui->workerBtn2->setDisabled(false);
+            m_ui->workerBtn2->setText(workers.at(1)->getType().c_str());
+        }
+        if (workerCount > 2)
+        {
+            m_ui->workerBtn3->setDisabled(false);
+            m_ui->workerBtn3->setText(workers.at(2)->getType().c_str());
+        }
+
+        m_ui->menuWidget->setCurrentWidget(m_ui->tileMenu);
+        m_ui->graphicsView->update();
+    }
 }
 
 void MapWindow::updatePlayerInfo()
@@ -241,7 +254,7 @@ void MapWindow::selectBuildingMenu()
         }
 
         buildButtons->setLayout(layout);
-        m_ui->scrollArea->setWidget(buildButtons);
+        m_ui->buildingsList->setWidget(buildButtons);
     }
     else
     {
@@ -274,6 +287,9 @@ void MapWindow::selectWorkerMenu(unsigned workerIndex)
     // Disable move button if unit cannot move
     m_ui->moveBtn->setDisabled(!m_selectedWorker->canMove());
 
+    // Disable specialize button if unit cannot be specialized
+    m_ui->upgradeUnitBtn->setDisabled(m_selectedWorker->getType() != "Worker");
+
     m_ui->menuWidget->setCurrentWidget(m_ui->workerMenu);
 }
 
@@ -290,6 +306,7 @@ void MapWindow::selectSell()
     removeItem(m_selectedBuilding);
     m_GEHandler->sellBuilding(m_selectedBuilding);
     updatePlayerInfo();
+    selectMainMenu();
 }
 
 void MapWindow::selectMove()
@@ -300,6 +317,7 @@ void MapWindow::selectMove()
                 .neighbours(static_cast<int>(m_selectedWorker->moveRange()));
 
         m_worldScene->highlightSelection(coords);
+        m_movingUnit = true;
     }
 }
 
@@ -313,6 +331,55 @@ void MapWindow::endTurn()
     scrollToCoordinate(m_currentPlayer->getHQCoord());
 
     selectMainMenu();
+}
+
+void MapWindow::constructUnit(int unit)
+{
+    std::string unitType = unit == 0 ? "Worker" : "Scout";
+    m_GEHandler->constructUnit(unitType);
+}
+
+void MapWindow::selectSpecialize()
+{
+    m_ui->menuWidget->setCurrentWidget(m_ui->specializeMenu);
+
+    // Add correct buttons to the specialization menu
+    QWidget* specializeButtons = new QWidget();
+    QVBoxLayout* layout = new QVBoxLayout();
+    layout->setMargin(0);
+    layout->setAlignment(Qt::AlignTop);
+
+    std::vector<std::string> specialTypes = SPECIALIZATIONS;
+    for (unsigned i = 0; i < specialTypes.size(); ++i)
+    {
+        QPushButton* button = new QPushButton(this);
+        connect(button, &QPushButton::clicked, this, [this, specialTypes, i] { specializeUnit(specialTypes.at(i)); });
+        button->setText(specialTypes.at(i).c_str());
+        button->setFixedSize(QSize(201, 61));
+        layout->addWidget(button);
+        button->show();
+    }
+
+    specializeButtons->setLayout(layout);
+    m_ui->specializationList->setWidget(specializeButtons);
+}
+
+void MapWindow::specializeUnit(std::string unitType)
+{
+    std::shared_ptr<Worker> unit = std::dynamic_pointer_cast<Worker>(m_selectedWorker);
+    m_GEHandler->specializeUnit(unit, unitType);
+
+    // Return to worker menu
+    std::string infoText = m_selectedWorker->getType();
+    m_ui->workerBrowser->setText(infoText.c_str());
+
+    // Disable move button if unit cannot move
+    m_ui->moveBtn->setDisabled(!m_selectedWorker->canMove());
+
+    // Disable specialize button if unit cannot be specialized
+    m_ui->upgradeUnitBtn->setDisabled(m_selectedWorker->getType() != "Worker");
+
+    m_ui->menuWidget->setCurrentWidget(m_ui->workerMenu);
 }
 
 void MapWindow::sendWarning(std::string message)
@@ -340,4 +407,7 @@ void MapWindow::setupMenuConnections()
     connect(m_ui->sellBtn, &QPushButton::clicked, this, &MapWindow::selectSell);
     connect(m_ui->moveBtn, &QPushButton::clicked, this, &MapWindow::selectMove);
     connect(m_worldScene.get(), &WorldScene::objectClicked, this, &MapWindow::objectSelected);
+    connect(m_ui->constructUnitBtn1, &QPushButton::clicked, [this]{ constructUnit(0); });
+    connect(m_ui->constructUnitBtn2, &QPushButton::clicked, [this]{ constructUnit(1); });
+    connect(m_ui->upgradeUnitBtn, &QPushButton::clicked, this, &MapWindow::selectSpecialize);
 }

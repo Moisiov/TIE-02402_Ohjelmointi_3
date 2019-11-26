@@ -143,6 +143,23 @@ private slots:
      */
     void endTurn();
 
+    /**
+     * @brief constructUnit slot for constructUnitBtn click.
+     * @param unit selected unit (0 = worker, 1 = scout, 2 = teekkari)
+     */
+    void constructUnit(int unit);
+
+    /**
+     * @brief selectSpecialize slot for upgradeUnitBtn click.
+     */
+    void selectSpecialize();
+
+    /**
+     * @brief specializeUnit is called when unit specialization is selected.
+     * @param unitType new unit type
+     */
+    void specializeUnit(std::string unitType);
+
 private:
     Ui::MapWindow* m_ui;
     std::shared_ptr<GameEventHandler> m_GEHandler;
@@ -155,6 +172,7 @@ private:
     std::shared_ptr<ExtendedTileBase> m_selectedTile;
     std::shared_ptr<UpgradeableBuilding> m_selectedBuilding;
     std::shared_ptr<UnitBase> m_selectedWorker;
+    bool m_movingUnit;
 
     void setupMenuConnections();
 };
