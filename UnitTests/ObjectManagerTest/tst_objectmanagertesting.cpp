@@ -5,31 +5,30 @@
 
 // add necessary includes here
 
-class GameEventHandlerTesting : public QObject
+class ObjectManagerTesting : public QObject
 {
     Q_OBJECT
 
 public:
-    GameEventHandlerTesting();
-    ~GameEventHandlerTesting() = default;
+    ObjectManagerTesting();
+    ~ObjectManagerTesting() = default;
 
 private slots:
     void initTestCase();
     void test_case1();
+    void test_case2();
 
 private:
     std::shared_ptr<GameEventHandler> _GEHandler;
     std::shared_ptr<ObjectManager> _objM;
 };
 
-GameEventHandlerTesting::GameEventHandlerTesting():
-    _GEHandler(nullptr),
-    _objM(nullptr)
+ObjectManagerTesting::ObjectManagerTesting()
 {
 
 }
 
-void GameEventHandlerTesting::initTestCase()
+void ObjectManagerTesting::initTestCase()
 {
     _GEHandler = std::make_shared<GameEventHandler>();
     _objM = std::make_shared<ObjectManager>();
@@ -39,11 +38,16 @@ void GameEventHandlerTesting::initTestCase()
     _objM->setObjManager(_objM);
 }
 
-void GameEventHandlerTesting::test_case1()
+void ObjectManagerTesting::test_case1()
 {
 
 }
 
-QTEST_APPLESS_MAIN(GameEventHandlerTesting)
+void ObjectManagerTesting::test_case2()
+{
 
-#include "tst_gameeventhandlertesting.moc"
+}
+
+QTEST_APPLESS_MAIN(ObjectManagerTesting)
+
+#include "tst_objectmanagertesting.moc"

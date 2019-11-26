@@ -1,13 +1,13 @@
 QT += testlib core widgets
 
 TEMPLATE = app
-TARGET = GEHTest
+TARGET = OBJMTest
 
 CONFIG += c++14 qt console warn_on depend_includepath testcase
 CONFIG -= app_bundle
 
 
-SOURCES +=  tst_gameeventhandlertesting.cpp \
+SOURCES +=  tst_objectmanagertesting.cpp \
     ../../Game/basicinfo.cpp \
     ../../Game/buildings/hq.cpp \
     ../../Game/buildings/outpost.cpp \
