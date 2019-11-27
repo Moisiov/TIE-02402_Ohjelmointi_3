@@ -423,3 +423,8 @@ bool GameEventHandler::specializeUnit(std::shared_ptr<Worker> unit, std::string 
 
     return true;
 }
+
+std::vector<Course::Coordinate> GameEventHandler::getCurrentPlayerZone()
+{
+    return _objM->getPlayerZone(_playerList[_currentPlayer]);
+}

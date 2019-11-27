@@ -137,6 +137,13 @@ public:
      */
     bool specializeUnit(std::shared_ptr<Worker> unit, std::string specialization);
 
+    /**
+     * @brief getCurrentPlayerZone returns a vector of all current players owned
+     * tiles for MapWindows highlight method
+     * @return a vector of coordinates to all owned tiles
+     */
+    std::vector<Course::Coordinate> getCurrentPlayerZone();
+
 private:
     std::shared_ptr<ObjectManager> _objM; // To be filled in by setObjectManager call
     std::shared_ptr<GameEventHandler> _GEHandler;
