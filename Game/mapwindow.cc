@@ -382,6 +382,16 @@ void MapWindow::specializeUnit(std::string unitType)
     m_ui->menuWidget->setCurrentWidget(m_ui->workerMenu);
 }
 
+void MapWindow::highlightCapturedArea()
+{
+    qDebug() << "MapWindow::highlightCapturedArea() not implemented";
+}
+
+void MapWindow::newGame()
+{
+    qDebug() << "MapWindow::newGame() not implemented";
+}
+
 void MapWindow::sendWarning(std::string message)
 {
     QMessageBox warning;
@@ -410,4 +420,6 @@ void MapWindow::setupMenuConnections()
     connect(m_ui->constructUnitBtn1, &QPushButton::clicked, [this]{ constructUnit(0); });
     connect(m_ui->constructUnitBtn2, &QPushButton::clicked, [this]{ constructUnit(1); });
     connect(m_ui->upgradeUnitBtn, &QPushButton::clicked, this, &MapWindow::selectSpecialize);
+    connect(m_ui->capturedAreaBtn, &QPushButton::clicked, this, &MapWindow::highlightCapturedArea);
+    connect(m_ui->newGameBtn, &QPushButton::clicked, this, &MapWindow::newGame);
 }

@@ -60,7 +60,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="mainMenu">
        <property name="sizePolicy">
@@ -95,6 +95,12 @@ p, li { white-space: pre-wrap; }
           <height>61</height>
          </rect>
         </property>
+        <property name="toolTip">
+         <string>Hire a worker in your Headquarters location.</string>
+        </property>
+        <property name="toolTipDuration">
+         <number>-1</number>
+        </property>
         <property name="text">
          <string>Hire
 worker</string>
@@ -112,6 +118,32 @@ worker</string>
         <property name="text">
          <string>Hire
 scout</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="newGameBtn">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>390</y>
+          <width>201</width>
+          <height>61</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>New Game</string>
+        </property>
+       </widget>
+       <widget class="QPushButton" name="capturedAreaBtn">
+        <property name="geometry">
+         <rect>
+          <x>0</x>
+          <y>250</y>
+          <width>201</width>
+          <height>61</height>
+         </rect>
+        </property>
+        <property name="text">
+         <string>Show captured area</string>
         </property>
        </widget>
       </widget>

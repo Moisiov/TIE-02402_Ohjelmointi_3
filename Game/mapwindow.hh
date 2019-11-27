@@ -160,6 +160,16 @@ private slots:
      */
     void specializeUnit(std::string unitType);
 
+    /**
+     * @brief highlightCapturedArea slot for capturedAreaBtn click
+     */
+    void highlightCapturedArea();
+
+    /**
+     * @brief newGame slot for newGameBtn click
+     */
+    void newGame();
+
 private:
     Ui::MapWindow* m_ui;
     std::shared_ptr<GameEventHandler> m_GEHandler;
