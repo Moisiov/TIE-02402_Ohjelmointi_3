@@ -280,3 +280,19 @@ std::vector<std::shared_ptr<Course::WorkerBase> > ObjectManager::getUnitsOnCoord
     return getTile(loc)->getWorkers();
 }
 
+std::vector<Course::Coordinate> ObjectManager::getPlayerZone(std::shared_ptr<Player> player)
+{
+    std::string playerName = player->getName();
+    std::vector<Course::Coordinate> playerZone = {};
+
+    for (unsigned x = 0; x < _tiles.size(); ++x) {
+        for (unsigned y = 0; y < _tiles[x].size(); ++y) {
+            if (_tiles[x][y]->getOwner()->getName() == playerName) {
+                playerZone.push_back(_tiles[x][y]->getCoordinate());
+            }
+        }
+    }
+
+    return playerZone;
+}
+

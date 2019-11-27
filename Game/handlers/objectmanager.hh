@@ -136,6 +136,13 @@ public:
      */
     std::vector<std::shared_ptr<Course::WorkerBase>> getUnitsOnCoord(Course::Coordinate loc);
 
+    /**
+     * @brief getPlayerZone gets a list of coordinates to all tiles owned by given player
+     * @param player the current player
+     * @return a list of all coordinates
+     */
+    std::vector<Course::Coordinate> getPlayerZone(std::shared_ptr<Player> player);
+
 private:
     unsigned _map_x; // The x length of map
     unsigned _map_y; // The y length of map
