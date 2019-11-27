@@ -370,7 +370,7 @@ void MapWindow::specializeUnit(std::string unitType)
 {
     std::shared_ptr<Worker> unit = std::dynamic_pointer_cast<Worker>(m_selectedWorker);
     m_GEHandler->specializeUnit(unit, unitType);
-
+    m_worldScene->updateItem(m_selectedWorker);
     // Return to worker menu
     std::string infoText = m_selectedWorker->getType();
     m_ui->workerBrowser->setText(infoText.c_str());

@@ -363,13 +363,11 @@ const Course::ResourceMap WATER_PROD = {
 
 // TILE BUILDABLE BUILDINGS //
 const std::vector<std::string> FOREST_BUILD {
-    {"HeadQuarters"},
     {"Outpost"},
     {"Sawmill"}
 };
 
 const std::vector<std::string> GRASSLAND_BUILD {
-    {"HeadQuarters"},
     {"Outpost"},
     {"Market"},
     {"Campus"},
@@ -377,20 +375,17 @@ const std::vector<std::string> GRASSLAND_BUILD {
 };
 
 const std::vector<std::string> SAND_BUILD {
-    {"HeadQuarters"},
     {"Outpost"},
     {"Market"},
     {"Campus"}
 };
 
 const std::vector<std::string> STONE_BUILD {
-    {"HeadQuarters"},
     {"Outpost"},
     {"Mine"}
 };
 
 const std::vector<std::string> SWAMP_BUILD {
-    {"HeadQuarters"},
     {"Outpost"}
 };
 

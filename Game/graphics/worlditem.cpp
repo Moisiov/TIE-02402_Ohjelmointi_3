@@ -29,7 +29,16 @@ QRectF WorldItem::boundingRect() const
 void WorldItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     Q_UNUSED( option ); Q_UNUSED( widget );
-    painter->setBrush(QBrush(c_mapcolors.at(w_gameobject->getType())));
+
+    std::string objType = w_gameobject->getType();
+
+    // if type doesn't exist in c_mapcolors, add new
+    if (c_mapcolors.find(objType) == c_mapcolors.end())
+    {
+        addNewColor(objType);
+    }
+
+    painter->setBrush(QBrush(c_mapcolors.at(objType)));
 
     // get level of detail for zoomed rendering (lod = 1 no zoom, lod < 1 zoom out, lod > 1 zoom in)
     const qreal lod = option->levelOfDetailFromTransform(painter->worldTransform());
