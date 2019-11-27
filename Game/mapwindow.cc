@@ -337,6 +337,8 @@ void MapWindow::constructUnit(int unit)
 {
     std::string unitType = unit == 0 ? "Worker" : "Scout";
     m_GEHandler->constructUnit(unitType);
+
+    updatePlayerInfo();
 }
 
 void MapWindow::selectSpecialize()
@@ -380,6 +382,8 @@ void MapWindow::specializeUnit(std::string unitType)
     m_ui->upgradeUnitBtn->setDisabled(m_selectedWorker->getType() != "Worker");
 
     m_ui->menuWidget->setCurrentWidget(m_ui->workerMenu);
+
+    updatePlayerInfo();
 }
 
 void MapWindow::sendWarning(std::string message)
