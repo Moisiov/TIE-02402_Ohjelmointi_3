@@ -390,9 +390,10 @@ bool GameEventHandler::moveUnit(std::shared_ptr<UnitBase> unit, Course::Coordina
 
     // All good, do the move
     unit->setCoordinate(destination);
-    destinationTile->addWorker(unit);
     originTile->removeWorker(unit);
+    destinationTile->addWorker(unit);
     unit->wasMoved();
+    _UI->updateItem(unit);
 
     return true;
 }
