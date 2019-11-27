@@ -388,7 +388,7 @@ void MapWindow::specializeUnit(std::string unitType)
 
 void MapWindow::highlightCapturedArea()
 {
-    qDebug() << "MapWindow::highlightCapturedArea() not implemented";
+    m_worldScene->highlightSelection(m_GEHandler->getCurrentPlayerZone());
 }
 
 void MapWindow::newGame()
