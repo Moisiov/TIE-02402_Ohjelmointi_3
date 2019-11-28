@@ -43,6 +43,8 @@ HEADERS += \
     buildings/outpost.hh \
     buildings/ranch.hh \
     buildings/upgradeablebuilding.hh \
+    exceptions/lackingresources.hh \
+    exceptions/movementlimitation.hh \
     handlers/gameeventhandler.hh \
     mapwindow.hh \
     buildings/campus.hh \
@@ -52,6 +54,7 @@ HEADERS += \
     buildings/sawmill.hh \
     player.hh \
     startdialog.hh \
+    tiles/forest.h \
     tiles/sand.hh \
     tiles/swamp.hh \
     tiles/stone.hh \
@@ -63,7 +66,6 @@ HEADERS += \
     workers/scout.hh \
     workers/unitbase.hh \
     workers/worker.hh \
-    tiles/forest.h \
     tiles/grassland.h \
     graphics/highlightitem.h \
     tiles/extendedtilebase.h

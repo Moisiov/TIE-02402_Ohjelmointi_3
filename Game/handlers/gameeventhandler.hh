@@ -6,8 +6,6 @@
 #include "player.hh"
 #include "workers/worker.hh"
 
-class MapWindow;
-
 class GameEventHandler : public Course::iGameEventHandler
 {
 public:
@@ -29,13 +27,6 @@ public:
      * @param objM
      */
     void setObjectManager(std::shared_ptr<ObjectManager> objM);
-
-    /**
-     * @brief setMapWindow pointer back to MapWindow needed for writing back
-     * message alerts for unsuccessful events
-     * @param UI shared pointer to MapWindow
-     */
-    void setMapWindow(std::shared_ptr<MapWindow> UI);
 
     /**
      * @brief initializeGame initializes the starting locations, buildings and units
@@ -87,6 +78,13 @@ public:
      * events.
      */
     void endTurn();
+
+    /**
+     * @brief gameWon checks if the current player has earned enough campus research
+     * to finish the game
+     * @return true if game won
+     */
+    bool gameWon();
 
     /**
      * @brief canBuildOnTile checks if current player is allowed to build on a tile
@@ -155,7 +153,6 @@ public:
 private:
     std::shared_ptr<ObjectManager> _objM; // To be filled in by setObjectManager call
     std::shared_ptr<GameEventHandler> _GEHandler;
-    std::shared_ptr<MapWindow> _UI;
     std::vector<std::shared_ptr<Player>> _playerList; // to be filled in by setPlayerList call
     unsigned _currentPlayer; // starts from zero, loops over _playerList count
     unsigned _turn;

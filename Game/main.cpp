@@ -2,6 +2,7 @@
 #include "mapwindow.hh"
 #include "handlers/gameeventhandler.hh"
 #include "handlers/objectmanager.hh"
+#include "exceptions/baseexception.h"
 
 #include <QApplication>
 
@@ -18,12 +19,15 @@ int main(int argc, char* argv[])
 
     std::shared_ptr<MapWindow> mapWindow = std::make_shared<MapWindow>(nullptr, GEHandler, objManager);
 
-    GEHandler->setMapWindow(mapWindow);
-
-    if (mapWindow->isReadyToLaunch()) {
-         mapWindow->show();
-         return app.exec();
-    } else {
+    if (!mapWindow->isReadyToLaunch()) {
         return EXIT_SUCCESS;
+    }
+
+    try {
+        mapWindow->show();
+        return app.exec();
+    } catch (Course::BaseException e) {
+        qDebug() << QString::fromStdString(e.msg());
+        return EXIT_FAILURE;
     }
 }

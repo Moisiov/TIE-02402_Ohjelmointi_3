@@ -3,15 +3,15 @@
 
 #include <math.h>
 
-// These are for testing purposes
 #include "core/worldgenerator.h"
-
 #include "tiles/forest.h"
 #include "tiles/grassland.h"
 #include "tiles/sand.hh"
 #include "tiles/stone.hh"
 #include "tiles/swamp.hh"
 #include "tiles/water.hh"
+
+#include "exceptions/illegalaction.h"
 
 MapWindow::MapWindow(QWidget *parent,
                      std::shared_ptr<GameEventHandler> handler,
@@ -100,7 +100,7 @@ void MapWindow::getParameters(std::vector<std::string> playerList, std::vector<P
 
     unsigned seed = static_cast<unsigned>(std::time(nullptr));
 
-    // Testing the world generator
+    // The world generator
     Course::WorldGenerator::getInstance().addConstructor<Forest>(2);
     Course::WorldGenerator::getInstance().addConstructor<Grassland>(3);
     Course::WorldGenerator::getInstance().addConstructor<Sand>(1);
@@ -126,9 +126,11 @@ void MapWindow::objectSelected(std::shared_ptr<Course::GameObject> obj)
 
     if (m_movingUnit)
     {
-        bool moveSuccess = m_GEHandler->moveUnit(m_selectedWorker, obj->getCoordinate());
-        if (moveSuccess)
-        {
+        try {
+            m_GEHandler->moveUnit(m_selectedWorker, obj->getCoordinate());
+
+            updateItem(m_selectedWorker);
+
             m_worldScene->highlightTile(obj->getCoordinate());
 
             // m_selectedTile = std::dynamic_pointer_cast<ExtendedTileBase>(obj);
@@ -136,6 +138,8 @@ void MapWindow::objectSelected(std::shared_ptr<Course::GameObject> obj)
             m_ui->moveBtn->setDisabled(true);
 
             m_movingUnit = false;
+        } catch (Course::IllegalAction e) {
+            sendWarning(e.msg());
         }
     }
 
@@ -342,6 +346,15 @@ void MapWindow::endTurn()
     scrollToCoordinate(m_currentPlayer->getHQCoord());
 
     selectMainMenu();
+
+    // Check if player won the game
+    if (m_GEHandler->gameWon()) {
+        std::string msg = m_currentPlayer->getName();
+        msg += " finished research and wins the game!";
+        sendWarning(msg);
+
+        close();
+    }
 }
 
 void MapWindow::constructUnit(int unit)
