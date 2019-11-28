@@ -95,6 +95,13 @@ public:
     bool canBuildOnTile(std::string type, Course::Coordinate location);
 
     /**
+     * @brief scoutOnUnownedTile checks if current player has a scout in an unowned tile
+     * @param location is the coordinate to selected tile
+     * @return true if has scout
+     */
+    bool scoutOnUnownedTile(Course::Coordinate location);
+
+    /**
      * @brief constructBuilding checks if current player can construct a new
      * building at the given coordinates, and makes one if possible
      * @param type the string identifier for building type

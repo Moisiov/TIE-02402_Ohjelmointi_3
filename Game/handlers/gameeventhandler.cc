@@ -206,15 +206,7 @@ bool GameEventHandler::canBuildOnTile(std::string type, Course::Coordinate locat
     bool canBuild = false;
 
     // Checking if the player has a scout on an unowned tile
-    std::vector<std::shared_ptr<UnitBase>> scoutList = _objM->getPlayerScouts(_playerList[_currentPlayer]);
-
-    for (unsigned i = 0; i < scoutList.size(); ++i) {
-        if (scoutList[i]->getCoordinate() == location) {
-            if (targetTile->getOwner() == nullptr) {
-                canBuild = true;
-            }
-        }
-    }
+    if (scoutOnUnownedTile(location)) {canBuild = true;}
 
     // Check if player owns the tile
     if (targetTile->getOwner() != nullptr) {
@@ -228,6 +220,24 @@ bool GameEventHandler::canBuildOnTile(std::string type, Course::Coordinate locat
     }
 
     return canBuild;
+}
+
+bool GameEventHandler::scoutOnUnownedTile(Course::Coordinate location)
+{
+    std::shared_ptr<Course::TileBase> targetTile = _objM->getTile(location);
+    std::vector<std::shared_ptr<UnitBase>> scoutList = _objM->getPlayerScouts(_playerList[_currentPlayer]);
+
+    bool hasScout = false;
+
+    for (unsigned i = 0; i < scoutList.size(); ++i) {
+        if (scoutList[i]->getCoordinate() == location) {
+            if (targetTile->getOwner() == nullptr) {
+                hasScout = true;
+            }
+        }
+    }
+
+    return hasScout;
 }
 
 bool GameEventHandler::constructBuilding(std::string type, Course::Coordinate location)

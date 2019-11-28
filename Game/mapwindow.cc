@@ -164,7 +164,7 @@ void MapWindow::objectSelected(std::shared_ptr<Course::GameObject> obj)
         // Check if tile has buildings or space for buildings
         // otherwise building button is disabled
         m_ui->buildingBtn->setText("Build");
-        m_ui->buildingBtn->setDisabled(!ownTile);
+        m_ui->buildingBtn->setDisabled(!(ownTile || m_GEHandler->scoutOnUnownedTile(m_selectedTile->getCoordinate())));
         if (m_selectedTile->getBuildingCount() > 0)
         {
             std::string buildingType = m_selectedTile->getBuildings().at(0)->getType();
