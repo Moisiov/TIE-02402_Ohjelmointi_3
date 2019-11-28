@@ -86,7 +86,14 @@ void MapWindow::resize()
 
 void MapWindow::updateItem(std::shared_ptr<Course::GameObject> obj)
 {
-    m_worldScene->updateItem(obj);
+    try
+    {
+        m_worldScene->updateItem(obj);
+    }
+    catch (GraphicsException e)
+    {
+        qDebug() << e.msg().c_str();
+    }
 }
 
 void MapWindow::getParameters(std::vector<std::string> playerList, std::vector<PlayerColor> colorList, unsigned map_x, unsigned map_y)

@@ -69,7 +69,7 @@ void WorldScene::updateItem(std::shared_ptr<Course::GameObject> obj)
 {
     QList<QGraphicsItem*> items_list = items();
     if ( items_list.size() == 1 ){
-        qDebug() << "Nothing to update.";
+        throw GraphicsException("Nothing to update.");
     } else {
         for ( auto item : items_list ){
             WorldItem* mapItem = static_cast<WorldItem*>(item);
