@@ -144,6 +144,9 @@ public:
     std::vector<Course::Coordinate> getPlayerZone(std::shared_ptr<Player> player);
 
 private:
+
+    void checkCoordinate(Course::Coordinate coord);
+
     unsigned _map_x; // The x length of map
     unsigned _map_y; // The y length of map
     std::vector<std::vector<std::shared_ptr<Course::TileBase>>> _tiles; // Tile pointers in nested vector according to coordinates

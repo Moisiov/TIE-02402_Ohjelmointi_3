@@ -10,7 +10,7 @@ public:
      * @copydoc BaseException::BaseException
      */
     explicit LackingResources(const std::string& msg = ""):
-        IllegalAction(msg) {}
+        Course::IllegalAction(msg) {}
 
     /**
      * @copydoc BaseException::~BaseException

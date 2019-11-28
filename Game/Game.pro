@@ -43,6 +43,7 @@ HEADERS += \
     buildings/outpost.hh \
     buildings/ranch.hh \
     buildings/upgradeablebuilding.hh \
+    exceptions/invalidcoordinate.hh \
     exceptions/lackingresources.hh \
     exceptions/movementlimitation.hh \
     handlers/gameeventhandler.hh \
