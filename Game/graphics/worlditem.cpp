@@ -18,7 +18,8 @@ std::map<std::string, QString> WorldItem::_pixmapUrls = {{"Grassland", ":/graphi
                                                          {"Forest", ":/graphics/images/forest.png"},
                                                          {"Swamp", ":/graphics/images/swamp.png"},
                                                          {"Stone", ":/graphics/images/stone.png"},
-                                                         {"Water", ":/graphics/images/water.png"}};
+                                                         {"Water", ":/graphics/images/water.png"},
+                                                         {"HeadQuarters", ":/graphics/images/headquarters.png"}};
 
 WorldItem::WorldItem(const std::shared_ptr<Course::GameObject> &obj, int size ):
     w_gameobject(obj), w_scenelocation(w_gameobject->getCoordinatePtr()->asQpoint()), w_size(size)
@@ -49,7 +50,7 @@ void WorldItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     // get level of detail for zoomed rendering (lod = 1 no zoom, lod < 1 zoom out, lod > 1 zoom in)
     // const qreal lod = option->levelOfDetailFromTransform(painter->worldTransform());
 
-    if ( objType == "HeadQuarters" ){
+    if ( objType == "paska" ){
         std::shared_ptr<Player> player = std::dynamic_pointer_cast<Player>(w_gameobject->getOwner());
         PlayerColor playerColor = player->getColor();
         QColor color;

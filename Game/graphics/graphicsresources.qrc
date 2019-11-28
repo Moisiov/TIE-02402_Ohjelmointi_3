@@ -6,5 +6,6 @@
         <file>images/swamp.png</file>
         <file>images/stone.png</file>
         <file>images/water.png</file>
+        <file>images/headquarters.png</file>
     </qresource>
 </RCC>
