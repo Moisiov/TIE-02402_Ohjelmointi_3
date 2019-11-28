@@ -119,21 +119,30 @@ void MapWindow::getParameters(std::vector<std::string> playerList, std::vector<P
 
 void MapWindow::objectSelected(std::shared_ptr<Course::GameObject> obj)
 {
+    m_selectedTile = std::dynamic_pointer_cast<ExtendedTileBase>(obj);
+
+    // Check if clicked tile is owned by current player
+    bool ownTile = m_selectedTile->getOwner() == m_currentPlayer;
+
     if (m_movingUnit)
     {
         bool moveSuccess = m_GEHandler->moveUnit(m_selectedWorker, obj->getCoordinate());
         if (moveSuccess)
         {
+            m_worldScene->highlightTile(obj->getCoordinate());
+
+            // m_selectedTile = std::dynamic_pointer_cast<ExtendedTileBase>(obj);
+
+            m_ui->moveBtn->setDisabled(true);
+
             m_movingUnit = false;
         }
     }
 
-    if(!m_movingUnit)
+    else if(!m_movingUnit)
     {
         // Tile highlights
         m_worldScene->highlightTile(obj->getCoordinate());
-
-        m_selectedTile = std::dynamic_pointer_cast<ExtendedTileBase>(obj);
 
         std::string objType = obj->getType();
         std::string infoText = objType;
@@ -151,7 +160,7 @@ void MapWindow::objectSelected(std::shared_ptr<Course::GameObject> obj)
         // Check if tile has buildings or space for buildings
         // otherwise building button is disabled
         m_ui->buildingBtn->setText("Build");
-        m_ui->buildingBtn->setDisabled(false);
+        m_ui->buildingBtn->setDisabled(!ownTile);
         if (m_selectedTile->getBuildingCount() > 0)
         {
             std::string buildingType = m_selectedTile->getBuildings().at(0)->getType();
@@ -174,17 +183,17 @@ void MapWindow::objectSelected(std::shared_ptr<Course::GameObject> obj)
 
         if (workerCount > 0)
         {
-            m_ui->workerBtn1->setDisabled(false);
+            m_ui->workerBtn1->setDisabled(!(workers.at(0)->getOwner() == m_currentPlayer));
             m_ui->workerBtn1->setText(workers.at(0)->getType().c_str());
         }
         if (workerCount > 1)
         {
-            m_ui->workerBtn2->setDisabled(false);
+            m_ui->workerBtn2->setDisabled(!(workers.at(1)->getOwner() == m_currentPlayer));
             m_ui->workerBtn2->setText(workers.at(1)->getType().c_str());
         }
         if (workerCount > 2)
         {
-            m_ui->workerBtn3->setDisabled(false);
+            m_ui->workerBtn3->setDisabled(!(workers.at(2)->getOwner() == m_currentPlayer));
             m_ui->workerBtn3->setText(workers.at(2)->getType().c_str());
         }
 
@@ -226,6 +235,7 @@ void MapWindow::drawItem( std::shared_ptr<Course::GameObject> obj)
 
 void MapWindow::selectMainMenu()
 {
+    m_movingUnit = false;
     m_ui->menuWidget->setCurrentWidget(m_ui->mainMenu);
     m_worldScene->clearHighlight();
 }
@@ -323,6 +333,7 @@ void MapWindow::selectMove()
 
 void MapWindow::endTurn()
 {
+    m_movingUnit = false;
     m_GEHandler->endTurn();
     m_currentPlayer = m_GEHandler->currentPlayer();
     updatePlayerInfo();

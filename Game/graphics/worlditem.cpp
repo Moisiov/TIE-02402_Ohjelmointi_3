@@ -41,9 +41,9 @@ void WorldItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->setBrush(QBrush(c_mapcolors.at(objType)));
 
     // get level of detail for zoomed rendering (lod = 1 no zoom, lod < 1 zoom out, lod > 1 zoom in)
-    const qreal lod = option->levelOfDetailFromTransform(painter->worldTransform());
+    // const qreal lod = option->levelOfDetailFromTransform(painter->worldTransform());
 
-    if ( w_gameobject->getType() == "HeadQuarters" ){
+    if ( objType == "HeadQuarters" ){
         std::shared_ptr<Player> player = std::dynamic_pointer_cast<Player>(w_gameobject->getOwner());
         PlayerColor playerColor = player->getColor();
         QColor color;
@@ -74,7 +74,12 @@ void WorldItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
         painter->setBrush(QBrush(color));
         painter->drawEllipse(boundingRect());
-    } else {
+    }
+    /*else if(objType == "Grassland")
+    {
+
+    }*/
+    else {
         painter->drawRect(boundingRect());
     }
 }

@@ -23,6 +23,9 @@
         <height>61</height>
        </size>
       </property>
+      <property name="toolTip">
+       <string/>
+      </property>
       <property name="text">
        <string>End Turn</string>
       </property>
@@ -96,7 +99,7 @@ p, li { white-space: pre-wrap; }
          </rect>
         </property>
         <property name="toolTip">
-         <string>Hire a worker in your Headquarters location.</string>
+         <string>Hire a basic worker in your Headquarters location.</string>
         </property>
         <property name="toolTipDuration">
          <number>-1</number>
@@ -114,6 +117,9 @@ worker</string>
           <width>97</width>
           <height>61</height>
          </rect>
+        </property>
+        <property name="toolTip">
+         <string>Hire a scout in your Headquarters location.</string>
         </property>
         <property name="text">
          <string>Hire
@@ -141,6 +147,9 @@ scout</string>
           <width>201</width>
           <height>61</height>
          </rect>
+        </property>
+        <property name="toolTip">
+         <string>Hightlight the area you have captured.</string>
         </property>
         <property name="text">
          <string>Show captured area</string>
@@ -251,6 +260,9 @@ p, li { white-space: pre-wrap; }
           <height>51</height>
          </rect>
         </property>
+        <property name="toolTip">
+         <string/>
+        </property>
         <property name="text">
          <string>Upgrade</string>
         </property>
@@ -263,6 +275,9 @@ p, li { white-space: pre-wrap; }
           <width>201</width>
           <height>61</height>
          </rect>
+        </property>
+        <property name="toolTip">
+         <string>Sell this building for 50% of the building cost.</string>
         </property>
         <property name="text">
          <string>Sell</string>
@@ -296,6 +311,9 @@ p, li { white-space: pre-wrap; }
           <height>51</height>
          </rect>
         </property>
+        <property name="toolTip">
+         <string>Move this unit to a new location.</string>
+        </property>
         <property name="text">
          <string>Move</string>
         </property>
@@ -308,6 +326,9 @@ p, li { white-space: pre-wrap; }
           <width>201</width>
           <height>61</height>
          </rect>
+        </property>
+        <property name="toolTip">
+         <string>Promote this worker to a specialist.</string>
         </property>
         <property name="text">
          <string>Specialize unit</string>
@@ -429,6 +450,9 @@ p, li { white-space: pre-wrap; }
         <width>0</width>
         <height>61</height>
        </size>
+      </property>
+      <property name="toolTip">
+       <string>Go to main menu.</string>
       </property>
       <property name="text">
        <string>Menu</string>
