@@ -89,6 +89,14 @@ public:
     void endTurn();
 
     /**
+     * @brief canBuildOnTile checks if current player is allowed to build on a tile
+     * @param type the building type
+     * @param location the coordinates to the tile
+     * @return true if possible
+     */
+    bool canBuildOnTile(std::string type, Course::Coordinate location);
+
+    /**
      * @brief constructBuilding checks if current player can construct a new
      * building at the given coordinates, and makes one if possible
      * @param type the string identifier for building type

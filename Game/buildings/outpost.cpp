@@ -20,6 +20,8 @@ std::string Outpost::getType() const
 
 void Outpost::onBuildAction()
 {
+    lockObjectManager()->getTile(getCoordinate())->setOwner(getOwner());
+
     std::vector< std::shared_ptr<Course::TileBase> > neighbours =
             lockObjectManager()->getTiles(getCoordinatePtr()->neighbours(1));
 

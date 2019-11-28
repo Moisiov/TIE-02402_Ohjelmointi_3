@@ -157,7 +157,7 @@ void GameEventHandler::endTurn()
     }
 }
 
-bool GameEventHandler::constructBuilding(std::string type, Course::Coordinate location)
+bool GameEventHandler::canBuildOnTile(std::string type, Course::Coordinate location)
 {
     std::shared_ptr<Course::TileBase> targetTile = _objM->getTile(location);
     std::string tileType = targetTile->getType();
@@ -213,34 +213,6 @@ bool GameEventHandler::constructBuilding(std::string type, Course::Coordinate lo
         return false;
     }
 
-    // Check if player can afford material cost
-    Course::ResourceMap cost;
-    if (type == "HeadQuarters") {
-        cost = HQ_BUILD_COST_LIST[0];
-    } else if (type == "Outpost") {
-        cost = OUTPOST_BUILD_COST_LIST[0];
-    } else if (type == "Campus") {
-        cost = CAMPUS_BUILD_COST_LIST[0];
-    } else if (type == "Fishery") {
-        cost = FISHERY_BUILD_COST_LIST[0];
-    } else if (type == "Market") {
-        cost = FISHERY_BUILD_COST_LIST[0];
-    } else if (type == "Mine") {
-        cost = MINE_BUILD_COST_LIST[0];
-    } else if (type == "Farm") {
-        cost = RANCH_BUILD_COST_LIST[0];
-    } else if (type == "Sawmill") {
-        cost = SAWMILL_BUILD_COST_LIST[0];
-    } else {
-        qDebug() << "Building type not recoqnized!";
-        return false;
-    }
-
-    if (not _playerList[_currentPlayer]->canAfford(cost)) {
-        _UI->sendWarning("Not enough resources to build " + type + "!");
-        return false;
-    }
-
     bool canBuild = false;
 
     // Checking if the player has a scout on an unowned tile
@@ -266,13 +238,46 @@ bool GameEventHandler::constructBuilding(std::string type, Course::Coordinate lo
         return false;
     }
 
+    return canBuild;
+}
+
+bool GameEventHandler::constructBuilding(std::string type, Course::Coordinate location)
+{
+   bool canBuild = canBuildOnTile(type, location);
+
+   // Check if player can afford material cost
+   Course::ResourceMap cost;
+   if (type == "HeadQuarters") {
+       cost = HQ_BUILD_COST_LIST[0];
+   } else if (type == "Outpost") {
+       cost = OUTPOST_BUILD_COST_LIST[0];
+   } else if (type == "Campus") {
+       cost = CAMPUS_BUILD_COST_LIST[0];
+   } else if (type == "Fishery") {
+       cost = FISHERY_BUILD_COST_LIST[0];
+   } else if (type == "Market") {
+       cost = FISHERY_BUILD_COST_LIST[0];
+   } else if (type == "Mine") {
+       cost = MINE_BUILD_COST_LIST[0];
+   } else if (type == "Farm") {
+       cost = RANCH_BUILD_COST_LIST[0];
+   } else if (type == "Sawmill") {
+       cost = SAWMILL_BUILD_COST_LIST[0];
+   } else {
+       qDebug() << "Building type not recoqnized!";
+       return false;
+   }
+
+   if (not _playerList[_currentPlayer]->canAfford(cost)) {
+       _UI->sendWarning("Not enough resources to build " + type + "!");
+       return false;
+   }
+
     if (canBuild) {
         _objM->constructBuilding(type, location, _playerList[_currentPlayer]);
         _playerList[_currentPlayer]->payResourceCost(cost);
         return true;
     } else {
-
-        _UI->sendWarning("Can only build on player-owned land or on scout location!");
         return false;
     }
 }
