@@ -13,6 +13,8 @@
 #include "workers/scout.hh"
 #include "workers/worker.hh"
 
+#include "exceptions/invalidcoordinate.hh"
+
 ObjectManager::ObjectManager(unsigned map_x, unsigned map_y,
                              std::shared_ptr<Course::iGameEventHandler> gameEventHandler,
                              std::shared_ptr<WorldScene> scene):
@@ -53,8 +55,6 @@ void ObjectManager::setScene(std::shared_ptr<WorldScene> scene)
 
 void ObjectManager::addTiles(const std::vector<std::shared_ptr<Course::TileBase> > &tiles)
 {
-    qDebug() << "In ObjectManager::addTiles()";
-
     for(int i = 0; i < static_cast<int>(_map_x); ++i) {
         std::vector<std::shared_ptr<Course::TileBase>> tilesTemp =
                 std::vector<std::shared_ptr<Course::TileBase>>(tiles.begin() + i*static_cast<int>(_map_y),
@@ -65,6 +65,8 @@ void ObjectManager::addTiles(const std::vector<std::shared_ptr<Course::TileBase>
 
 std::shared_ptr<Course::TileBase> ObjectManager::getTile(const Course::Coordinate &coordinate)
 {
+    checkCoordinate(coordinate);
+
     unsigned x = static_cast<unsigned>(coordinate.x());
     unsigned y = static_cast<unsigned>(coordinate.y());
 
@@ -104,6 +106,8 @@ void ObjectManager::constructBuilding(std::string type,
                                       Course::Coordinate location,
                                       std::shared_ptr<Player> owner)
 {
+    checkCoordinate(location);
+
     std::shared_ptr<UpgradeableBuilding> building = nullptr;
 
     if (type == "HeadQuarters") {
@@ -123,8 +127,7 @@ void ObjectManager::constructBuilding(std::string type,
     } else if (type == "Campus") {
         building = std::make_shared<Campus>(_gameEventHandler, _objectManager, owner);
     } else {
-        qDebug() << "ObjectManager doesn't recoqnize building!";
-        return;
+        throw Course::BaseException("ObjectManager doesn't recoqnize building!");
     }
 
     building->setCoordinate(location);
@@ -143,7 +146,6 @@ void ObjectManager::addBuilding(const std::shared_ptr<UpgradeableBuilding> &buil
 
 bool ObjectManager::removeBuilding(Course::ObjectId ID)
 {
-    qDebug() << "Buildings: " << _buildings.size();
     bool success = false;
 
     for (unsigned i = 0; i < _buildings.size(); ++i) {
@@ -155,8 +157,6 @@ bool ObjectManager::removeBuilding(Course::ObjectId ID)
         }
     }
 
-    qDebug() << "After: " << _buildings.size();
-
     return success;
 }
 
@@ -164,6 +164,8 @@ void ObjectManager::constructUnit(std::string type,
                                   Course::Coordinate location,
                                   std::shared_ptr<Player> owner)
 {
+    checkCoordinate(location);
+
     std::shared_ptr<UnitBase> unit = nullptr;
 
     if (type == "Scout") {
@@ -293,5 +295,19 @@ std::vector<Course::Coordinate> ObjectManager::getPlayerZone(std::shared_ptr<Pla
     }
 
     return playerZone;
+}
+
+void ObjectManager::checkCoordinate(Course::Coordinate coord)
+{
+    if (coord.x() < 0 || coord.y() < 0) {
+        throw InvalidCoordinate("A negative value in coordinate!");
+    }
+
+    unsigned x = static_cast<unsigned>(coord.x());
+    unsigned y = static_cast<unsigned>(coord.y());
+
+    if (x > _map_x || y > _map_y) {
+        throw InvalidCoordinate("Given coordines are beyond map limits!");
+    }
 }
 

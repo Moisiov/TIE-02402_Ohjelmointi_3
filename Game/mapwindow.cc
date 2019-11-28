@@ -131,14 +131,11 @@ void MapWindow::objectSelected(std::shared_ptr<Course::GameObject> obj)
             m_GEHandler->moveUnit(m_selectedWorker, obj->getCoordinate());
 
             updateItem(m_selectedWorker);
-
             m_worldScene->highlightTile(obj->getCoordinate());
-
             // m_selectedTile = std::dynamic_pointer_cast<ExtendedTileBase>(obj);
-
             m_ui->moveBtn->setDisabled(true);
-
             m_movingUnit = false;
+
         } catch (Course::IllegalAction e) {
             sendWarning(e.msg());
         }
@@ -292,10 +289,13 @@ void MapWindow::selectBuildingMenu()
 
 void MapWindow::buildAction(std::string buildingType)
 {
-    bool buildSuccess = m_GEHandler->constructBuilding(buildingType, m_selectedTile->getCoordinate());
-    if (buildSuccess) {
+    try {
+        m_GEHandler->constructBuilding(buildingType, m_selectedTile->getCoordinate());
         selectBuildingMenu();
         updatePlayerInfo();
+
+    } catch (Course::IllegalAction e) {
+        sendWarning(e.msg());
     }
 }
 
@@ -317,18 +317,27 @@ void MapWindow::selectWorkerMenu(unsigned workerIndex)
 
 void MapWindow::selectUpgrade()
 {
-    bool upgradeSuccess = m_GEHandler->upgradeBuilding(m_selectedBuilding);
-    if (upgradeSuccess) {
+    try {
+        m_GEHandler->upgradeBuilding(m_selectedBuilding);
         updatePlayerInfo();
+
+    } catch (Course::IllegalAction e) {
+        sendWarning(e.msg());
     }
 }
 
 void MapWindow::selectSell()
 {
-    removeItem(m_selectedBuilding);
-    m_GEHandler->sellBuilding(m_selectedBuilding);
-    updatePlayerInfo();
-    selectMainMenu();
+    try {
+        removeItem(m_selectedBuilding);
+        m_GEHandler->sellBuilding(m_selectedBuilding);
+        updatePlayerInfo();
+        selectMainMenu();
+
+    } catch (Course::IllegalAction e) {
+        sendWarning(e.msg());
+    }
+
 }
 
 void MapWindow::selectMove()
@@ -368,9 +377,15 @@ void MapWindow::endTurn()
 void MapWindow::constructUnit(int unit)
 {
     std::string unitType = unit == 0 ? "Worker" : "Scout";
-    m_GEHandler->constructUnit(unitType);
 
-    updatePlayerInfo();
+    try {
+        m_GEHandler->constructUnit(unitType);
+        updatePlayerInfo();
+
+    } catch (Course::IllegalAction e) {
+        sendWarning(e.msg());
+    }
+
 }
 
 void MapWindow::selectSpecialize()
@@ -400,22 +415,26 @@ void MapWindow::selectSpecialize()
 
 void MapWindow::specializeUnit(std::string unitType)
 {
-    std::shared_ptr<Worker> unit = std::dynamic_pointer_cast<Worker>(m_selectedWorker);
-    m_GEHandler->specializeUnit(unit, unitType);
-    m_worldScene->updateItem(m_selectedWorker);
-    // Return to worker menu
-    std::string infoText = m_selectedWorker->getType();
-    m_ui->workerBrowser->setText(infoText.c_str());
+    try {
+        std::shared_ptr<Worker> unit = std::dynamic_pointer_cast<Worker>(m_selectedWorker);
+        m_GEHandler->specializeUnit(unit, unitType);
+        m_worldScene->updateItem(m_selectedWorker);
+        // Return to worker menu
+        std::string infoText = m_selectedWorker->getType();
+        m_ui->workerBrowser->setText(infoText.c_str());
 
-    // Disable move button if unit cannot move
-    m_ui->moveBtn->setDisabled(!m_selectedWorker->canMove());
+        // Disable move button if unit cannot move
+        m_ui->moveBtn->setDisabled(!m_selectedWorker->canMove());
 
-    // Disable specialize button if unit cannot be specialized
-    m_ui->upgradeUnitBtn->setDisabled(m_selectedWorker->getType() != "Worker");
+        // Disable specialize button if unit cannot be specialized
+        m_ui->upgradeUnitBtn->setDisabled(m_selectedWorker->getType() != "Worker");
 
-    m_ui->menuWidget->setCurrentWidget(m_ui->workerMenu);
+        m_ui->menuWidget->setCurrentWidget(m_ui->workerMenu);
+        updatePlayerInfo();
 
-    updatePlayerInfo();
+    } catch (Course::IllegalAction e) {
+        sendWarning(e.msg());
+    }
 }
 
 void MapWindow::highlightCapturedArea()
