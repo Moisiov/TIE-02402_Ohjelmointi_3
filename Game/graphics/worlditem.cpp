@@ -3,6 +3,7 @@
 
 #include <QDebug>
 #include <QtWidgets>
+#include <QPixmap>
 
 std::map<std::string, QColor> WorldItem::c_mapcolors = {{"Forest", QColor(20, 100, 20)},
                                                         {"Grassland", QColor(20, 230, 30)},
@@ -11,6 +12,10 @@ std::map<std::string, QColor> WorldItem::c_mapcolors = {{"Forest", QColor(20, 10
                                                         {"Swamp", QColor(90, 90, 30)},
                                                         {"Water", QColor(0, 170, 255)}
                                                        };
+
+std::map<std::string, QString> WorldItem::_pixmapUrls = {{"Grassland", ":/graphics/images/grassland.png"},
+                                                         {"Sand", ":/graphics/images/sand.png"},
+                                                         {"Forest", ":/graphics/images/forest.png"}};
 
 WorldItem::WorldItem(const std::shared_ptr<Course::GameObject> &obj, int size ):
     w_gameobject(obj), w_scenelocation(w_gameobject->getCoordinatePtr()->asQpoint()), w_size(size)
@@ -37,8 +42,6 @@ void WorldItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     {
         addNewColor(objType);
     }
-
-    painter->setBrush(QBrush(c_mapcolors.at(objType)));
 
     // get level of detail for zoomed rendering (lod = 1 no zoom, lod < 1 zoom out, lod > 1 zoom in)
     // const qreal lod = option->levelOfDetailFromTransform(painter->worldTransform());
@@ -75,12 +78,21 @@ void WorldItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         painter->setBrush(QBrush(color));
         painter->drawEllipse(boundingRect());
     }
-    /*else if(objType == "Grassland")
+    else
     {
-
-    }*/
-    else {
-        painter->drawRect(boundingRect());
+        try
+        {
+            QString url = _pixmapUrls.at(objType);
+            QPixmap pic = QPixmap(url);
+            pic.setDevicePixelRatio(2);
+            painter->drawPixmap(w_scenelocation*w_size, pic);
+        }
+        catch (std::exception e)
+        {
+            qDebug() << e.what() << ": " << objType.c_str() << " not found in WorldItem::_pixmapUrls";
+            painter->setBrush(QBrush(c_mapcolors.at(objType)));
+            painter->drawRect(boundingRect());
+        }
     }
 }
 

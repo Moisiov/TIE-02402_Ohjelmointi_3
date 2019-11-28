@@ -2,6 +2,7 @@
 #define WORLDITEM_H
 
 #include <QGraphicsItem>
+#include <QPixmap>
 #include <QPainter>
 
 #include <memory>
@@ -41,6 +42,8 @@ private:
 
     static std::map<std::string, QColor> c_mapcolors;
     static void addNewColor(std::string type);
+
+    static std::map<std::string, QString> _pixmapUrls;
 };
 
 #endif // WORLDITEM_H

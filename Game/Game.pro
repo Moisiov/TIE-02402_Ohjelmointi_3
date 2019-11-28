@@ -97,3 +97,6 @@ else:unix: PRE_TARGETDEPS += \
 FORMS += \
     mapwindow.ui \
     startdialog.ui
+
+RESOURCES += \
+    graphics/graphicsresources.qrc
