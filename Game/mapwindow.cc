@@ -12,6 +12,7 @@
 #include "tiles/water.hh"
 
 #include "exceptions/illegalaction.h"
+#include "exceptions/graphicsexception.h"
 
 MapWindow::MapWindow(QWidget *parent,
                      std::shared_ptr<GameEventHandler> handler,
@@ -229,7 +230,14 @@ void MapWindow::scrollToCoordinate(Course::Coordinate coordinate)
 
 void MapWindow::removeItem(std::shared_ptr<Course::GameObject> obj)
 {
-    m_worldScene->removeItem(obj);
+    try
+    {
+        m_worldScene->removeItem(obj);
+    }
+    catch (GraphicsException e)
+    {
+        qDebug() << e.msg().c_str();
+    }
 }
 
 void MapWindow::drawItem( std::shared_ptr<Course::GameObject> obj)

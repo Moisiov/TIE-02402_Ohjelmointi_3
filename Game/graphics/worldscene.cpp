@@ -117,7 +117,7 @@ bool WorldScene::event(QEvent *event)
     }
 
     // Hover events not working yet
-    if (event->type() == QEvent::GraphicsSceneHoverEnter)
+    /*if (event->type() == QEvent::GraphicsSceneHoverEnter)
     {
         QGraphicsSceneMouseEvent* mouse_event =
                 dynamic_cast<QGraphicsSceneMouseEvent*>(event);
@@ -132,7 +132,7 @@ bool WorldScene::event(QEvent *event)
     if (event->type() == QEvent::GraphicsSceneHoverLeave)
     {
         // clearHighlight();
-    }
+    }*/
 
     return QGraphicsScene::event(event);
 }
@@ -141,7 +141,7 @@ void WorldScene::removeItem(std::shared_ptr<Course::GameObject> obj)
 {
     QList<QGraphicsItem*> items_list = items(obj->getCoordinate().asQpoint() * w_scale);
     if ( items_list.size() == 1 ){
-        qDebug() << "Nothing to be removed at the location pointed by given obj.";
+        throw GraphicsException("Nothing to be removed at the location pointed by given obj.");
     } else {
         for ( auto item : items_list ){
             WorldItem* mapitem = static_cast<WorldItem*>(item);

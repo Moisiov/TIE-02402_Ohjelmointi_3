@@ -87,9 +87,8 @@ void WorldItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
             pic.setDevicePixelRatio(2);
             painter->drawPixmap(w_scenelocation*w_size, pic);
         }
-        catch (std::exception e)
+        catch (...)
         {
-            qDebug() << e.what() << ": " << objType.c_str() << " not found in WorldItem::_pixmapUrls";
             painter->setBrush(QBrush(c_mapcolors.at(objType)));
             painter->drawRect(boundingRect());
         }

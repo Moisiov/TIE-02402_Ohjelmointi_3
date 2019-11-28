@@ -68,7 +68,8 @@ HEADERS += \
     workers/worker.hh \
     tiles/grassland.h \
     graphics/highlightitem.h \
-    tiles/extendedtilebase.h
+    tiles/extendedtilebase.h \
+    exceptions/graphicsexception.h
 
 OTHER_FILES +=
 
