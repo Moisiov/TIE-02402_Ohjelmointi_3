@@ -15,7 +15,10 @@ std::map<std::string, QColor> WorldItem::c_mapcolors = {{"Forest", QColor(20, 10
 
 std::map<std::string, QString> WorldItem::_pixmapUrls = {{"Grassland", ":/graphics/images/grassland.png"},
                                                          {"Sand", ":/graphics/images/sand.png"},
-                                                         {"Forest", ":/graphics/images/forest.png"}};
+                                                         {"Forest", ":/graphics/images/forest.png"},
+                                                         {"Swamp", ":/graphics/images/swamp.png"},
+                                                         {"Stone", ":/graphics/images/stone.png"},
+                                                         {"Water", ":/graphics/images/water.png"}};
 
 WorldItem::WorldItem(const std::shared_ptr<Course::GameObject> &obj, int size ):
     w_gameobject(obj), w_scenelocation(w_gameobject->getCoordinatePtr()->asQpoint()), w_size(size)

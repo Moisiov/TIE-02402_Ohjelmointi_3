@@ -15,8 +15,8 @@ class HighlightItem : public QGraphicsItem
 {
 public:
     HighlightItem(Course::Coordinate coordinate, int size,
-                  QColor color = QColor(150, 255, 150, 150),
-                  QColor borderColor = QColor(Qt::green));
+                  QColor color = QColor(200, 100, 200, 150),
+                  QColor borderColor = QColor(200, 100, 200));
 
     QRectF boundingRect() const override;
 

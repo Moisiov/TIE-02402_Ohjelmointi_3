@@ -290,6 +290,16 @@ void MapWindow::selectBuildingMenu()
         m_ui->buildingBrowser->setText(infoText.c_str());
         m_selectedBuilding = building;
 
+        // Disable sell button if building is HQ
+        if(m_selectedBuilding->getType() == "HeadQuarters")
+        {
+            m_ui->sellBtn->setDisabled(true);
+        }
+        else
+        {
+            m_ui->sellBtn->setDisabled(false);
+        }
+
         m_ui->menuWidget->setCurrentWidget(m_ui->buildingMenu);
     }
 }

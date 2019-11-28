@@ -3,5 +3,8 @@
         <file>images/grassland.png</file>
         <file>images/sand.png</file>
         <file>images/forest.png</file>
+        <file>images/swamp.png</file>
+        <file>images/stone.png</file>
+        <file>images/water.png</file>
     </qresource>
 </RCC>
