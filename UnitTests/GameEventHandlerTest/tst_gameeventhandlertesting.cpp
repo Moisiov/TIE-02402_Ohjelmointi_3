@@ -13,6 +13,7 @@
 
 #include "exceptions/notenoughspace.h"
 #include "exceptions/lackingresources.hh"
+#include "exceptions/movementlimitation.hh"
 
 // add necessary includes here
 
@@ -26,9 +27,15 @@ public:
 
 private slots:
     void initTestCase();
+    void resourceManagement();
     void turnHandling();
     void buildUnits();
     void buildBuildings();
+    void unitMovement();
+    void buildOutpostOnScout();
+    void upgradeUnits();
+    void upgradeBuildings();
+    void sellBuilding();
 
 private:
     std::shared_ptr<GameEventHandler> _GEHandler;
@@ -80,6 +87,46 @@ void GameEventHandlerTesting::initTestCase()
     QVERIFY(player2->getColor() == PlayerColor::RED);
 }
 
+void GameEventHandlerTesting::resourceManagement()
+{
+    Course::ResourceMap startingResources = {
+        {Course::BasicResource::NONE, 0},
+        {Course::BasicResource::MONEY, 1000},
+        {Course::BasicResource::FOOD, 600},
+        {Course::BasicResource::WOOD, 400},
+        {Course::BasicResource::STONE, 200},
+        {Course::BasicResource::ORE, 0}
+    };
+
+    Course::ResourceMap resourceBonus = {
+        {Course::BasicResource::NONE, 0},
+        {Course::BasicResource::MONEY, 500},
+        {Course::BasicResource::FOOD, 500},
+        {Course::BasicResource::WOOD, 500},
+        {Course::BasicResource::STONE, 500},
+        {Course::BasicResource::ORE, 500}
+    };
+
+    Course::ResourceMap expectedResults = {
+        {Course::BasicResource::NONE, 0},
+        {Course::BasicResource::MONEY, 1500},
+        {Course::BasicResource::FOOD, 1100},
+        {Course::BasicResource::WOOD, 900},
+        {Course::BasicResource::STONE, 700},
+        {Course::BasicResource::ORE, 500}
+    };
+
+    std::shared_ptr<Player> player = _GEHandler->currentPlayer();
+    Course::ResourceMap resources = player->getResources();
+    QVERIFY(resources == startingResources);
+
+    _GEHandler->modifyResources(player, resourceBonus);
+    QVERIFY(player->getResources() == expectedResults);
+
+    _GEHandler->modifyResource(player, Course::BasicResource::MONEY, -500);
+    QVERIFY(player->getResources().at(Course::BasicResource::MONEY) == 1000);
+}
+
 void GameEventHandlerTesting::turnHandling()
 {
     QVERIFY(_GEHandler->currentTurn() == 1);
@@ -116,7 +163,7 @@ void GameEventHandlerTesting::buildBuildings()
             QVERIFY(e.msg() == "Tile doesn't support given building type!");
         }
 
-        _GEHandler->constructBuilding("Farm", grassland);
+        QCOMPARE(true, _GEHandler->constructBuilding("Farm", grassland));
 
         try {
             _GEHandler->constructBuilding("Farm", grassland);
@@ -138,8 +185,153 @@ void GameEventHandlerTesting::buildBuildings()
     } catch (Course::BaseException e) {
         // Test failed
         qDebug() << QString::fromStdString(e.msg());
-        QVERIFY(false == true);
+        QVERIFY(false);
     }
+}
+
+void GameEventHandlerTesting::unitMovement()
+{
+    try {
+        Course::Coordinate workerLoc (3,14);
+        QVERIFY(_objM->getUnitsOnCoord(workerLoc).size() == 1);
+        std::shared_ptr<UnitBase> worker = std::dynamic_pointer_cast<UnitBase>(_objM->getUnitsOnCoord(workerLoc)[0]);
+
+        Course::Coordinate waterTile (4,13);
+        try {
+            _GEHandler->moveUnit(worker, waterTile);
+        } catch (MovementLimitation e) {
+            QVERIFY(e.msg() == "Worker cannot move on water!");
+        }
+
+        Course::Coordinate scoutLoc (3,16);
+        QVERIFY(_objM->getUnitsOnCoord(scoutLoc).size() == 1);
+        std::shared_ptr<UnitBase> scout = std::dynamic_pointer_cast<UnitBase>(_objM->getUnitsOnCoord(scoutLoc)[0]);
+
+        Course::Coordinate headquarters (3,15);
+        try {
+            _GEHandler->moveUnit(scout, headquarters);
+        } catch (Course::NotEnoughSpace e) {
+            QVERIFY(e.msg() == "Destination already full of units!");
+        }
+
+        Course::Coordinate tooFar (3,25);
+        try {
+            _GEHandler->moveUnit(scout, tooFar);
+        } catch (MovementLimitation e) {
+            QVERIFY(e.msg() == "Unit cannot move that far!");
+        }
+
+        Course::Coordinate nearby (3,19);
+        QCOMPARE(true, _GEHandler->moveUnit(scout, nearby));
+
+        try {
+            _GEHandler->moveUnit(scout, scoutLoc);
+        } catch (MovementLimitation e) {
+            QVERIFY(e.msg() == "Unit cannot move anymore this turn!");
+        }
+
+    } catch (Course::BaseException e) {
+        // Test failed
+        qDebug() << QString::fromStdString(e.msg());
+        QVERIFY(false);
+    }
+}
+
+void GameEventHandlerTesting::buildOutpostOnScout()
+{
+    Course::Coordinate scoutLoc (3,19);
+
+    try {
+        QVERIFY(_objM->getTile(scoutLoc)->getOwner() == nullptr);
+        QCOMPARE(true, _GEHandler->constructBuilding("Outpost", scoutLoc));
+        QVERIFY(_objM->getTile(scoutLoc)->getOwner() != nullptr);
+
+    } catch (Course::BaseException e) {
+        // Test failed
+        qDebug() << QString::fromStdString(e.msg());
+        QVERIFY(false);
+    }
+}
+
+void GameEventHandlerTesting::upgradeUnits()
+{
+    try {
+        Course::Coordinate workerLoc (3,14);
+        QVERIFY(_objM->getUnitsOnCoord(workerLoc).size() == 1);
+        std::shared_ptr<Worker> worker = std::dynamic_pointer_cast<Worker>(_objM->getUnitsOnCoord(workerLoc)[0]);
+
+        QCOMPARE(true, _GEHandler->specializeUnit(worker, "Farmer"));
+
+        try {
+            _GEHandler->specializeUnit(worker, "Lumberjack");
+        } catch (Course::IllegalAction e) {
+            QVERIFY(e.msg() == "Unit cannot be specialized!");
+        }
+
+        Course::Coordinate headquarters (3,15);
+        QVERIFY(_objM->getUnitsOnCoord(headquarters).size() == 3);
+        std::shared_ptr<Worker> worker2 = std::dynamic_pointer_cast<Worker>(_objM->getUnitsOnCoord(headquarters)[0]);
+
+        try {
+            _GEHandler->specializeUnit(worker2, "Teekkari");
+        } catch (LackingResources e) {
+            QVERIFY(e.msg() == "Cannot afford to upgrade worker!");
+        }
+
+    } catch (Course::BaseException e) {
+        // Test failed
+        qDebug() << QString::fromStdString(e.msg());
+        QVERIFY(false);
+    }
+}
+
+void GameEventHandlerTesting::upgradeBuildings()
+{
+    try {
+        Course::Coordinate headquartersLoc (3,15);
+        std::shared_ptr<UpgradeableBuilding> headquarters =
+                std::dynamic_pointer_cast<UpgradeableBuilding>(_objM->getTile(headquartersLoc)->getBuildings()[0]);
+        try {
+            _GEHandler->upgradeBuilding(headquarters);
+        } catch (Course::IllegalAction e) {
+            QVERIFY(e.msg() == "The building cannot be upgraded further!");
+        }
+
+        Course::Coordinate farmLoc (3,14);
+        std::shared_ptr<UpgradeableBuilding> farm =
+                std::dynamic_pointer_cast<UpgradeableBuilding>(_objM->getTile(farmLoc)->getBuildings()[0]);
+        QCOMPARE(farm->getUpgradeTier(), 1);
+        QCOMPARE(true, _GEHandler->upgradeBuilding(farm));
+        QCOMPARE(farm->getUpgradeTier(), 2);
+
+        try {
+            _GEHandler->upgradeBuilding(farm);
+        } catch (LackingResources e) {
+            QVERIFY(e.msg() == "Not enough resources to upgrade Farm!");
+        }
+
+    } catch (Course::BaseException e) {
+        // Test failed
+        qDebug() << QString::fromStdString(e.msg());
+        QVERIFY(false);
+    }
+
+}
+
+void GameEventHandlerTesting::sellBuilding()
+{
+    Course::Coordinate outpostLoc (3,19);
+    std::shared_ptr<Course::BuildingBase> outpost =
+            _objM->getTile(outpostLoc)->getBuildings()[0];
+
+    std::shared_ptr<Player> player = _GEHandler->currentPlayer();
+    int prevWoodCount = player->getResources().at(Course::BasicResource::WOOD);
+
+    _GEHandler->sellBuilding(outpost);
+
+    int currentWoodCount = player->getResources().at(Course::BasicResource::WOOD);
+
+    QVERIFY((prevWoodCount + 50) == currentWoodCount);
 }
 
 QTEST_APPLESS_MAIN(GameEventHandlerTesting)
