@@ -44,6 +44,9 @@ HEADERS += \
     ../../Game/buildings/outpost.hh \
     ../../Game/buildings/ranch.hh \
     ../../Game/buildings/upgradeablebuilding.hh \
+    ../../Game/exceptions/invalidcoordinate.hh \
+    ../../Game/exceptions/lackingresources.hh \
+    ../../Game/exceptions/movementlimitation.hh \
     ../../Game/handlers/gameeventhandler.hh \
     ../../Game/mapwindow.hh \
     ../../Game/buildings/campus.hh \
@@ -53,6 +56,7 @@ HEADERS += \
     ../../Game/buildings/sawmill.hh \
     ../../Game/player.hh \
     ../../Game/startdialog.hh \
+    ../../Game/tiles/forest.h \
     ../../Game/tiles/sand.hh \
     ../../Game/tiles/swamp.hh \
     ../../Game/tiles/stone.hh \
@@ -64,10 +68,10 @@ HEADERS += \
     ../../Game/workers/scout.hh \
     ../../Game/workers/unitbase.hh \
     ../../Game/workers/worker.hh \
-    ../../Game/tiles/forest.h \
     ../../Game/tiles/grassland.h \
     ../../Game/graphics/highlightitem.h \
-    ../../Game/tiles/extendedtilebase.h
+    ../../Game/tiles/extendedtilebase.h \
+    ../../Game/exceptions/graphicsexception.h
 
 FORMS += \
     ../../Game/mapwindow.ui \
