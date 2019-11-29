@@ -98,9 +98,9 @@ void WorldItem::updateLoc()
     if ( !w_gameobject ){
         delete this;
     } else {
-        update(boundingRect()); // Test if necessary
+        prepareGeometryChange();
         w_scenelocation = w_gameobject->getCoordinate().asQpoint();
-        update();
+        update(boundingRect());
     }
 }
 
