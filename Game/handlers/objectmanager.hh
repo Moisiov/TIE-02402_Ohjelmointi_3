@@ -20,8 +20,8 @@ class ObjectManager : public Course::iObjectManager
 {
 public:
     ObjectManager(unsigned map_x = 0, unsigned map_y = 0,
-                  std::shared_ptr<Course::iGameEventHandler> gameEventHandler = {},
-                  std::shared_ptr<WorldScene> scene = {});
+                  std::shared_ptr<Course::iGameEventHandler> gameEventHandler = nullptr,
+                  std::shared_ptr<WorldScene> scene = nullptr);
 
     /**
      * @brief Default destructor.

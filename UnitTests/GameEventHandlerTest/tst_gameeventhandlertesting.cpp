@@ -47,9 +47,6 @@ void GameEventHandlerTesting::initTestCase()
     _GEHandler->setObjectManager(_objM);
     _objM->setObjManager(_objM);
 
-    std::shared_ptr<WorldScene> scene = std::make_shared<WorldScene>();
-    _objM->setScene(scene);
-
     unsigned map_x = 30;
     unsigned map_y = 30;
 
@@ -62,8 +59,6 @@ void GameEventHandlerTesting::initTestCase()
     Course::WorldGenerator::getInstance().addConstructor<Swamp>(1);
     Course::WorldGenerator::getInstance().addConstructor<Water>(1);
     Course::WorldGenerator::getInstance().generateMap(map_x, map_y, 1, _objM, _GEHandler);
-
-    // _objM->drawMap();
 
     std::vector<std::string> playerNames = {"Pelaaja 1", "Pelaaja 2"};
     std::vector<PlayerColor> colorList = {PlayerColor::BLUE, PlayerColor::RED};
