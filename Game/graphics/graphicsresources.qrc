@@ -8,5 +8,13 @@
         <file>images/water.png</file>
         <file>images/headquarters.png</file>
         <file>images/campus.png</file>
+        <file>images/fishery.png</file>
+        <file>images/outpost.png</file>
+        <file>images/mine.png</file>
+        <file>images/sawmill.png</file>
+        <file>images/farm.png</file>
+        <file>images/scout.png</file>
+        <file>images/worker.png</file>
+        <file>images/teekkari.png</file>
     </qresource>
 </RCC>
