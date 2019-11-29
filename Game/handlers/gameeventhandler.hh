@@ -87,14 +87,6 @@ public:
     bool gameWon();
 
     /**
-     * @brief canBuildOnTile checks if current player is allowed to build on a tile
-     * @param type the building type
-     * @param location the coordinates to the tile
-     * @return true if possible
-     */
-    bool canBuildOnTile(std::string type, Course::Coordinate location);
-
-    /**
      * @brief scoutOnUnownedTile checks if current player has a scout in an unowned tile
      * @param location is the coordinate to selected tile
      * @return true if has scout

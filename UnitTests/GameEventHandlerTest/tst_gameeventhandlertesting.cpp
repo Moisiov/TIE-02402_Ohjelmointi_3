@@ -24,7 +24,7 @@ public:
 
 private slots:
     void initTestCase();
-    void test_case1();
+    void turnHandling();
 
 private:
     std::shared_ptr<GameEventHandler> _GEHandler;
@@ -47,8 +47,13 @@ void GameEventHandlerTesting::initTestCase()
     _GEHandler->setObjectManager(_objM);
     _objM->setObjManager(_objM);
 
+    std::shared_ptr<WorldScene> scene = std::make_shared<WorldScene>();
+    _objM->setScene(scene);
+
     unsigned map_x = 30;
     unsigned map_y = 30;
+
+    _objM->setMapSize(map_x, map_y);
 
     Course::WorldGenerator::getInstance().addConstructor<Forest>(2);
     Course::WorldGenerator::getInstance().addConstructor<Grassland>(3);
@@ -58,18 +63,29 @@ void GameEventHandlerTesting::initTestCase()
     Course::WorldGenerator::getInstance().addConstructor<Water>(1);
     Course::WorldGenerator::getInstance().generateMap(map_x, map_y, 1, _objM, _GEHandler);
 
-    _objM->drawMap();
+    // _objM->drawMap();
 
-    /*
-    _GEHandler->initializeGame(playerList, colorList, map_x, map_y);
-    _currentPlayer = m_GEHandler->currentPlayer();
-    updatePlayerInfo();
-    scrollToCoordinate(m_currentPlayer->getHQCoord());
-    */
+    std::vector<std::string> playerNames = {"Pelaaja 1", "Pelaaja 2"};
+    std::vector<PlayerColor> colorList = {PlayerColor::BLUE, PlayerColor::RED};
+
+    _GEHandler->initializeGame(playerNames, colorList, map_x, map_y);
+
+    std::shared_ptr<Player> player1 = _GEHandler->currentPlayer();
+    QVERIFY(player1->getName() == "Pelaaja 1");
+    QVERIFY(player1->getColor() == PlayerColor::BLUE);
+
+    _GEHandler->endTurn();
+
+    std::shared_ptr<Player> player2 = _GEHandler->currentPlayer();
+    QVERIFY(player2->getName() == "Pelaaja 2");
+    QVERIFY(player2->getColor() == PlayerColor::RED);
 }
 
-void GameEventHandlerTesting::test_case1()
+void GameEventHandlerTesting::turnHandling()
 {
+    QVERIFY(_GEHandler->currentTurn() == 1);
+    _GEHandler->endTurn();
+    QVERIFY(_GEHandler->currentTurn() == 0);
 
 }
 
