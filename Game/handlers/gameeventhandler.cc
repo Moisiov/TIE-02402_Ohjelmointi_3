@@ -369,7 +369,10 @@ bool GameEventHandler::moveUnit(std::shared_ptr<UnitBase> unit, Course::Coordina
 
     if (destinationTile->getType() == "Water") {
         if (not canWalkOnWater) {
-            throw MovementLimitation("Worker cannot move on water!");
+            if (destinationTile->getBuildingCount() < 1) {
+                throw MovementLimitation("Worker cannot move on water!");
+            }
+            // Only Fisheries can exist on water tiles, and workers can move on them
         }
     }
 
