@@ -127,11 +127,6 @@ void MapWindow::getParameters(std::vector<std::string> playerList, std::vector<P
 
 void MapWindow::objectSelected(std::shared_ptr<Course::GameObject> obj)
 {
-    m_selectedTile = std::dynamic_pointer_cast<ExtendedTileBase>(obj);
-
-    // Check if clicked tile is owned by current player
-    bool ownTile = m_selectedTile->getOwner() == m_currentPlayer;
-
     if (m_movingUnit)
     {
         try {
@@ -142,6 +137,11 @@ void MapWindow::objectSelected(std::shared_ptr<Course::GameObject> obj)
             // m_selectedTile = std::dynamic_pointer_cast<ExtendedTileBase>(obj);
             m_ui->moveBtn->setDisabled(true);
             m_movingUnit = false;
+            std::vector<std::shared_ptr<Course::WorkerBase>> workersOnTile = m_selectedTile->getWorkers();
+            for (auto worker : workersOnTile)
+            {
+                updateItem(worker);
+            }
 
         } catch (Course::IllegalAction e) {
             sendWarning(e.msg());
@@ -150,6 +150,11 @@ void MapWindow::objectSelected(std::shared_ptr<Course::GameObject> obj)
 
     else // Not m_movingUnit
     {
+        m_selectedTile = std::dynamic_pointer_cast<ExtendedTileBase>(obj);
+
+        // Check if clicked tile is owned by current player
+        bool ownTile = m_selectedTile->getOwner() == m_currentPlayer;
+
         // Tile highlights
         m_worldScene->highlightTile(obj->getCoordinate());
 

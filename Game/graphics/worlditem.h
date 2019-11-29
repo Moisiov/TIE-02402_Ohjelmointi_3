@@ -9,6 +9,7 @@
 #include <map>
 
 #include "core/gameobject.h"
+#include "handlers/objectmanager.hh"
 
 /**
  * @brief The WorldItem is a QGraphicsItem class which
@@ -34,6 +35,10 @@ public:
     int getSize() const;
 
     void setSize(int size);
+
+    void drawPlayerMarker(QPainter *painter);
+
+    QPoint getImgOffset();
 
 private:
     const std::shared_ptr<Course::GameObject> w_gameobject;

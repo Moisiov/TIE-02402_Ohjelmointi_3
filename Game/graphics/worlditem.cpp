@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QtWidgets>
 #include <QPixmap>
+#include "basicinfo.hh"
 
 std::map<std::string, QColor> WorldItem::c_mapcolors = {{"Forest", QColor(20, 100, 20)},
                                                         {"Grassland", QColor(20, 230, 30)},
@@ -59,52 +60,24 @@ void WorldItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     // get level of detail for zoomed rendering (lod = 1 no zoom, lod < 1 zoom out, lod > 1 zoom in)
     // const qreal lod = option->levelOfDetailFromTransform(painter->worldTransform());
 
-    if ( objType == "paska" ){
-        std::shared_ptr<Player> player = std::dynamic_pointer_cast<Player>(w_gameobject->getOwner());
-        PlayerColor playerColor = player->getColor();
-        QColor color;
-
-        // Get player color
-        switch (playerColor) {
-            case 0:
-                color = QColor(Qt::blue);
-                break;
-            case 1:
-                color = QColor(Qt::red);
-                break;
-            case 2:
-                color = QColor(Qt::green);
-                break;
-            case 3:
-                color = QColor(255, 100, 0);
-                break;
-            case 4:
-                color = QColor(100, 0, 255);
-                break;
-            case 5:
-                color = QColor(Qt::cyan);
-                break;
-            default:
-                break;
-        }
-
-        painter->setBrush(QBrush(color));
-        painter->drawEllipse(boundingRect());
-    }
-    else
+    try
     {
-        try
-        {
-            QString url = _pixmapUrls.at(objType);
-            QPixmap pic = QPixmap(url);
-            pic.setDevicePixelRatio(2);
-            painter->drawPixmap(w_scenelocation*w_size, pic);
-        }
-        catch (...)
-        {
-            painter->setBrush(QBrush(c_mapcolors.at(objType)));
-            painter->drawRect(boundingRect());
-        }
+        QString url = _pixmapUrls.at(objType);
+        QPixmap pic = QPixmap(url);
+        pic.setDevicePixelRatio(2);
+        QPoint offset = getImgOffset();
+        painter->drawPixmap(w_scenelocation*w_size + offset, pic);
+    }
+    catch (...)
+    {
+        painter->setBrush(QBrush(c_mapcolors.at(objType)));
+        painter->drawRect(boundingRect());
+    }
+
+    // Draw player marker if object is building or worker
+    if (std::find(TILES.begin(), TILES.end(), objType) == TILES.end())
+    {
+        drawPlayerMarker(painter);
     }
 }
 
@@ -120,6 +93,7 @@ void WorldItem::updateLoc()
     } else {
         update(boundingRect()); // Test if necessary
         w_scenelocation = w_gameobject->getCoordinate().asQpoint();
+        update();
     }
 }
 
@@ -138,6 +112,68 @@ void WorldItem::setSize(int size)
     if ( size > 0 && size <= 500 ){
         w_size = size;
     }
+}
+
+void WorldItem::drawPlayerMarker(QPainter *painter)
+{
+    std::shared_ptr<Player> player = std::dynamic_pointer_cast<Player>(w_gameobject->getOwner());
+    PlayerColor playerColor = player->getColor();
+    QColor color;
+
+    // Get player color
+    switch (playerColor) {
+        case 0:
+            color = QColor(Qt::blue);
+            break;
+        case 1:
+            color = QColor(Qt::red);
+            break;
+        case 2:
+            color = QColor(Qt::green);
+            break;
+        case 3:
+            color = QColor(255, 100, 0);
+            break;
+        case 4:
+            color = QColor(100, 0, 255);
+            break;
+        case 5:
+            color = QColor(Qt::cyan);
+            break;
+        default:
+            break;
+    }
+
+    painter->setBrush(QBrush(color));
+    painter->setPen(color);
+    painter->drawEllipse(QRectF(w_scenelocation * w_size + QPoint(w_size/20, w_size/20), w_scenelocation * w_size + QPoint(w_size/10, w_size/10)));
+}
+
+QPoint WorldItem::getImgOffset()
+{
+    QPoint offset = QPoint(0, 0);
+
+    if (std::find(WORKERTYPES.begin(), WORKERTYPES.end(), w_gameobject->getType()) != WORKERTYPES.end())
+    {
+        QGraphicsItem* tileGraphics = scene()->items(w_scenelocation * w_size).last();
+        std::shared_ptr<Course::TileBase> tile = std::dynamic_pointer_cast<Course::TileBase>
+                (static_cast<WorldItem*>(tileGraphics)->getBoundObject());
+
+        std::vector<std::shared_ptr<Course::WorkerBase>> workersOnTile = tile->getWorkers();
+
+        int multiplier = 0;
+        for(auto worker : workersOnTile)
+        {
+            if(worker == w_gameobject)
+            {
+                offset = QPoint(w_size*multiplier/3, 0);
+            }
+
+            multiplier++;
+        }
+    }
+
+    return offset;
 }
 
 void WorldItem::addNewColor(std::string type)

@@ -205,6 +205,16 @@ const std::vector<Course::ResourceMap> SAWMILL_PRODUCTION_LIST = {
 
 // WORKERS //
 
+const std::vector<std::string> WORKERTYPES = {
+    "Worker",
+    "Scout",
+    "Farmer",
+    "Lumberjack",
+    "Miner",
+    "Merchant",
+    "Teekkari"
+};
+
 const Course::ResourceMap BASIC_WORKER_BUILD_COST = {
     {Course::BasicResource::FOOD, 100}
 };
@@ -302,6 +312,16 @@ const std::map<std::string, Course::ResourceMapDouble> SPECIALIZATION_EFFICIENCY
          {Course::BasicResource::STONE, 2},
          {Course::BasicResource::ORE, 2}
     }},
+};
+
+// TILES //
+const std::vector<std::string> TILES = {
+    "Grassland",
+    "Forest",
+    "Sand",
+    "Stone",
+    "Swamp",
+    "Water"
 };
 
 
