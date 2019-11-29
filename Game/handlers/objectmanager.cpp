@@ -191,6 +191,9 @@ void ObjectManager::addUnit(const std::shared_ptr<UnitBase> &unit)
 
 void ObjectManager::drawMap()
 {
+    if (_scene == nullptr) {
+        return;
+    }
     for(unsigned x = 0; x < _tiles.size(); ++x) {
         for(unsigned y = 0; y < _tiles.at(x).size(); ++y) {
             _scene->drawItem(_tiles.at(x).at(y));
@@ -208,7 +211,9 @@ void ObjectManager::drawMap()
 
 void ObjectManager::drawItem(std::shared_ptr<Course::GameObject> obj)
 {
-    _scene->drawItem(obj);
+    if (_scene != nullptr) {
+        _scene->drawItem(obj);
+    }
 }
 
 void ObjectManager::restoreMoves(std::shared_ptr<Player> owner)

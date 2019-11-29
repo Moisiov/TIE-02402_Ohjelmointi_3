@@ -223,19 +223,23 @@ bool GameEventHandler::constructBuilding(std::string type, Course::Coordinate lo
 
     bool canBuild = false;
 
-    // Checking if the player has a scout on an unowned tile
-    if (scoutOnUnownedTile(location)) {
-        if (type != "Outpost") {
-            throw Course::IllegalAction("Can only build outposts outside owned land!");
-        } else {
-            canBuild = true;
-        }
-    }
+
 
     // Check if player owns the tile
     if (targetTile->getOwner() != nullptr) {
         if (targetTile->getOwner()->getName() == _playerList[_currentPlayer]->getName()) {
             canBuild = true;
+        }
+    } else // Tile is unowned
+    {
+        if (scoutOnUnownedTile(location)) {
+            if (type != "Outpost") {
+                throw Course::IllegalAction("Only outposts can be built outside owned land!");
+            } else {
+                canBuild = true;
+            }
+        } else {
+            throw Course::IllegalAction("Players can only build on owned tiles or outposts on scout locations!");
         }
     }
 
