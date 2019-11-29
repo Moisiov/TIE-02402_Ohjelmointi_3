@@ -7,5 +7,6 @@
         <file>images/stone.png</file>
         <file>images/water.png</file>
         <file>images/headquarters.png</file>
+        <file>images/campus.png</file>
     </qresource>
 </RCC>

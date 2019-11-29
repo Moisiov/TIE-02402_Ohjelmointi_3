@@ -19,7 +19,8 @@ std::map<std::string, QString> WorldItem::_pixmapUrls = {{"Grassland", ":/graphi
                                                          {"Swamp", ":/graphics/images/swamp.png"},
                                                          {"Stone", ":/graphics/images/stone.png"},
                                                          {"Water", ":/graphics/images/water.png"},
-                                                         {"HeadQuarters", ":/graphics/images/headquarters.png"}};
+                                                         {"HeadQuarters", ":/graphics/images/headquarters.png"},
+                                                         {"Campus", ":/graphics/images/campus.png"}};
 
 WorldItem::WorldItem(const std::shared_ptr<Course::GameObject> &obj, int size ):
     w_gameobject(obj), w_scenelocation(w_gameobject->getCoordinatePtr()->asQpoint()), w_size(size)
