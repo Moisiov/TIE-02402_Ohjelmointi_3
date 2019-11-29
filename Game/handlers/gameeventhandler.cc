@@ -149,7 +149,25 @@ bool GameEventHandler::gameWon()
     return _objM->progressResearch(_playerList[_currentPlayer]);
 }
 
-bool GameEventHandler::canBuildOnTile(std::string type, Course::Coordinate location)
+bool GameEventHandler::scoutOnUnownedTile(Course::Coordinate location)
+{
+    std::shared_ptr<Course::TileBase> targetTile = _objM->getTile(location);
+    std::vector<std::shared_ptr<UnitBase>> scoutList = _objM->getPlayerScouts(_playerList[_currentPlayer]);
+
+    bool hasScout = false;
+
+    for (unsigned i = 0; i < scoutList.size(); ++i) {
+        if (scoutList[i]->getCoordinate() == location) {
+            if (targetTile->getOwner() == nullptr) {
+                hasScout = true;
+            }
+        }
+    }
+
+    return hasScout;
+}
+
+bool GameEventHandler::constructBuilding(std::string type, Course::Coordinate location)
 {
     std::shared_ptr<Course::TileBase> targetTile = _objM->getTile(location);
     std::string tileType = targetTile->getType();
@@ -200,13 +218,19 @@ bool GameEventHandler::canBuildOnTile(std::string type, Course::Coordinate locat
 
 
     if (tileSupportsBuildingType == false) {
-        return false;
+        throw Course::IllegalAction("Tile doesn't support given building type!");
     }
 
     bool canBuild = false;
 
     // Checking if the player has a scout on an unowned tile
-    if (scoutOnUnownedTile(location)) {canBuild = true;}
+    if (scoutOnUnownedTile(location)) {
+        if (type != "Outpost") {
+            throw Course::IllegalAction("Can only build outposts outside owned land!");
+        } else {
+            canBuild = true;
+        }
+    }
 
     // Check if player owns the tile
     if (targetTile->getOwner() != nullptr) {
@@ -216,33 +240,8 @@ bool GameEventHandler::canBuildOnTile(std::string type, Course::Coordinate locat
     }
 
     if (!targetTile->hasSpaceForBuildings(1)) {
-        return false;
+        throw Course::NotEnoughSpace("You can have only one building per tile!");
     }
-
-    return canBuild;
-}
-
-bool GameEventHandler::scoutOnUnownedTile(Course::Coordinate location)
-{
-    std::shared_ptr<Course::TileBase> targetTile = _objM->getTile(location);
-    std::vector<std::shared_ptr<UnitBase>> scoutList = _objM->getPlayerScouts(_playerList[_currentPlayer]);
-
-    bool hasScout = false;
-
-    for (unsigned i = 0; i < scoutList.size(); ++i) {
-        if (scoutList[i]->getCoordinate() == location) {
-            if (targetTile->getOwner() == nullptr) {
-                hasScout = true;
-            }
-        }
-    }
-
-    return hasScout;
-}
-
-bool GameEventHandler::constructBuilding(std::string type, Course::Coordinate location)
-{
-   bool canBuild = canBuildOnTile(type, location);
 
    // Check if player can afford material cost
    Course::ResourceMap cost;
@@ -377,6 +376,11 @@ bool GameEventHandler::moveUnit(std::shared_ptr<UnitBase> unit, Course::Coordina
     if (destinationTile->getOwner() != nullptr) {
         if (destinationTile->getOwner()->getName() != unit->getOwner()->getName()) {
             throw MovementLimitation("Units cannot move into enemy territory!");
+        }
+    } else {
+        // DestinationTile not owned by anyone
+        if (unit->getType() != "Scout") {
+            throw MovementLimitation("Only scouts can go outside of players own lands!");
         }
     }
 

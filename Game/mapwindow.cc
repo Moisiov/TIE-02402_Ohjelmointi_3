@@ -148,7 +148,7 @@ void MapWindow::objectSelected(std::shared_ptr<Course::GameObject> obj)
         }
     }
 
-    else if(!m_movingUnit)
+    else // Not m_movingUnit
     {
         // Tile highlights
         m_worldScene->highlightTile(obj->getCoordinate());
@@ -286,7 +286,9 @@ void MapWindow::selectBuildingMenu()
     {
         std::shared_ptr<UpgradeableBuilding> building =
                 std::dynamic_pointer_cast<UpgradeableBuilding>(m_selectedTile->getBuildings().at(0));
-        std::string infoText = building->getType();
+        std::string infoText = building->getType() + "\n";
+        std::string buildingTier = std::to_string(building->getUpgradeTier());
+        infoText += "Building tier: " + buildingTier;
         m_ui->buildingBrowser->setText(infoText.c_str());
         m_selectedBuilding = building;
 
@@ -337,6 +339,7 @@ void MapWindow::selectUpgrade()
     try {
         m_GEHandler->upgradeBuilding(m_selectedBuilding);
         updatePlayerInfo();
+        selectBuildingMenu(); // Forces update of building info
 
     } catch (Course::IllegalAction e) {
         sendWarning(e.msg());

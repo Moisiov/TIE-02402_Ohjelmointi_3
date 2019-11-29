@@ -36,7 +36,6 @@ const std::vector<Course::ResourceMap> HQ_PRODUCTION_LIST = {
 
 const std::vector<Course::ResourceMap> OUTPOST_BUILD_COST_LIST = {
     {
-        {Course::BasicResource::FOOD, 100},
         {Course::BasicResource::WOOD, 100}
     },
     {
@@ -72,7 +71,6 @@ const std::vector<Course::ResourceMap> CAMPUS_PRODUCTION_LIST = {
 
 const std::vector<Course::ResourceMap> FISHERY_BUILD_COST_LIST = {
     {
-        {Course::BasicResource::FOOD, 100},
         {Course::BasicResource::WOOD, 100}
     },
     {
@@ -100,7 +98,6 @@ const std::vector<Course::ResourceMap> FISHERY_PRODUCTION_LIST = {
 
 const std::vector<Course::ResourceMap> MARKET_BUILD_COST_LIST = {
     {
-        {Course::BasicResource::FOOD, 100},
         {Course::BasicResource::WOOD, 100}
     },
     {
@@ -127,7 +124,6 @@ const std::vector<Course::ResourceMap> MARKET_PRODUCTION_LIST = {
 
 const std::vector<Course::ResourceMap> MINE_BUILD_COST_LIST = {
     {
-        {Course::BasicResource::FOOD, 100},
         {Course::BasicResource::WOOD, 100}
     },
     {
@@ -157,7 +153,6 @@ const std::vector<Course::ResourceMap> MINE_PRODUCTION_LIST {
 
 const std::vector<Course::ResourceMap> RANCH_BUILD_COST_LIST = {
     {
-        {Course::BasicResource::FOOD, 100},
         {Course::BasicResource::WOOD, 100}
     },
     {
@@ -184,7 +179,6 @@ const std::vector<Course::ResourceMap> RANCH_PRODUCTION_LIST = {
 
 const std::vector<Course::ResourceMap> SAWMILL_BUILD_COST_LIST =  {
     {
-        {Course::BasicResource::FOOD, 100},
         {Course::BasicResource::WOOD, 100}
     },
     {
