@@ -11,6 +11,8 @@
 #include "tiles/sand.hh"
 #include "tiles/water.hh"
 
+#include "exceptions/notenoughspace.h"
+#include "exceptions/lackingresources.hh"
 
 // add necessary includes here
 
@@ -25,6 +27,8 @@ public:
 private slots:
     void initTestCase();
     void turnHandling();
+    void buildUnits();
+    void buildBuildings();
 
 private:
     std::shared_ptr<GameEventHandler> _GEHandler;
@@ -79,9 +83,63 @@ void GameEventHandlerTesting::initTestCase()
 void GameEventHandlerTesting::turnHandling()
 {
     QVERIFY(_GEHandler->currentTurn() == 1);
+    QVERIFY(_GEHandler->gameWon() == false);
     _GEHandler->endTurn();
     QVERIFY(_GEHandler->currentTurn() == 0);
+    QVERIFY(_GEHandler->gameWon() == false);
 
+}
+
+void GameEventHandlerTesting::buildUnits()
+{
+    _GEHandler->constructUnit("Worker");
+    _GEHandler->constructUnit("Worker");
+    _GEHandler->constructUnit("Worker");
+    try {
+        _GEHandler->constructUnit("Worker");
+    } catch (Course::NotEnoughSpace e) {
+        QVERIFY(e.msg() == "Not enough space in HQ to build more units!");
+    }
+}
+
+void GameEventHandlerTesting::buildBuildings()
+{
+    Course::Coordinate grassland (3,14);
+    Course::Coordinate headquarters (3,15);
+    Course::Coordinate farawayForest (8,15);
+    Course::Coordinate freespot (2,15);
+
+    try {
+        try {
+            _GEHandler->constructBuilding("Mine", grassland);
+        } catch (Course::IllegalAction e) {
+            QVERIFY(e.msg() == "Tile doesn't support given building type!");
+        }
+
+        _GEHandler->constructBuilding("Farm", grassland);
+
+        try {
+            _GEHandler->constructBuilding("Farm", grassland);
+        } catch (Course::NotEnoughSpace e) {
+            QVERIFY(e.msg() == "You can have only one building per tile!");
+        }
+
+        try {
+            _GEHandler->constructBuilding("Sawmill", farawayForest);
+        } catch (Course::IllegalAction e) {
+            QVERIFY(e.msg() == "Players can only build on owned tiles or outposts on scout locations!");
+        }
+        try {
+            _GEHandler->constructBuilding("Campus", freespot);
+        } catch (LackingResources e) {
+            QVERIFY(e.msg() == "Not enough resources to build Campus!");
+        }
+
+    } catch (Course::BaseException e) {
+        // Test failed
+        qDebug() << QString::fromStdString(e.msg());
+        QVERIFY(false == true);
+    }
 }
 
 QTEST_APPLESS_MAIN(GameEventHandlerTesting)
