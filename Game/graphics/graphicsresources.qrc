@@ -16,5 +16,10 @@
         <file>images/scout.png</file>
         <file>images/worker.png</file>
         <file>images/teekkari.png</file>
+        <file>images/farmer.png</file>
+        <file>images/lumberjack.png</file>
+        <file>images/merchant.png</file>
+        <file>images/miner.png</file>
+        <file>images/marketplace.png</file>
     </qresource>
 </RCC>

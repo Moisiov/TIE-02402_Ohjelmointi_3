@@ -38,7 +38,18 @@ public:
 
     void drawPlayerMarker(QPainter *painter);
 
+    /**
+     * @brief getImgOffset checks if image needs to be moved
+     * - now checking if tile contains multiple workers returns correct offset
+     * to draw workers next to each other
+     * @return offset as QPoint value
+     */
     QPoint getImgOffset();
+
+    /**
+     * @brief setZVal set Z value according to the object type
+     */
+    void setZVal();
 
 private:
     const std::shared_ptr<Course::GameObject> w_gameobject;
