@@ -36,6 +36,10 @@ public:
 
     void setSize(int size);
 
+    /**
+     * @brief drawPlayerMarker draws a sign showing the owner of building/worker
+     * @param painter
+     */
     void drawPlayerMarker(QPainter *painter);
 
     /**

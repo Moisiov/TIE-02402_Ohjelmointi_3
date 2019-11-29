@@ -143,6 +143,18 @@ public:
      */
     std::vector<Course::Coordinate> getPlayerZone(std::shared_ptr<Player> player);
 
+    /**
+     * @brief getBuildings
+     * @return _buildings
+     */
+    std::vector<std::shared_ptr<UpgradeableBuilding>> getBuildings();
+
+    /**
+     * @brief getUnits
+     * @return _units
+     */
+    std::vector<std::shared_ptr<UnitBase>> getUnits();
+
 private:
 
     void checkCoordinate(Course::Coordinate coord);

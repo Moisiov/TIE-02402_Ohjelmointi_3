@@ -302,6 +302,16 @@ std::vector<Course::Coordinate> ObjectManager::getPlayerZone(std::shared_ptr<Pla
     return playerZone;
 }
 
+std::vector<std::shared_ptr<UpgradeableBuilding> > ObjectManager::getBuildings()
+{
+    return _buildings;
+}
+
+std::vector<std::shared_ptr<UnitBase> > ObjectManager::getUnits()
+{
+    return _units;
+}
+
 void ObjectManager::checkCoordinate(Course::Coordinate coord)
 {
     if (coord.x() < 0 || coord.y() < 0) {

@@ -133,7 +133,6 @@ void MapWindow::objectSelected(std::shared_ptr<Course::GameObject> obj)
 
             updateItem(m_selectedWorker);
             m_worldScene->highlightTile(obj->getCoordinate());
-            // m_selectedTile = std::dynamic_pointer_cast<ExtendedTileBase>(obj);
             m_ui->moveBtn->setDisabled(true);
             m_movingUnit = false;
             std::vector<std::shared_ptr<Course::WorkerBase>> workersOnTile = m_selectedTile->getWorkers();
@@ -160,12 +159,13 @@ void MapWindow::objectSelected(std::shared_ptr<Course::GameObject> obj)
         std::string objType = obj->getType();
         std::string infoText = objType;
 
-        Course::Coordinate coord = obj->getCoordinate();
-        infoText += "\n(" + std::to_string(coord.x()) + "," + std::to_string(coord.y()) + ")";
+        //Course::Coordinate coord = obj->getCoordinate();
+        //infoText += "\n(" + std::to_string(coord.x()) + "," + std::to_string(coord.y()) + ")";
 
         std::shared_ptr<Course::PlayerBase> owner = obj->getOwner();
         if (owner != nullptr) {
-            infoText += "\nOwner: " + owner->getName();
+            //infoText += "\nOwner: " + owner->getName();
+            infoText = m_selectedTile->description();
         }
 
         m_ui->tileBrowser->setText(infoText.c_str());
@@ -290,9 +290,10 @@ void MapWindow::selectBuildingMenu()
     {
         std::shared_ptr<UpgradeableBuilding> building =
                 std::dynamic_pointer_cast<UpgradeableBuilding>(m_selectedTile->getBuildings().at(0));
-        std::string infoText = building->getType() + "\n";
-        std::string buildingTier = std::to_string(building->getUpgradeTier());
-        infoText += "Building tier: " + buildingTier;
+        std::string infoText = building->description();
+        //std::string infoText = building->getType() + "\n";
+        //std::string buildingTier = std::to_string(building->getUpgradeTier());
+        //infoText += "Building tier: " + buildingTier;
         m_ui->buildingBrowser->setText(infoText.c_str());
         m_selectedBuilding = building;
 
@@ -326,7 +327,8 @@ void MapWindow::selectWorkerMenu(unsigned workerIndex)
 {
     m_selectedWorker = std::dynamic_pointer_cast<UnitBase>
             (m_selectedTile->getWorkers().at(workerIndex));
-    std::string infoText = m_selectedWorker->getType();
+    std::string infoText =m_selectedWorker->description();
+    //std::string infoText = m_selectedWorker->getType();
     m_ui->workerBrowser->setText(infoText.c_str());
 
     // Disable move button if unit cannot move
@@ -466,9 +468,35 @@ void MapWindow::highlightCapturedArea()
     m_worldScene->highlightSelection(m_GEHandler->getCurrentPlayerZone());
 }
 
-void MapWindow::newGame()
+void MapWindow::highlightBuildingsAndWorkers()
 {
-    qDebug() << "MapWindow::newGame() not implemented";
+    std::vector<std::shared_ptr<UnitBase>> units = m_objM->getUnits();
+    std::vector<std::shared_ptr<UpgradeableBuilding>> buildings = m_objM->getBuildings();
+
+    std::vector<Course::Coordinate> coordinates = {};
+
+    for (auto unit : units)
+    {
+        if(unit->getOwner() == m_currentPlayer)
+        {
+            coordinates.push_back(unit->getCoordinate());
+        }
+    }
+
+    for (auto building : buildings)
+    {
+        if(building->getOwner() == m_currentPlayer)
+        {
+            coordinates.push_back(building->getCoordinate());
+        }
+    }
+
+    m_worldScene->highlightSelection(coordinates);
+}
+
+void MapWindow::help()
+{
+    qDebug() << "MapWindow::help() not implemented";
 }
 
 void MapWindow::sendWarning(std::string message)
@@ -500,5 +528,6 @@ void MapWindow::setupMenuConnections()
     connect(m_ui->constructUnitBtn2, &QPushButton::clicked, [this]{ constructUnit(1); });
     connect(m_ui->upgradeUnitBtn, &QPushButton::clicked, this, &MapWindow::selectSpecialize);
     connect(m_ui->capturedAreaBtn, &QPushButton::clicked, this, &MapWindow::highlightCapturedArea);
-    connect(m_ui->newGameBtn, &QPushButton::clicked, this, &MapWindow::newGame);
+    connect(m_ui->helpBtn, &QPushButton::clicked, this, &MapWindow::help);
+    connect(m_ui->buildingsWorkersBtn, &QPushButton::clicked, this, &MapWindow::highlightBuildingsAndWorkers);
 }

@@ -166,9 +166,14 @@ private slots:
     void highlightCapturedArea();
 
     /**
-     * @brief newGame slot for newGameBtn click
+     * @brief highlightBuildingsAndWorkers slot for buildingsWorkersBtn click
      */
-    void newGame();
+    void highlightBuildingsAndWorkers();
+
+    /**
+     * @brief help slot for helpBtn click
+     */
+    void help();
 
 private:
     Ui::MapWindow* m_ui;

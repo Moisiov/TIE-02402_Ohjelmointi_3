@@ -37,11 +37,6 @@ void HighlightItem::setColor(QColor color)
     h_color = color;
 }
 
-void HighlightItem::updateLocation(Course::Coordinate coordinate)
-{
-    h_sceneLocation = coordinate.asQpoint();
-}
-
 QPoint HighlightItem::getLocation()
 {
     return h_sceneLocation;
