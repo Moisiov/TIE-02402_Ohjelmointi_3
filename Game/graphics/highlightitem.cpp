@@ -8,6 +8,7 @@ HighlightItem::HighlightItem(Course::Coordinate coordinate, int size, QColor col
     h_color(color),
     h_borderColor(borderColor)
 {
+    setZValue(2);
 }
 
 QRectF HighlightItem::boundingRect() const

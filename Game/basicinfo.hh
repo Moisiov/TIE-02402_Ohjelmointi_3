@@ -20,6 +20,18 @@ const Course::ResourceMap PLAYER_STARTING_RESOURCES = {
 
 // BUILDINGS //
 
+const std::vector<std::string> BUILDINGTYPES = {
+    "HeadQuarters",
+    "Outpost",
+    "Fishery",
+    "Campus",
+    "Mine",
+    "Sawmill",
+    "Farm",
+    "Market"
+};
+
+
 const std::vector<Course::ResourceMap> HQ_BUILD_COST_LIST = {
     {
         {Course::BasicResource::MONEY, 1000},
@@ -315,7 +327,7 @@ const std::map<std::string, Course::ResourceMapDouble> SPECIALIZATION_EFFICIENCY
 };
 
 // TILES //
-const std::vector<std::string> TILES = {
+const std::vector<std::string> TILETYPES = {
     "Grassland",
     "Forest",
     "Sand",

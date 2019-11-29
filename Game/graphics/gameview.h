@@ -37,8 +37,6 @@ public:
      */
     void mouseReleaseEvent(QMouseEvent *event);
 
-    void scrollToCoordinate(Course::Coordinate coord);
-
 private:
     int _originX;
     int _originY;

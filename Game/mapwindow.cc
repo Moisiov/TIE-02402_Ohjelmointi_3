@@ -36,7 +36,6 @@ MapWindow::MapWindow(QWidget *parent,
     m_ui->menuWidget->setCurrentWidget(m_ui->mainMenu);
 
     m_objM->setScene(m_worldScene);
-
     WorldScene* sgs_rawptr = m_worldScene.get();
 
     // m_ui->graphicsView->height();

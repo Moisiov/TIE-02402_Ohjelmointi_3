@@ -29,7 +29,12 @@ std::map<std::string, QString> WorldItem::_pixmapUrls = {{"Grassland", ":/graphi
                                                          {"Farm", ":/graphics/images/farm.png"},
                                                          {"Worker", ":/graphics/images/worker.png"},
                                                          {"Scout", ":/graphics/images/scout.png"},
-                                                         {"Teekkari", ":/graphics/images/teekkari.png"}};
+                                                         {"Teekkari", ":/graphics/images/teekkari.png"},
+                                                         {"Farmer", ":/graphics/images/farmer.png"},
+                                                         {"Lumberjack", ":/graphics/images/lumberjack.png"},
+                                                         {"Miner", ":/graphics/images/miner.png"},
+                                                         {"Merchant", ":/graphics/images/merchant.png"},
+                                                         {"Market", ":/graphics/images/marketplace.png"}};
 
 WorldItem::WorldItem(const std::shared_ptr<Course::GameObject> &obj, int size ):
     w_gameobject(obj), w_scenelocation(w_gameobject->getCoordinatePtr()->asQpoint()), w_size(size)
@@ -38,6 +43,8 @@ WorldItem::WorldItem(const std::shared_ptr<Course::GameObject> &obj, int size ):
 
     // Set cache mode to speed up rendering
     setCacheMode(WorldItem::DeviceCoordinateCache);
+
+    setZVal();
 }
 
 QRectF WorldItem::boundingRect() const
@@ -64,7 +71,7 @@ void WorldItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     {
         QString url = _pixmapUrls.at(objType);
         QPixmap pic = QPixmap(url);
-        pic.setDevicePixelRatio(2);
+        pic.setDevicePixelRatio(100/w_size);
         QPoint offset = getImgOffset();
         painter->drawPixmap(w_scenelocation*w_size + offset, pic);
     }
@@ -75,7 +82,7 @@ void WorldItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     }
 
     // Draw player marker if object is building or worker
-    if (std::find(TILES.begin(), TILES.end(), objType) == TILES.end())
+    if (std::find(TILETYPES.begin(), TILETYPES.end(), objType) == TILETYPES.end())
     {
         drawPlayerMarker(painter);
     }
@@ -174,6 +181,20 @@ QPoint WorldItem::getImgOffset()
     }
 
     return offset;
+}
+
+void WorldItem::setZVal()
+{
+    std::string type = w_gameobject->getType();
+
+    if (std::find(BUILDINGTYPES.begin(), BUILDINGTYPES.end(), type) != BUILDINGTYPES.end())
+    {
+        setZValue(1);
+    }
+    else if (std::find(WORKERTYPES.begin(), WORKERTYPES.end(), type) != WORKERTYPES.end())
+    {
+        setZValue(3);
+    }
 }
 
 void WorldItem::addNewColor(std::string type)

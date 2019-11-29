@@ -58,8 +58,3 @@ void GameView::mouseReleaseEvent(QMouseEvent *event) {
         setDragMode(QGraphicsView::DragMode::NoDrag);
     }
 }
-
-void GameView::scrollToCoordinate(Course::Coordinate coord)
-{
-    return;
-}
