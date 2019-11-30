@@ -33,6 +33,8 @@ public:
 
     std::string description();
 
+    Course::ResourceMap calculateProduction();
+
     virtual bool generateResources() override;
 
 private:

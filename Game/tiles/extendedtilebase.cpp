@@ -35,7 +35,7 @@ std::string ExtendedTileBase::description()
     return description;
 }
 
-bool ExtendedTileBase::generateResources()
+Course::ResourceMap ExtendedTileBase::calculateProduction()
 {
     std::vector<std::shared_ptr<Course::BuildingBase>> buildings = getBuildings();
     std::vector<std::shared_ptr<Course::WorkerBase>> workers = getWorkers();
@@ -57,6 +57,13 @@ bool ExtendedTileBase::generateResources()
     }
 
     Course::ResourceMap totalProduction = fixedResourceMultiplier(base, totalEfficiency);
+
+    return totalProduction;
+}
+
+bool ExtendedTileBase::generateResources()
+{
+    Course::ResourceMap totalProduction = calculateProduction();
 
     return lockEventHandler()->modifyResources(getOwner(), totalProduction);
 }
