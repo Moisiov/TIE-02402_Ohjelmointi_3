@@ -202,6 +202,14 @@ private:
      * @return string containing build/upgrade cost
      */
     std::string generateResourceCostTooltip(std::string objType, unsigned tier = 0, bool sell = false);
+
+    std::string generateProductionInfo();
+
+    /**
+     * @brief getCampusProgressText
+     * @return returns campus progress as text (for example 20/100)
+     */
+    std::string getCampusProgressText();
 };
 
 #endif // MapWINDOW_HH
