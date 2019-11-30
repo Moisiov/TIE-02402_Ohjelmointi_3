@@ -3,6 +3,10 @@
 
 #include "exceptions/illegalaction.h"
 
+/**
+ * @brief The MovementLimitation class is thrown when a function is trying to move
+ * a unit against the movement rules
+ */
 class MovementLimitation: public Course::IllegalAction
 {
 public:

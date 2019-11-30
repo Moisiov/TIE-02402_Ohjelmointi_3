@@ -78,6 +78,11 @@ public:
      */
     bool payResourceCost(Course::ResourceMap cost);
 
+    /**
+     * @brief setHQCoord each player has a set starting location to where gameview
+     * zooms to during turn changes
+     * @param coord location of HQ
+     */
     void setHQCoord(Course::Coordinate coord);
 
     Course::Coordinate getHQCoord();

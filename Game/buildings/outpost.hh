@@ -17,6 +17,10 @@ public:
 
     virtual std::string getType() const override;
 
+    /**
+     * @brief onBuildAction outposts capture areas around themselves on a radius
+     * of 1 square when built
+     */
     virtual void onBuildAction() override;
 };
 
