@@ -606,7 +606,7 @@ std::string MapWindow::generateProductionInfo()
 {
     std::string productionText = "Produces\n";
 
-    Course::ResourceMap production = {};
+    Course::ResourceMap production = m_selectedTile->calculateProduction();
 
     for (auto resource : production)
     {
@@ -615,19 +615,19 @@ std::string MapWindow::generateProductionInfo()
         switch (resource.first)
         {
             case 1:
-                productionText += "Money: " + std::to_string(value) + "\n";
+                productionText += "Money: " + std::to_string(value) + "/turn" + "\n";
                 break;
             case 2:
-                productionText += "Food: " + std::to_string(value) + "\n";
+                productionText += "Food: " + std::to_string(value) + "/turn" + "\n";
                 break;
             case 3:
-                productionText += "Wood: " + std::to_string(value) + "\n";
+                productionText += "Wood: " + std::to_string(value) + "/turn" + "\n";
                 break;
             case 4:
-                productionText += "Stone: " + std::to_string(value) + "\n";
+                productionText += "Stone: " + std::to_string(value) + "/turn" + "\n";
                 break;
             case 5:
-                productionText += "Ore: " + std::to_string(value) + "\n";
+                productionText += "Ore: " + std::to_string(value) + "/turn" + "\n";
                 break;
             default:
                 break;
