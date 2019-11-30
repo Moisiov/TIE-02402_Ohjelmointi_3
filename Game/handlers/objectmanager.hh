@@ -180,6 +180,13 @@ public:
      */
     std::vector<std::shared_ptr<UnitBase>> getUnits();
 
+    /**
+     * @brief getCampusProgress gets the progress of given players campus
+     * @param player
+     * @return progress
+     */
+    unsigned getCampusProgress(std::shared_ptr<Player> player);
+
 private:
     /**
      * @brief checkCoordinate ensures given coordinates are within map limits

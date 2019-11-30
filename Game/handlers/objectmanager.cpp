@@ -312,6 +312,23 @@ std::vector<std::shared_ptr<UnitBase> > ObjectManager::getUnits()
     return _units;
 }
 
+unsigned ObjectManager::getCampusProgress(std::shared_ptr<Player> player)
+{
+    unsigned progress = 0;
+
+    for (unsigned i = 0; i < _buildings.size(); ++i) {
+        if (_buildings[i]->getType() == "Campus") {
+            if (_buildings[i]->getOwner() == player) {
+                std::shared_ptr<Campus> campus = std::dynamic_pointer_cast<Campus>(_buildings[i]);
+
+                 progress = campus->getProgress();
+            }
+        }
+    }
+
+    return progress;
+}
+
 void ObjectManager::checkCoordinate(Course::Coordinate coord)
 {
     if (coord.x() < 0 || coord.y() < 0) {

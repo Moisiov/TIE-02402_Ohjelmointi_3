@@ -33,7 +33,6 @@ MapWindow::MapWindow(QWidget *parent,
 {
     m_ui->setupUi(this);
     setupMenuConnections();
-    m_ui->menuWidget->setCurrentWidget(m_ui->mainMenu);
 
     m_objM->setScene(m_worldScene);
     WorldScene* sgs_rawptr = m_worldScene.get();
@@ -120,6 +119,7 @@ void MapWindow::getParameters(std::vector<std::string> playerList, std::vector<P
 
     m_GEHandler->initializeGame(playerList, colorList, map_x, map_y);
     m_currentPlayer = m_GEHandler->currentPlayer();
+    selectMainMenu();
     updatePlayerInfo();
     scrollToCoordinate(m_currentPlayer->getHQCoord());
 }
@@ -166,6 +166,7 @@ void MapWindow::objectSelected(std::shared_ptr<Course::GameObject> obj)
         if (owner != nullptr) {
             //infoText += "\nOwner: " + owner->getName();
             infoText = m_selectedTile->description();
+            infoText += "\n"+generateProductionInfo();
         }
 
         m_ui->tileBrowser->setText(infoText.c_str());
@@ -256,6 +257,8 @@ void MapWindow::drawItem( std::shared_ptr<Course::GameObject> obj)
 void MapWindow::selectMainMenu()
 {
     m_movingUnit = false;
+    std::string infoText = m_currentPlayer->getName() + "\nCampus research progress: " + getCampusProgressText();
+    m_ui->mainBrowser->setText(infoText.c_str());
     m_ui->menuWidget->setCurrentWidget(m_ui->mainMenu);
     m_ui->constructUnitBtn1->setToolTip(generateResourceCostTooltip("Worker").c_str());
     m_ui->constructUnitBtn2->setToolTip(generateResourceCostTooltip("Scout").c_str());
@@ -597,4 +600,44 @@ std::string MapWindow::generateResourceCostTooltip(std::string objType, unsigned
 
     costText.erase(costText.find_last_not_of(" \n\r\t")+1);
     return costText;
+}
+
+std::string MapWindow::generateProductionInfo()
+{
+    std::string productionText = "Produces\n";
+
+    Course::ResourceMap production = m_selectedTile->calculateProduction();
+
+    for (auto resource : production)
+    {
+        int value = resource.second;
+
+        switch (resource.first)
+        {
+            case 1:
+                productionText += "Money: " + std::to_string(value) + "/turn" + "\n";
+                break;
+            case 2:
+                productionText += "Food: " + std::to_string(value) + "/turn" + "\n";
+                break;
+            case 3:
+                productionText += "Wood: " + std::to_string(value) + "/turn" + "\n";
+                break;
+            case 4:
+                productionText += "Stone: " + std::to_string(value) + "/turn" + "\n";
+                break;
+            case 5:
+                productionText += "Ore: " + std::to_string(value) + "/turn" + "\n";
+                break;
+            default:
+                break;
+        }
+    }
+
+    return productionText;
+}
+
+std::string MapWindow::getCampusProgressText()
+{
+    return std::to_string(m_objM->getCampusProgress(m_currentPlayer)) + "/100";
 }
