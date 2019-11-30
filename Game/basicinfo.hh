@@ -31,7 +31,6 @@ const std::vector<std::string> BUILDINGTYPES = {
     "Market"
 };
 
-
 const std::vector<Course::ResourceMap> HQ_BUILD_COST_LIST = {
     {
         {Course::BasicResource::MONEY, 1000},
@@ -213,6 +212,17 @@ const std::vector<Course::ResourceMap> SAWMILL_PRODUCTION_LIST = {
     {
         {Course::BasicResource::WOOD, 70}
     }
+};
+
+const std::map<std::string, std::vector<Course::ResourceMap>> BUILDING_BUILD_COSTS = {
+    {"HeadQuarters", HQ_BUILD_COST_LIST},
+    {"Outpost", OUTPOST_BUILD_COST_LIST},
+    {"Fishery", FISHERY_BUILD_COST_LIST},
+    {"Campus", CAMPUS_BUILD_COST_LIST},
+    {"Mine", MINE_BUILD_COST_LIST},
+    {"Sawmill", SAWMILL_BUILD_COST_LIST},
+    {"Farm", RANCH_BUILD_COST_LIST},
+    {"Market", MARKET_BUILD_COST_LIST}
 };
 
 // WORKERS //

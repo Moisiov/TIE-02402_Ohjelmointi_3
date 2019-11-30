@@ -189,7 +189,19 @@ private:
     std::shared_ptr<UnitBase> m_selectedWorker;
     bool m_movingUnit;
 
+    /**
+     * @brief setupMenuConnections connects slots and signals in menu
+     */
     void setupMenuConnections();
+
+    /**
+     * @brief generateResourceCostTooltip creates a string containing build/upgrade cost
+     * @param objType string
+     * @param tier int, building tier - default 0
+     * @param sell set true for sell value - default false
+     * @return string containing build/upgrade cost
+     */
+    std::string generateResourceCostTooltip(std::string objType, unsigned tier = 0, bool sell = false);
 };
 
 #endif // MapWINDOW_HH
