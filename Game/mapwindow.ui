@@ -63,7 +63,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="mainMenu">
        <property name="sizePolicy">
@@ -290,7 +290,7 @@ p, li { white-space: pre-wrap; }
          </rect>
         </property>
         <property name="toolTip">
-         <string>Sell this building for 50% of the building cost.</string>
+         <string/>
         </property>
         <property name="text">
          <string>Sell</string>

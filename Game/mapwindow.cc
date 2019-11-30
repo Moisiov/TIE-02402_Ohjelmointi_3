@@ -257,6 +257,8 @@ void MapWindow::selectMainMenu()
 {
     m_movingUnit = false;
     m_ui->menuWidget->setCurrentWidget(m_ui->mainMenu);
+    m_ui->constructUnitBtn1->setToolTip(generateResourceCostTooltip("Worker").c_str());
+    m_ui->constructUnitBtn2->setToolTip(generateResourceCostTooltip("Scout").c_str());
     m_worldScene->clearHighlight();
 }
 
@@ -279,6 +281,7 @@ void MapWindow::selectBuildingMenu()
             connect(button, &QPushButton::clicked, this, [this, buildables, i] { buildAction(buildables.at(i)); });
             button->setText(buildables.at(i).c_str());
             button->setFixedSize(QSize(201, 61));
+            button->setToolTip(generateResourceCostTooltip(buildables.at(i)).c_str());
             layout->addWidget(button);
             button->show();
         }
@@ -290,6 +293,7 @@ void MapWindow::selectBuildingMenu()
     {
         std::shared_ptr<UpgradeableBuilding> building =
                 std::dynamic_pointer_cast<UpgradeableBuilding>(m_selectedTile->getBuildings().at(0));
+        std::string type = building->getType();
         std::string infoText = building->description();
         //std::string infoText = building->getType() + "\n";
         //std::string buildingTier = std::to_string(building->getUpgradeTier());
@@ -298,13 +302,20 @@ void MapWindow::selectBuildingMenu()
         m_selectedBuilding = building;
 
         // Disable sell button if building is HQ
-        if(m_selectedBuilding->getType() == "HeadQuarters")
+        if(type == "HeadQuarters")
         {
             m_ui->sellBtn->setDisabled(true);
         }
         else
         {
             m_ui->sellBtn->setDisabled(false);
+            m_ui->sellBtn->setToolTip(generateResourceCostTooltip(type, 0, true).c_str());
+        }
+
+        m_ui->upgradeBtn->setDisabled(!building->isUpgradeable());
+        if (building->isUpgradeable())
+        {
+            m_ui->upgradeBtn->setToolTip(generateResourceCostTooltip(type, building->getUpgradeTier()+1).c_str());
         }
 
         m_ui->menuWidget->setCurrentWidget(m_ui->buildingMenu);
@@ -430,6 +441,7 @@ void MapWindow::selectSpecialize()
         QPushButton* button = new QPushButton(this);
         connect(button, &QPushButton::clicked, this, [this, specialTypes, i] { specializeUnit(specialTypes.at(i)); });
         button->setText(specialTypes.at(i).c_str());
+        button->setToolTip(generateResourceCostTooltip(specialTypes.at(i)).c_str());
         button->setFixedSize(QSize(201, 61));
         layout->addWidget(button);
         button->show();
@@ -530,4 +542,59 @@ void MapWindow::setupMenuConnections()
     connect(m_ui->capturedAreaBtn, &QPushButton::clicked, this, &MapWindow::highlightCapturedArea);
     connect(m_ui->helpBtn, &QPushButton::clicked, this, &MapWindow::help);
     connect(m_ui->buildingsWorkersBtn, &QPushButton::clicked, this, &MapWindow::highlightBuildingsAndWorkers);
+}
+
+std::string MapWindow::generateResourceCostTooltip(std::string objType, unsigned tier, bool sell)
+{
+    std::string costText = sell ? "Sell this building for\n" : "Cost\n";
+    double multiplier = sell ? 0.5 : 1;
+    Course::ResourceMap cost = {};
+
+    if (BUILDING_BUILD_COSTS.find(objType) != BUILDING_BUILD_COSTS.end() && tier < 3) {
+        cost = BUILDING_BUILD_COSTS.at(objType).at(tier);
+    }
+    else if (objType == "Worker")
+    {
+        costText = "Hire a worker at your HeadQuarters location.\nCost\n";
+        cost = BASIC_WORKER_BUILD_COST;
+    }
+    else if (objType == "Scout")
+    {
+        costText = "Hire a scout at your HeadQuarters location.\nCost\n";
+        cost = SCOUT_BUILD_COST;
+    }
+    else if (SPECIALIZATION_COST.find(objType) != SPECIALIZATION_COST.end())
+    {
+        costText = "Promote this worker to " + objType + ".\nCost\n";
+        cost = SPECIALIZATION_COST.at(objType);
+    }
+
+    for (auto resource : cost)
+    {
+        int value = static_cast<int>(resource.second*multiplier);
+
+        switch (resource.first)
+        {
+            case 1:
+                costText += "Money: " + std::to_string(value) + "\n";
+                break;
+            case 2:
+                costText += "Food: " + std::to_string(value) + "\n";
+                break;
+            case 3:
+                costText += "Wood: " + std::to_string(value) + "\n";
+                break;
+            case 4:
+                costText += "Stone: " + std::to_string(value) + "\n";
+                break;
+            case 5:
+                costText += "Ore: " + std::to_string(value) + "\n";
+                break;
+            default:
+                break;
+        }
+    }
+
+    costText.erase(costText.find_last_not_of(" \n\r\t")+1);
+    return costText;
 }
