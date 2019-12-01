@@ -107,3 +107,5 @@ FORMS += \
 
 RESOURCES += \
     graphics/graphicsresources.qrc
+
+DISTFILES +=

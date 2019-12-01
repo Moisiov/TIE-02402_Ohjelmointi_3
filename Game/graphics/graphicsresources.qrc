@@ -22,4 +22,7 @@
         <file>images/miner.png</file>
         <file>images/marketplace.png</file>
     </qresource>
+    <qresource prefix="/qss">
+        <file>stylesheet.qss</file>
+    </qresource>
 </RCC>

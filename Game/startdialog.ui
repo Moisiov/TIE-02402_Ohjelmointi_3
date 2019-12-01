@@ -13,22 +13,6 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QDialogButtonBox" name="buttonBox">
-   <property name="geometry">
-    <rect>
-     <x>90</x>
-     <y>330</y>
-     <width>201</width>
-     <height>32</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-   <property name="standardButtons">
-    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-   </property>
-  </widget>
   <widget class="QWidget" name="verticalLayoutWidget">
    <property name="geometry">
     <rect>
@@ -79,15 +63,6 @@
              </color>
             </brush>
            </colorrole>
-           <colorrole role="PlaceholderText">
-            <brush brushstyle="SolidPattern">
-             <color alpha="128">
-              <red>243</red>
-              <green>243</green>
-              <blue>243</blue>
-             </color>
-            </brush>
-           </colorrole>
           </active>
           <inactive>
            <colorrole role="Text">
@@ -108,15 +83,6 @@
              </color>
             </brush>
            </colorrole>
-           <colorrole role="PlaceholderText">
-            <brush brushstyle="SolidPattern">
-             <color alpha="128">
-              <red>243</red>
-              <green>243</green>
-              <blue>243</blue>
-             </color>
-            </brush>
-           </colorrole>
           </inactive>
           <disabled>
            <colorrole role="Text">
@@ -134,15 +100,6 @@
               <red>23</red>
               <green>22</green>
               <blue>107</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="PlaceholderText">
-            <brush brushstyle="SolidPattern">
-             <color alpha="128">
-              <red>243</red>
-              <green>243</green>
-              <blue>243</blue>
              </color>
             </brush>
            </colorrole>
@@ -200,15 +157,6 @@
              </color>
             </brush>
            </colorrole>
-           <colorrole role="PlaceholderText">
-            <brush brushstyle="SolidPattern">
-             <color alpha="128">
-              <red>243</red>
-              <green>243</green>
-              <blue>243</blue>
-             </color>
-            </brush>
-           </colorrole>
           </active>
           <inactive>
            <colorrole role="Text">
@@ -229,15 +177,6 @@
              </color>
             </brush>
            </colorrole>
-           <colorrole role="PlaceholderText">
-            <brush brushstyle="SolidPattern">
-             <color alpha="128">
-              <red>243</red>
-              <green>243</green>
-              <blue>243</blue>
-             </color>
-            </brush>
-           </colorrole>
           </inactive>
           <disabled>
            <colorrole role="Text">
@@ -255,15 +194,6 @@
               <red>75</red>
               <green>0</green>
               <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="PlaceholderText">
-            <brush brushstyle="SolidPattern">
-             <color alpha="128">
-              <red>243</red>
-              <green>243</green>
-              <blue>243</blue>
              </color>
             </brush>
            </colorrole>
@@ -321,15 +251,6 @@
              </color>
             </brush>
            </colorrole>
-           <colorrole role="PlaceholderText">
-            <brush brushstyle="SolidPattern">
-             <color alpha="128">
-              <red>164</red>
-              <green>166</green>
-              <blue>168</blue>
-             </color>
-            </brush>
-           </colorrole>
           </active>
           <inactive>
            <colorrole role="Text">
@@ -350,15 +271,6 @@
              </color>
             </brush>
            </colorrole>
-           <colorrole role="PlaceholderText">
-            <brush brushstyle="SolidPattern">
-             <color alpha="128">
-              <red>164</red>
-              <green>166</green>
-              <blue>168</blue>
-             </color>
-            </brush>
-           </colorrole>
           </inactive>
           <disabled>
            <colorrole role="Text">
@@ -376,15 +288,6 @@
               <red>15</red>
               <green>66</green>
               <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="PlaceholderText">
-            <brush brushstyle="SolidPattern">
-             <color alpha="128">
-              <red>136</red>
-              <green>138</green>
-              <blue>133</blue>
              </color>
             </brush>
            </colorrole>
@@ -439,15 +342,6 @@
              </color>
             </brush>
            </colorrole>
-           <colorrole role="PlaceholderText">
-            <brush brushstyle="SolidPattern">
-             <color alpha="128">
-              <red>164</red>
-              <green>166</green>
-              <blue>168</blue>
-             </color>
-            </brush>
-           </colorrole>
           </active>
           <inactive>
            <colorrole role="Text">
@@ -468,15 +362,6 @@
              </color>
             </brush>
            </colorrole>
-           <colorrole role="PlaceholderText">
-            <brush brushstyle="SolidPattern">
-             <color alpha="128">
-              <red>164</red>
-              <green>166</green>
-              <blue>168</blue>
-             </color>
-            </brush>
-           </colorrole>
           </inactive>
           <disabled>
            <colorrole role="Text">
@@ -494,15 +379,6 @@
               <red>111</red>
               <green>60</green>
               <blue>0</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="PlaceholderText">
-            <brush brushstyle="SolidPattern">
-             <color alpha="128">
-              <red>136</red>
-              <green>138</green>
-              <blue>133</blue>
              </color>
             </brush>
            </colorrole>
@@ -557,15 +433,6 @@
              </color>
             </brush>
            </colorrole>
-           <colorrole role="PlaceholderText">
-            <brush brushstyle="SolidPattern">
-             <color alpha="128">
-              <red>164</red>
-              <green>166</green>
-              <blue>168</blue>
-             </color>
-            </brush>
-           </colorrole>
           </active>
           <inactive>
            <colorrole role="Text">
@@ -586,15 +453,6 @@
              </color>
             </brush>
            </colorrole>
-           <colorrole role="PlaceholderText">
-            <brush brushstyle="SolidPattern">
-             <color alpha="128">
-              <red>164</red>
-              <green>166</green>
-              <blue>168</blue>
-             </color>
-            </brush>
-           </colorrole>
           </inactive>
           <disabled>
            <colorrole role="Text">
@@ -612,15 +470,6 @@
               <red>51</red>
               <green>0</green>
               <blue>75</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="PlaceholderText">
-            <brush brushstyle="SolidPattern">
-             <color alpha="128">
-              <red>136</red>
-              <green>138</green>
-              <blue>133</blue>
              </color>
             </brush>
            </colorrole>
@@ -675,15 +524,6 @@
              </color>
             </brush>
            </colorrole>
-           <colorrole role="PlaceholderText">
-            <brush brushstyle="SolidPattern">
-             <color alpha="128">
-              <red>164</red>
-              <green>166</green>
-              <blue>168</blue>
-             </color>
-            </brush>
-           </colorrole>
           </active>
           <inactive>
            <colorrole role="Text">
@@ -704,15 +544,6 @@
              </color>
             </brush>
            </colorrole>
-           <colorrole role="PlaceholderText">
-            <brush brushstyle="SolidPattern">
-             <color alpha="128">
-              <red>164</red>
-              <green>166</green>
-              <blue>168</blue>
-             </color>
-            </brush>
-           </colorrole>
           </inactive>
           <disabled>
            <colorrole role="Text">
@@ -730,15 +561,6 @@
               <red>0</red>
               <green>70</green>
               <blue>75</blue>
-             </color>
-            </brush>
-           </colorrole>
-           <colorrole role="PlaceholderText">
-            <brush brushstyle="SolidPattern">
-             <color alpha="128">
-              <red>136</red>
-              <green>138</green>
-              <blue>133</blue>
              </color>
             </brush>
            </colorrole>
@@ -869,41 +691,35 @@
     </item>
    </layout>
   </widget>
+  <widget class="QPushButton" name="acceptBtn">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>320</y>
+     <width>131</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Accept</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="rejectBtn">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>320</y>
+     <width>131</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Cancel</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>accepted()</signal>
-   <receiver>StartDialog</receiver>
-   <slot>accept()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>157</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>buttonBox</sender>
-   <signal>rejected()</signal>
-   <receiver>StartDialog</receiver>
-   <slot>reject()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>checkboxP1</sender>
    <signal>toggled(bool)</signal>
@@ -911,8 +727,8 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>281</x>
-     <y>49</y>
+     <x>288</x>
+     <y>65</y>
     </hint>
     <hint type="destinationlabel">
      <x>140</x>
@@ -927,8 +743,8 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>281</x>
-     <y>82</y>
+     <x>288</x>
+     <y>99</y>
     </hint>
     <hint type="destinationlabel">
      <x>140</x>
@@ -943,12 +759,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>281</x>
-     <y>115</y>
+     <x>288</x>
+     <y>133</y>
     </hint>
     <hint type="destinationlabel">
-     <x>140</x>
-     <y>115</y>
+     <x>142</x>
+     <y>137</y>
     </hint>
    </hints>
   </connection>
@@ -959,12 +775,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>281</x>
-     <y>148</y>
+     <x>288</x>
+     <y>167</y>
     </hint>
     <hint type="destinationlabel">
-     <x>140</x>
-     <y>148</y>
+     <x>142</x>
+     <y>170</y>
     </hint>
    </hints>
   </connection>
@@ -975,12 +791,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>281</x>
-     <y>181</y>
+     <x>288</x>
+     <y>200</y>
     </hint>
     <hint type="destinationlabel">
-     <x>140</x>
-     <y>181</y>
+     <x>142</x>
+     <y>204</y>
     </hint>
    </hints>
   </connection>
@@ -991,12 +807,44 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>281</x>
-     <y>214</y>
+     <x>288</x>
+     <y>234</y>
     </hint>
     <hint type="destinationlabel">
-     <x>140</x>
-     <y>214</y>
+     <x>142</x>
+     <y>238</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>acceptBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>StartDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>64</x>
+     <y>342</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>14</x>
+     <y>305</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>rejectBtn</sender>
+   <signal>clicked()</signal>
+   <receiver>StartDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>232</x>
+     <y>333</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>270</x>
+     <y>289</y>
     </hint>
    </hints>
   </connection>

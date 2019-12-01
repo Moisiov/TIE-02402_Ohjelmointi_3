@@ -35,6 +35,11 @@ MapWindow::MapWindow(QWidget *parent,
     setWindowTitle("The Quest of TIE-02402: Impossible project");
     setupMenuConnections();
 
+    QFile stylesFile(":/qss/stylesheet.qss");
+    stylesFile.open(QFile::ReadOnly);
+    QString stylesheet = QLatin1String(stylesFile.readAll());
+    setStyleSheet(stylesheet);
+
     m_objM->setScene(m_worldScene);
     WorldScene* sgs_rawptr = m_worldScene.get();
 
