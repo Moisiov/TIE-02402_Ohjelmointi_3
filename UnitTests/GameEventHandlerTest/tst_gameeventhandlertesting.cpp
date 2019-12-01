@@ -300,9 +300,9 @@ void GameEventHandlerTesting::upgradeBuildings()
         Course::Coordinate farmLoc (3,14);
         std::shared_ptr<UpgradeableBuilding> farm =
                 std::dynamic_pointer_cast<UpgradeableBuilding>(_objM->getTile(farmLoc)->getBuildings()[0]);
-        QCOMPARE(farm->getUpgradeTier(), 1);
+        QCOMPARE(farm->getUpgradeTier(), static_cast<unsigned>(1));
         QCOMPARE(true, _GEHandler->upgradeBuilding(farm));
-        QCOMPARE(farm->getUpgradeTier(), 2);
+        QCOMPARE(farm->getUpgradeTier(), static_cast<unsigned>(2));
 
         try {
             _GEHandler->upgradeBuilding(farm);
