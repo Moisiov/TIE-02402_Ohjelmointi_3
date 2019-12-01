@@ -99,6 +99,9 @@ public:
      * @param type the string identifier for building type
      * @param location coordinates to where user wants the building
      * @return true if building successful
+     * @exception Course::BaseException if somethings broken within the code
+     * @exception Course::IllegalAction or one of its child exceptions if the
+     * player is attempting something they cannot or shouldn't do.
      */
     bool constructBuilding(std::string type, Course::Coordinate location);
 
@@ -107,6 +110,8 @@ public:
      * building to next tier
      * @param building shared pointer to the building
      * @return true if upgrade successful
+     * @exception Course::BaseException if somethings broken within the code
+     * @exception LackingResources if player doesn't have enough resources to upgrade'
      */
     bool upgradeBuilding(std::shared_ptr<Course::BuildingBase> building);
 
@@ -122,6 +127,9 @@ public:
      * in their HQ and does it
      * @param type string identifier for the unit to be built
      * @return true if successful
+     * @exception Course::BaseException if somethings broken within the code
+     * @exception Course::IllegalACtion or one of its child exceptions if the
+     * player is attempting something they cannot or shouldn't do.
      */
     bool constructUnit(std::string type);
 
@@ -131,6 +139,8 @@ public:
      * @param unit shared pointer to the pawn
      * @param destination coordinates to where player wants to move it
      * @return true if successful
+     * @exception Course::IllegalACtion or one of its child exceptions if the
+     * player is attempting something they cannot or shouldn't do.
      */
     bool moveUnit(std::shared_ptr<UnitBase> unit, Course::Coordinate destination);
 
@@ -139,6 +149,9 @@ public:
      * @param unit worker to be upgraded
      * @param specialization what type to specialize into
      * @return true if successful
+     * @exception Course::BaseException if somethings broken within the code
+     * @exception Course::IllegalACtion or one of its child exceptions if the
+     * player is attempting something they cannot or shouldn't do.
      */
     bool specializeUnit(std::shared_ptr<Worker> unit, std::string specialization);
 

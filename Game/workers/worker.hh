@@ -17,6 +17,12 @@ public:
 
     virtual std::string getType() const override;
 
+    /**
+     * @brief specializeInto specializes the worker to a new class, to allow it to
+     * harvest materials more efficiently
+     * @param type the exact name for the specialization type
+     * @return true if successful
+     */
     bool specializeInto(std::string type);
 
 private:

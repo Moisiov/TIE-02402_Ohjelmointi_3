@@ -17,6 +17,10 @@ public:
 
     virtual std::string getType() const override;
 
+    /**
+     * @brief onBuildAction automatically captures the lands around itself in a
+     * radius of 3 squares
+     */
     virtual void onBuildAction() override;
 };
 

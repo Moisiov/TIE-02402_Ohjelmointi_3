@@ -23,10 +23,23 @@ public:
 
     virtual std::string getType() const override;
 
+    /**
+     * @brief increaseProgress is called during turn changes to increment research
+     * based on worker / teekkari count on the campus
+     */
     void increaseProgress();
 
+    /**
+     * @brief getProgress returns unsigned value between 0-100 as to how much
+     * research has been done
+     */
     unsigned getProgress();
 
+    /**
+     * @brief checkWinCondition player has won the game if their campus research
+     * reaches 100 points
+     * @return true if 100 or over
+     */
     bool checkWinCondition();
 
 private:

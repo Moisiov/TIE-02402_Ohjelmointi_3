@@ -4,6 +4,11 @@
 #include "workers/workerbase.h"
 #include "basicinfo.hh"
 
+/**
+ * @brief The UnitBase class extends WorkerBase by adding unit movement options
+ * and also redefines worker efficiency as there was a need to be able to edit it
+ * during unit specialization
+ */
 class UnitBase: public Course::WorkerBase
 {
 public:

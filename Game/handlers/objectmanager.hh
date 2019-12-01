@@ -49,12 +49,34 @@ public:
      */
     void setScene(std::shared_ptr<WorldScene> scene);
 
+    /**
+     * @brief addTiles Only used by worldgeneration, this adds all game tiles
+     * into its internal list
+     * @param tiles
+     */
     virtual void addTiles(const std::vector<std::shared_ptr<Course::TileBase>> &tiles);
 
+    /**
+     * @brief getTile finds a tile with the given coordinates
+     * @param coordinate
+     * @return pointer to the tile
+     * @exception InvalidCoordinate if given coordinates are outside map limits
+     */
     virtual std::shared_ptr<Course::TileBase> getTile(const Course::Coordinate& coordinate);
 
+    /**
+     * @brief getTile searches its inner list for an item with the given ID
+     * @param id
+     * @return pointer to the tile with same ID
+     */
     virtual std::shared_ptr<Course::TileBase> getTile(const Course::ObjectId& id);
 
+    /**
+     * @brief getTiles is the same as getTile but can get multiple tiles simultaneously
+     * @param coordinates a vector of wanted coordinates
+     * @return a vector of pointers to the found tiles
+     * @exception InvalidCoordinate if given coordinates are outside map limits
+     */
     virtual std::vector<std::shared_ptr<Course::TileBase>> getTiles(
             const std::vector<Course::Coordinate>& coordinates);
 
@@ -63,6 +85,8 @@ public:
      * @param type string identifier as to which building type to make
      * @param location Coordinate to where the building is being built.
      * @param owner Shared pointer to building owner
+     * @exception Course::BaseException if type is not recognized
+     * @exception InvalidCoordinate if given coordinates are outside map limits
      */
     void constructBuilding(std::string type, Course::Coordinate location,
                            std::shared_ptr<Player> owner);
@@ -85,6 +109,7 @@ public:
      * @param type string identifier as to what type of unit to make
      * @param location Coordinate to where the unit is created
      * @param owner Shared pointer to unit owner
+     * @exception InvalidCoordinate if given coordinates are outside map limits
      */
     void constructUnit(std::string type, Course::Coordinate location,
                        std::shared_ptr<Player> owner);
@@ -144,13 +169,13 @@ public:
     std::vector<Course::Coordinate> getPlayerZone(std::shared_ptr<Player> player);
 
     /**
-     * @brief getBuildings
+     * @brief getBuildings returns a full list of all buildings
      * @return _buildings
      */
     std::vector<std::shared_ptr<UpgradeableBuilding>> getBuildings();
 
     /**
-     * @brief getUnits
+     * @brief getUnits returns a full list of all units
      * @return _units
      */
     std::vector<std::shared_ptr<UnitBase>> getUnits();
@@ -163,7 +188,12 @@ public:
     unsigned getCampusProgress(std::shared_ptr<Player> player);
 
 private:
-
+    /**
+     * @brief checkCoordinate ensures given coordinates are within map limits
+     * before they're used in the code
+     * @param coord
+     * @exception InvalidCoordinate if given coordinates are outside map limits
+     */
     void checkCoordinate(Course::Coordinate coord);
 
     unsigned _map_x; // The x length of map

@@ -4,6 +4,10 @@
 #include "tiles/tilebase.h"
 #include "basicinfo.hh"
 
+/**
+ * @brief The ExtendedTileBase class redefines resource generation from TileBase
+ * and acts as an umbrella for all tile-types used in the game
+ */
 class ExtendedTileBase : public Course::TileBase
 {
 public:
@@ -31,10 +35,24 @@ public:
      */
     std::vector<std::string> getBuildableBuildings();
 
+    /**
+     * @brief description returns a short description about the tile for tooltip purposes
+     * @return a short description
+     */
     std::string description();
 
+    /**
+     * @brief calculateProduction uses a different calculation method to determine
+     * how much the tile produces, based on (tile + building bonus) * worker multipliers
+     * @return ResourceMap to how much tile currently produces
+     */
     Course::ResourceMap calculateProduction();
 
+    /**
+     * @brief generateResources calls calculateProduction and gives that much resources
+     * to the owner
+     * @return true if successful
+     */
     virtual bool generateResources() override;
 
 private:

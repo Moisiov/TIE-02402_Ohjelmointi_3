@@ -5,6 +5,14 @@
 #include <vector>
 #include <QDebug>
 
+/**
+ * @brief fixedResourceMultiplier exists because Course code had a bug in Course code
+ * where multiplyResources raised the resourcemap into second power instead of
+ * multiplying correctly.
+ * @param resources
+ * @param multiplier
+ * @return
+ */
 Course::ResourceMap fixedResourceMultiplier(const Course::ResourceMap& resources, const Course::ResourceMapDouble& multiplier);
 
 // PLAYERS //
