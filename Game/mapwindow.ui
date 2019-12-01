@@ -48,6 +48,22 @@
       </property>
      </widget>
     </item>
+    <item row="2" column="1">
+     <widget class="QPushButton" name="menuBtn">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>61</height>
+       </size>
+      </property>
+      <property name="toolTip">
+       <string>Go to main menu.</string>
+      </property>
+      <property name="text">
+       <string>Menu</string>
+      </property>
+     </widget>
+    </item>
     <item row="1" column="1" colspan="2">
      <widget class="QStackedWidget" name="menuWidget">
       <property name="sizePolicy">
@@ -63,7 +79,7 @@
        </size>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="mainMenu">
        <property name="sizePolicy">
@@ -321,7 +337,7 @@ p, li { white-space: pre-wrap; }
           <x>0</x>
           <y>180</y>
           <width>201</width>
-          <height>51</height>
+          <height>61</height>
          </rect>
         </property>
         <property name="toolTip">
@@ -335,7 +351,7 @@ p, li { white-space: pre-wrap; }
         <property name="geometry">
          <rect>
           <x>0</x>
-          <y>240</y>
+          <y>250</y>
           <width>201</width>
           <height>61</height>
          </rect>
@@ -454,22 +470,6 @@ p, li { white-space: pre-wrap; }
         </widget>
        </widget>
       </widget>
-     </widget>
-    </item>
-    <item row="2" column="1">
-     <widget class="QPushButton" name="menuBtn">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>61</height>
-       </size>
-      </property>
-      <property name="toolTip">
-       <string>Go to main menu.</string>
-      </property>
-      <property name="text">
-       <string>Menu</string>
-      </property>
      </widget>
     </item>
    </layout>

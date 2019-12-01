@@ -32,21 +32,14 @@ MapWindow::MapWindow(QWidget *parent,
     m_movingUnit(false)
 {
     m_ui->setupUi(this);
+    setWindowTitle("The Quest of TIE-02402: Impossible project");
     setupMenuConnections();
 
     m_objM->setScene(m_worldScene);
     WorldScene* sgs_rawptr = m_worldScene.get();
 
-    // m_ui->graphicsView->height();
-    // m_ui->graphicsView->width();
-
     m_ui->graphicsView->setScene(dynamic_cast<QGraphicsScene*>(sgs_rawptr));
     m_ui->graphicsView->setRenderHint(QPainter::Antialiasing);
-
-    // QTransform transform;
-    // transform.rotate(45, Qt::XAxis);
-    // m_ui->graphicsView->setTransform(transform);
-    // m_ui->graphicsView->setTransformationAnchor(QGraphicsView::AnchorViewCenter);
 
     StartDialog dialog(this);
     connect(&dialog, &StartDialog::sendParameters,
@@ -75,11 +68,6 @@ void MapWindow::setSize(int width, int height)
 void MapWindow::setScale(int scale)
 {
     m_worldScene->setScale(scale);
-}
-
-void MapWindow::resize()
-{
-    m_worldScene->resize();
 }
 
 void MapWindow::updateItem(std::shared_ptr<Course::GameObject> obj)
@@ -158,9 +146,6 @@ void MapWindow::objectSelected(std::shared_ptr<Course::GameObject> obj)
 
         std::string objType = obj->getType();
         std::string infoText = objType;
-
-        //Course::Coordinate coord = obj->getCoordinate();
-        //infoText += "\n(" + std::to_string(coord.x()) + "," + std::to_string(coord.y()) + ")";
 
         std::shared_ptr<Course::PlayerBase> owner = obj->getOwner();
         if (owner != nullptr) {
@@ -511,7 +496,8 @@ void MapWindow::highlightBuildingsAndWorkers()
 
 void MapWindow::help()
 {
-    qDebug() << "MapWindow::help() not implemented";
+    InstructionDialog instr(this);
+    instr.exec();
 }
 
 void MapWindow::sendWarning(std::string message)
@@ -608,31 +594,39 @@ std::string MapWindow::generateProductionInfo()
 
     Course::ResourceMap production = m_selectedTile->calculateProduction();
 
+    int total = 0;
+
     for (auto resource : production)
     {
         int value = resource.second;
+        if (value != 0) {
+            total += value;
 
-        switch (resource.first)
-        {
-            case 1:
-                productionText += "Money: " + std::to_string(value) + "/turn" + "\n";
-                break;
-            case 2:
-                productionText += "Food: " + std::to_string(value) + "/turn" + "\n";
-                break;
-            case 3:
-                productionText += "Wood: " + std::to_string(value) + "/turn" + "\n";
-                break;
-            case 4:
-                productionText += "Stone: " + std::to_string(value) + "/turn" + "\n";
-                break;
-            case 5:
-                productionText += "Ore: " + std::to_string(value) + "/turn" + "\n";
-                break;
-            default:
-                break;
+            switch (resource.first)
+            {
+                case 1:
+                    productionText += "Money: " + std::to_string(value) + " / turn" + "\n";
+                    break;
+                case 2:
+                    productionText += "Food: " + std::to_string(value) + " / turn" + "\n";
+                    break;
+                case 3:
+                    productionText += "Wood: " + std::to_string(value) + " / turn" + "\n";
+                    break;
+                case 4:
+                    productionText += "Stone: " + std::to_string(value) + " / turn" + "\n";
+                    break;
+                case 5:
+                    productionText += "Ore: " + std::to_string(value) + " / turn" + "\n";
+                    break;
+                default:
+                    break;
+            }
         }
+
     }
+
+    if (total == 0) {productionText = "Tile needs workers to produce resources.";}
 
     return productionText;
 }

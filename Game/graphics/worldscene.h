@@ -78,7 +78,6 @@ signals:
     void objectClicked(std::shared_ptr<Course::GameObject> obj);
 
 private:
-    QGraphicsItem* w_mapBoundRect;
     int w_width;
     int w_height;
     int w_scale;

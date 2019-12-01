@@ -36,7 +36,8 @@ SOURCES +=  tst_gameeventhandlertesting.cpp \
     ../../Game/tiles/forest.cpp \
     ../../Game/tiles/grassland.cpp \
     ../../Game/graphics/highlightitem.cpp \
-    ../../Game/tiles/extendedtilebase.cpp
+    ../../Game/tiles/extendedtilebase.cpp \
+    ../../Game/instructiondialog.cpp
 
 HEADERS += \
     ../../Game/basicinfo.hh \
@@ -71,11 +72,13 @@ HEADERS += \
     ../../Game/tiles/grassland.h \
     ../../Game/graphics/highlightitem.h \
     ../../Game/tiles/extendedtilebase.h \
-    ../../Game/exceptions/graphicsexception.h
+    ../../Game/exceptions/graphicsexception.h \
+    ../../Game/instructiondialog.h
 
 FORMS += \
     ../../Game/mapwindow.ui \
-    ../../Game/startdialog.ui
+    ../../Game/startdialog.ui \
+    ../../Game/instructiondialog.ui
 
 DEPENDPATH += \
     $$PWD/../../Game/ \

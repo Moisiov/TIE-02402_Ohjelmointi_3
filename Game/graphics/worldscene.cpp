@@ -13,7 +13,6 @@ WorldScene::WorldScene(QWidget* parent,
                                  int height,
                                  int scale):
     QGraphicsScene(parent),
-    w_mapBoundRect(nullptr),
     w_width(100),
     w_height(100),
     w_scale(50),
@@ -36,7 +35,6 @@ void WorldScene::setSize(int width, int height)
     {
         w_height = height;
     }
-    resize();
 }
 
 void WorldScene::setScale(int scale)
@@ -44,14 +42,6 @@ void WorldScene::setScale(int scale)
     if ( scale >= SCENE_SCALE_LIMITS.first && scale <= SCENE_SCALE_LIMITS.second )
     {
         w_scale = scale;
-    }
-    resize();
-}
-
-void WorldScene::resize()
-{
-    if ( w_mapBoundRect != nullptr ){
-        QGraphicsScene::removeItem(w_mapBoundRect);
     }
 }
 
@@ -115,24 +105,6 @@ bool WorldScene::event(QEvent *event)
             }
         }
     }
-
-    // Hover events not working yet
-    /*if (event->type() == QEvent::GraphicsSceneHoverEnter)
-    {
-        QGraphicsSceneMouseEvent* mouse_event =
-                dynamic_cast<QGraphicsSceneMouseEvent*>(event);
-        QPointF point = mouse_event->scenePos() / w_scale;
-
-        point.rx() = floor(point.rx());
-        point.ry() = floor(point.ry());
-
-        highlightTile(Course::Coordinate(static_cast<int>(point.rx()), static_cast<int>(point.ry())));
-    }
-
-    if (event->type() == QEvent::GraphicsSceneHoverLeave)
-    {
-        // clearHighlight();
-    }*/
 
     return QGraphicsScene::event(event);
 }

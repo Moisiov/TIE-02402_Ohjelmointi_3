@@ -35,7 +35,8 @@ SOURCES += \
     tiles/forest.cpp \
     tiles/grassland.cpp \
     graphics/highlightitem.cpp \
-    tiles/extendedtilebase.cpp
+    tiles/extendedtilebase.cpp \
+    instructiondialog.cpp
 
 HEADERS += \
     basicinfo.hh \
@@ -70,7 +71,8 @@ HEADERS += \
     tiles/grassland.h \
     graphics/highlightitem.h \
     tiles/extendedtilebase.h \
-    exceptions/graphicsexception.h
+    exceptions/graphicsexception.h \
+    instructiondialog.h
 
 OTHER_FILES +=
 
@@ -100,7 +102,8 @@ else:unix: PRE_TARGETDEPS += \
 
 FORMS += \
     mapwindow.ui \
-    startdialog.ui
+    startdialog.ui \
+    instructiondialog.ui
 
 RESOURCES += \
     graphics/graphicsresources.qrc

@@ -7,6 +7,7 @@
 #include <QMouseEvent>
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
+#include <QDialog>
 
 #include <map>
 
@@ -16,6 +17,7 @@
 #include "graphics/worldscene.h"
 #include "graphics/worlditem.h"
 #include "startdialog.hh"
+#include "instructiondialog.h"
 #include "player.hh"
 
 namespace Ui {
@@ -51,7 +53,6 @@ public:
 
     void setSize(int width, int height);
     void setScale(int scale);
-    void resize();
 
     void drawItem( std::shared_ptr<Course::GameObject> obj);
     void removeItem( std::shared_ptr<Course::GameObject> obj);
@@ -99,6 +100,11 @@ public slots:
      * @param coordinate is the target coordinate
      */
     void scrollToCoordinate(Course::Coordinate coordinate);
+
+    /**
+     * @brief help slot for helpBtn click
+     */
+    void help();
 
 private slots:
     /**
@@ -170,11 +176,6 @@ private slots:
      */
     void highlightBuildingsAndWorkers();
 
-    /**
-     * @brief help slot for helpBtn click
-     */
-    void help();
-
 private:
     Ui::MapWindow* m_ui;
     std::shared_ptr<GameEventHandler> m_GEHandler;
@@ -203,6 +204,10 @@ private:
      */
     std::string generateResourceCostTooltip(std::string objType, unsigned tier = 0, bool sell = false);
 
+    /**
+     * @brief generateProductionInfo generates production info of selected tile as text
+     * @return production info
+     */
     std::string generateProductionInfo();
 
     /**
